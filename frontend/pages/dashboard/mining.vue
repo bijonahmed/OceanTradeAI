@@ -5,6 +5,9 @@
             <div class="dashboard_main_content">
                 <div class="dashboard__content">
                     <DashboardHeader/>
+                    <div class="loading-indicator" v-if="loading" style="text-align: center">
+        <Loader />
+      </div>
                     <div class="dashboard__main">
                         <div class="banner">
                             <div class="container-fluid">
@@ -426,5 +429,13 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import DashboardSidebar from "~/layouts/DashboardSidebar.vue";
 import DashboardHeader from "~/layouts/DashboardHeader.vue";
+const loading = ref(true);
+onMounted(() => {
+  setTimeout(() => {
+    loading.value = false;
+  }, 2000); // 2 seconds
+});
+
+
 </script>
  

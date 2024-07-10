@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col-xl-6 col-md-12">
                     <div class="banner-top__content">
-                        <h2 class="title">Mine, trade, and Swap on <span>xyz</span> .</h2>
+                        <h2 class="title">Mine, trade, and Swap on <span>OCN</span> .</h2>
                         <p class="desc">Outcome-centered products that reduce churn, optimize pricing, and grow your subscription business end-to-end.</p>
                         <div class="button">
                             <nuxt-link to="/sign-up" class="btn-action style-2"><span>BUY TOKEN</span></nuxt-link>
@@ -19,17 +19,17 @@
 
                         <ul class="content-list">
                             <li>
-                                <img src="assets/images/icon1.png" alt="" class="img-fluid content_icon">
+                                <img src="/assets/images/icon1.png" alt="" class="img-fluid content_icon">
                                 <h5>+128K</h5>
                                 <p>Current Holders</p>
                             </li>
                             <li>
-                                <img src="assets/images/icon2.png" alt="" class="img-fluid content_icon">
+                                <img src="/assets/images/icon2.png" alt="" class="img-fluid content_icon">
                                 <h5>+2 mILLION</h5>
                                 <p>CryptoItem</p>
                             </li>
                             <li>
-                                <img src="assets/images/icon3.png" alt="" class="img-fluid content_icon">
+                                <img src="/assets/images/icon3.png" alt="" class="img-fluid content_icon">
                                 <h5>+3.000 USD</h5>
                                 <p>Total Volume</p>
                             </li>
@@ -38,7 +38,7 @@
                 </div>
                 <div class="col-xl-6 col-md-12">
                     <div class="banner-top__sale">
-                        <img src="assets/images/layout/banner01.png" class="img-fluid" alt="ICOLand">
+                        <img src="/assets/images/layout/banner01.png" class="img-fluid" alt="ICOLand">
                         <div class="sale-content">
                             <h6>Token sale End In!</h6>
 
@@ -67,15 +67,15 @@
                             <div class="col-xl-7 col-md-12">
                                 <div class="tf-box">
                                     <div class="box-icon">
-                                        <img src="assets/images/icon4.png" alt="" class="img-fluid content_icon">
+                                        <img src="/assets/images/icon4.png" alt="" class="img-fluid content_icon">
                                         <p>Buy and sell items easily</p>
                                     </div>
                                     <div class="box-icon">
-                                        <img src="assets/images/icon5.png" alt="" class="img-fluid content_icon">
+                                        <img src="/assets/images/icon5.png" alt="" class="img-fluid content_icon">
                                         <p>Create collections & earn rewards</p>
                                     </div>
                                     <div class="box-icon">
-                                        <img src="assets/images/icon6.png" alt="" class="img-fluid content_icon">
+                                        <img src="/assets/images/icon6.png" alt="" class="img-fluid content_icon">
                                         <p>Chase limited edition ICOLand</p>
                                     </div>
                                 </div>
@@ -105,7 +105,7 @@
                             <span class="icon-union-04"></span>
                             <div class="box-nft__main">
                                 <a  data-bs-toggle="modal"
-                                data-bs-target="#dolphin" type="button"><img src="assets/images/1.png" alt="ICOLand"></a>
+                                data-bs-target="#dolphin" type="button"><img src="/assets/images/1.png" alt="ICOLand"></a>
                                 <div class="content">
                                     <a type="button"  data-bs-toggle="modal"
                                     data-bs-target="#dolphin" class="h4 title">Dolphin Digger</a>
@@ -119,7 +119,7 @@
                             <span class="icon-union-04"></span>
                             <div class="box-nft__main">
                                 <a  type="button"  data-bs-toggle="modal"
-                                data-bs-target="#shark"><img src="assets/images/2.png" alt="ICOLand"></a>
+                                data-bs-target="#shark"><img src="/assets/images/2.png" alt="ICOLand"></a>
                                 <div class="content">
                                     <a  type="button"  data-bs-toggle="modal"
                                     data-bs-target="#shark" class="h4 title">Shark Driller</a>
@@ -133,7 +133,7 @@
                             <span class="icon-union-04"></span>
                             <div class="box-nft__main">
                                 <a type="button"  data-bs-toggle="modal"
-                                data-bs-target="#orca"><img src="assets/images/3.png" alt="ICOLand"></a>
+                                data-bs-target="#orca"><img src="/assets/images/3.png" alt="ICOLand"></a>
                                 <div class="content">
                                     <a type="button"  data-bs-toggle="modal"
                                     data-bs-target="#orca" class="h4 title">Orca Drillmaster</a>
@@ -147,7 +147,7 @@
                             <span class="icon-union-04"></span>
                             <div class="box-nft__main">
                                 <a type="button"  data-bs-toggle="modal"
-                                data-bs-target="#whale"><img src="assets/images/4.png" alt="ICOLand"></a>
+                                data-bs-target="#whale"><img src="/assets/images/4.png" alt="ICOLand"></a>
                                 <div class="content">
                                     <a type="button"  data-bs-toggle="modal"
                                     data-bs-target="#whale" class="h4 title">Whale Excavator</a>
@@ -179,7 +179,7 @@
                                     <div class="content">
                                         <h4 class="title">About XYZ</h4>
                                         <a href="about-us.html" class="icon">
-                                            <img src="assets/images/icon/download.png" alt="ICOLand">
+                                            <img src="/assets/images/icon/download.png" alt="ICOLand">
                                         </a>
                                     </div>
                                 </div>
@@ -187,7 +187,7 @@
                                     <div class="content">
                                         <h4 class="title">WHITE PAPER</h4>
                                         <a href="white-paper.html" class="icon">
-                                            <img src="assets/images/icon/download.png" alt="ICOLand">
+                                            <img src="/assets/images/icon/download.png" alt="ICOLand">
                                         </a>
                                     </div>
                                 </div>
@@ -195,7 +195,7 @@
                                     <div class="content">
                                         <h4 class="title">PRIVACY POLICY</h4>
                                         <a href="privacy-policy.html" class="icon">
-                                            <img src="assets/images/icon/download.png" alt="ICOLand">
+                                            <img src="/assets/images/icon/download.png" alt="ICOLand">
                                         </a>
                                     </div>
                                 </div>
@@ -203,7 +203,7 @@
                                     <div class="content">
                                         <h4 class="title">TERM OF COIN SALES</h4>
                                         <a href="terms-coin-sale.html" class="icon">
-                                            <img src="assets/images/icon/download.png" alt="ICOLand">
+                                            <img src="/assets/images/icon/download.png" alt="ICOLand">
                                          </a>
                                     </div>
                                 </div>
@@ -254,7 +254,7 @@
                 </div>
                 <div class="col-xl-6 col-md-12">
                     <div class="faq__images">
-                        <img src="assets/images/layout/imgfaq.png" class="img-fluid" alt="ICOLand">
+                        <img src="/assets/images/layout/imgfaq.png" class="img-fluid" alt="ICOLand">
                     </div>
                 </div>
             </div>

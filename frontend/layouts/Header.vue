@@ -7,7 +7,7 @@
                     <div class="header__body">
                         <div class="header__logo">
                             <nuxt-link to="/">
-                                <h4>OceanTradeAI</h4>
+                                <h4>OTAI</h4>
                             </nuxt-link>
                         </div>
                         <div class="header__right">

@@ -8,6 +8,9 @@
         <div class="dashboard_main_content">
             <div class="dashboard__content">
               <DashboardHeader/>
+              <div class="loading-indicator" v-if="loading" style="text-align: center">
+        <Loader />
+      </div>
                 <div class="dashboard__main">
 
                     <div class="section-faq style-5 mb-0">
@@ -16,16 +19,16 @@
 
                                 <ul class="menu-tab">
                                     <li class="active">
-                                        <h5><a href="dashboard-pricing.html">Dolphin Digger</a></h5>
+                                        <h5><nuxt-link to="/dashboard/pricing">Dolphin Digger</nuxt-link></h5>
                                     </li>
                                     <li>
-                                        <h5><a href="dashboard-shark-driller.html">Shark Driller</a></h5>
+                                        <h5><nuxt-link to="/dashboard/shark-driller">Shark Driller</nuxt-link></h5>
                                     </li>
                                     <li>
-                                        <h5><a href="dashboard-orca-drilmaster.html">Orca Drillmaster</a></h5>
+                                        <h5><nuxt-link to="/dashboard/orca-drilmaster">Orca Drillmaster</nuxt-link></h5>
                                     </li>
                                     <li>
-                                        <h5><a href="dashboard-whale-excavator.html">Whale Excavator</a></h5>
+                                        <h5><nuxt-link to="/dashboard/whale-excavator">Whale Excavator</nuxt-link></h5>
                                     </li>
                                 </ul>
                             </div>
@@ -131,5 +134,10 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import DashboardSidebar from "~/layouts/DashboardSidebar.vue";
 import DashboardHeader from "~/layouts/DashboardHeader.vue";
-
+const loading = ref(true);
+onMounted(() => {
+  setTimeout(() => {
+    loading.value = false;
+  }, 1000); // 1 seconds
+});
 </script>
