@@ -71,7 +71,7 @@ class AuthController extends Controller
             return response()->json([
                 'errors' => [
                     'account' => [
-                        "Verify your email to activate your account."//"This user is blocked"
+                        "Verify your email to activate your account." //"This user is blocked"
                     ]
                 ]
             ], 403);
@@ -94,7 +94,8 @@ class AuthController extends Controller
         return $uniqueId; // Since we're generating only one number, return the first (and only) element of the array
     }
 
-    public function checkMlmComission($inviteCode){
+    public function checkMlmComission($inviteCode)
+    {
         $setting = Setting::find(1);
         $checkInviteUser  = User::where('inviteCode', $inviteCode)->first();
         $firstLeveluserId = $checkInviteUser->id;
@@ -104,11 +105,11 @@ class AuthController extends Controller
             $lev_1['available_balance'] = !empty($setting->level_1_bonus) ? $setting->level_1_bonus : 0;
             $lev_1['level_commission']  =  $lev_1['available_balance'];
             User::where('id', $firstLeveluserId)->update($lev_1);
- 
+
             $secondLeveluser = User::where('id', $checkInviteUser->ref_id)->first();
             if ($secondLeveluser) {
                 $secondLeveluserId = $secondLeveluser->id;
-               // echo "==Level-2==ID: $secondLeveluserId---Email: $secondLeveluser->email, Ref ID: $secondLeveluser->ref_id <br/>"; 
+                // echo "==Level-2==ID: $secondLeveluserId---Email: $secondLeveluser->email, Ref ID: $secondLeveluser->ref_id <br/>"; 
                 $lev_2['available_balance'] = !empty($setting->level_2_bonus) ? $setting->level_2_bonus : 0;
                 $lev_2['level_commission']  =  $lev_2['available_balance'];
                 User::where('id', $secondLeveluserId)->update($lev_2);
@@ -116,10 +117,10 @@ class AuthController extends Controller
                 $thirdLeveluser = User::where('id', $secondLeveluser->ref_id)->first();
                 if ($thirdLeveluser) {
                     $thirdLeveluserId = $thirdLeveluser->id;
-                  //  echo "==Level-3==ID: $thirdLeveluserId---Email: $thirdLeveluser->email, Ref ID: $thirdLeveluser->ref_id <br/>";
-                  $lev_3['available_balance'] = !empty($setting->level_3_bonus) ? $setting->level_3_bonus : 0;
-                  $lev_3['level_commission']  =  $lev_3['available_balance'];
-                  User::where('id', $thirdLeveluserId)->update($lev_3);
+                    //  echo "==Level-3==ID: $thirdLeveluserId---Email: $thirdLeveluser->email, Ref ID: $thirdLeveluser->ref_id <br/>";
+                    $lev_3['available_balance'] = !empty($setting->level_3_bonus) ? $setting->level_3_bonus : 0;
+                    $lev_3['level_commission']  =  $lev_3['available_balance'];
+                    User::where('id', $thirdLeveluserId)->update($lev_3);
                 }
             }
         }
@@ -131,10 +132,11 @@ class AuthController extends Controller
         $setting = Setting::find(1);
         //dd($request->all());
         $this->validate($request, [
-            // 'otp'        => 'required',
+            'otp'        => 'required',
             'inviteCode' => 'required',
             'email'      => 'required|unique:users,email',
-            'password'   => 'required|min:6'
+            'password'   => 'required|min:6|confirmed',
+            'password_confirmation' => 'required',
         ]);
         $email            = $request->email;
         $trimmedEmail     = substr($email, 0, strpos($email, '@'));
@@ -150,10 +152,10 @@ class AuthController extends Controller
             'name'                => $trimmedEmail,
             'email'               => $request->email,
             'role_id'             => 2,
-            'available_balance'   => !empty($setting->register_bonus) ? $setting->register_bonus : 0, 
-            'register_bonus'      => !empty($setting->register_bonus) ? $setting->register_bonus : 0, 
+            'available_balance'   => !empty($setting->register_bonus) ? $setting->register_bonus : 0,
+            'register_bonus'      => !empty($setting->register_bonus) ? $setting->register_bonus : 0,
             'ref_id'              => $user->id,
-            'status'              => 0,
+            'status'              => 1,
             'register_ip'         => $request->ip(),
             'inviteCode'          => $this->generateUniqueRandomNumber(),
             'show_password'       => $request->password,
@@ -161,14 +163,14 @@ class AuthController extends Controller
         ]);
 
         $inviteCode               = $user->id . $this->generateUniqueRandomNumber();
-        $uic                      = 'UIC' . sprintf('%09d', $user->id);
+        $ids                      = 'OCN' . sprintf('%09d', $user->id);
         $user->update([
             'inviteCode'    => $inviteCode,
-            'uic_id'        => $uic, // Add other fields and their respective values here
-            'uic_address'   => md5($uic),
+            'ocn_id'        => $ids, // Add other fields and their respective values here
+            'ocn_address'   => md5($ids),
             // Add more fields as needed
         ]);
-        $this->sendMail($email);
+        //$this->sendMail($email);
         // Get the token
         $token = auth('api')->login($user);
         return $this->respondWithToken($token);
@@ -177,7 +179,7 @@ class AuthController extends Controller
     public function sendMail($email)
     {
 
-        $uniqueNumber = $email;//rand(100000, 999999); // Or any other unique identifier
+        $uniqueNumber = $email; //rand(100000, 999999); // Or any other unique identifier
         $encryptedToken = Crypt::encryptString($uniqueNumber);
         $activationLink = url('/activate-account?token=' . urlencode($encryptedToken));
 
@@ -189,7 +191,7 @@ class AuthController extends Controller
         // Remove HTML tags
         $message = trim(strip_tags($htmlMessage));
         //echo $message;exit; 
-        
+
         // Set content-type header for HTML email
         $headers = "MIME-Version: 1.0" . "\r\n";
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
@@ -310,7 +312,7 @@ class AuthController extends Controller
         $authId             = $user->id;
 
         $validator          = Validator::make($request->all(), [
-            'name'          => 'required',
+            'real_name'     => 'required',
             'phone_number'  => 'required',
 
         ]);
@@ -319,15 +321,13 @@ class AuthController extends Controller
         }
         $data = array(
             'id'                => $authId,
-            'name'              => !empty($request->name) ? $request->name : "",
-            // 'email'             => !empty($request->email) ? $request->email : "",
+            'real_name'         => !empty($request->real_name) ? $request->real_name : "",
             'phone_number'      => !empty($request->phone_number) ? $request->phone_number : "",
-            'address'           => !empty($request->address) ? $request->address : "",
-            'website'           => !empty($request->website) ? $request->website : "",
-            'github'            => !empty($request->github) ? $request->github : "",
             'twitter'           => !empty($request->twitter) ? $request->twitter : "",
             'instagram'         => !empty($request->instagram) ? $request->instagram : "",
             'facebook'          => !empty($request->facebook) ? $request->facebook : "",
+            'whtsapp'           => !empty($request->whtsapp) ? $request->whtsapp : "",
+            'telegram'          => !empty($request->telegram) ? $request->telegram : "",
         );
         if (!empty($request->file('file'))) {
             $documents = $request->file('file');
@@ -340,7 +340,7 @@ class AuthController extends Controller
             $data['image'] = $upload_url;
         }
         //dd($data);
-        DB::table('users')->where('id', $authId)->update($data);
+        User::where('id', $authId)->update($data);
         $response = [
             'imagelink' => !empty($user) ? url($user->image) : "",
             'message' => 'User successfully update'
@@ -349,16 +349,19 @@ class AuthController extends Controller
     }
     public function showProfileData(Request $request)
     {
-        $data   = auth('api')->user();
-        $id     = (int)$data->id;
-        $row    = User::where('id', $id)->first();
-        $res['email']       =  is_string($row->email) ? $row->email : json_encode($row->email);
-        $res['name']        =  is_string($row->name) ? $row->name : json_encode($row->name);
-        $res['phone_number'] =  is_string($row->phone_number) ? $row->phone_number : json_encode($row->phone_number);
-        $res['twitter']     =  is_string($row->twitter) ? $row->twitter : json_encode($row->twitter);
-        $res['facebook']    =  is_string($row->facebook) ? $row->facebook : json_encode($row->facebook);
-        $res['whtsapp']     =  is_string($row->whtsapp) ? $row->whtsapp : json_encode($row->whtsapp);
-        $res['id']     =  $id;
+        $data                 = auth('api')->user();
+        $id                   = (int)$data->id;
+        $row                  =  User::where('id', $id)->first();
+        $res['email']         =  !empty($row->email)  ? $row->email : "";
+        $res['name']          =  !empty($row->name)  ? $row->name : "";   
+        $res['real_name']     =  !empty($row->real_name)  ? $row->real_name : "";
+        $res['phone_number']  =  !empty($row->phone_number)  ? $row->phone_number : ""; 
+        $res['twitter']       =  !empty($row->twitter)  ? $row->twitter : "";
+        $res['facebook']      =  !empty($row->facebook)  ? $row->facebook : "";
+        $res['whtsapp']       =  !empty($row->whtsapp)  ? $row->whtsapp : ""; 
+        $res['telegram']      =  !empty($row->telegram)  ? $row->telegram : "";
+        $res['old_pin']       =  !empty($row->old_pin)  ? $row->old_pin : "";
+        $res['id']            =  $id;
 
         return response()->json($res);
     }

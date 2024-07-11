@@ -21,7 +21,7 @@
       <li><nuxt-link to="/dashboard/payment"><span class="fa-regular fa-credit-card"></span>Payment</nuxt-link></li>
       <li><nuxt-link to="/dashboard/rewardcenter"><span class="fa-sharp fa-solid fa-gift"></span>Reward Center</nuxt-link></li>
       <li><nuxt-link to="/dashboard/expense"><span class="fa-solid fa-money-bill-transfer"></span>Expense</nuxt-link></li>
-      <li> <a href="#" class="feat-btn">
+      <li v-if="isLoggedIn"> <a href="#" class="feat-btn">
           <span class="fa-solid fa-address-card"></span>Account
         </a>
         <ul class="feat-show">
@@ -35,7 +35,8 @@
       <li><nuxt-link to="/terms-conditions"><span class="fa-solid fa-file-check"></span>Terms & conditions</nuxt-link></li>
       <li><nuxt-link to="/faq"><span class="fa-solid fa-comments-question-check"></span>FAQS</nuxt-link></li>
       <li><nuxt-link to="/privacy-policy"><span class="fa-solid fa-shield-check"></span>Privacy policy</nuxt-link></li>
-      <li><a href="#logout"><span class="fa-sharp fa-solid fa-right-from-bracket"></span>Logout</a></li>
+      <li v-if="isLoggedIn"><a href="#" @click="logout"><span class="fa-sharp fa-solid fa-right-from-bracket"></span>Logout</a></li>
+      <li v-else><nuxt-link to="/sign-in"><span class="fa-solid fa-sign-in"></span>Login</nuxt-link></li>
       <!-- Other menu items -->
     </ul>
     <div class="bottom">
@@ -56,6 +57,25 @@
 <script setup>
 import { onMounted } from 'vue'
 import jQuery from 'jquery'
+import { useUserStore } from '~~/stores/user'
+import { storeToRefs } from 'pinia';
+const userStore = useUserStore();
+const { isLoggedIn } = storeToRefs(userStore)
+
+const logout = async () => {
+	const router = useRouter(); // Get the router object
+	try {
+		await userStore.logout();
+		localStorage.removeItem('token');
+		router.push('/'); // Redirect to the root route
+		return;
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+
+
 
 onMounted(() => {
   //Add sidebar toggle 

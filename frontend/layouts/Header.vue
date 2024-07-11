@@ -22,12 +22,18 @@
                                 </ul>
                             </nav>
                             <div class="group-button">
-                                <nuxt-link class="btn-action" to="/sign-in">
+                                <nuxt-link class="btn-action" to="/sign-in" v-if="!isLoggedIn">
                                     <span>LOGIN</span>
                                 </nuxt-link>
-                                <nuxt-link class="btn-action" to="/sign-up">
+
+                                
+                                <nuxt-link class="btn-action" to="/sign-up" v-if="!isLoggedIn">
                                     <span>Register</span>
                                 </nuxt-link>
+
+                                <a class="btn-action" href="#" v-if="isLoggedIn" @click="logout">
+                                    <span>Logout</span>
+                                </a>
                             </div>
                             <div class="mobile-button"><span></span></div>
                         </div>
@@ -40,7 +46,31 @@
 </template>
 
 <script setup>
- 
+import $ from 'jquery';
+import { useUserStore } from '~~/stores/user'
+import { storeToRefs } from 'pinia';
+import { useCartStore } from '~~/stores/cart';
+const userStore = useUserStore();
+const { isLoggedIn } = storeToRefs(userStore)
+const cartStore = useCartStore()
 
+const userRoleIsAdmin = computed(() => userStore.role_id === 1);
+const userStatusIsAdmin = computed(() => userStore.status === 1);
 
+computed(async () => {
+	try {
+		await userStore.getUser()
+	} catch (error) { }
+})
+const logout = async () => {
+	const router = useRouter(); // Get the router object
+	try {
+		await userStore.logout();
+		localStorage.removeItem('token');
+		router.push('/'); // Redirect to the root route
+		return;
+	} catch (error) {
+		console.error(error);
+	}
+};
 </script>

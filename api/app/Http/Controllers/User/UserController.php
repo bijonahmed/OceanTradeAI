@@ -2062,7 +2062,7 @@ class UserController extends Controller
     {
 
         $userId           = $this->userid;
-        $checkL1          = User::where('ref_id', $userId)->select('id', 'uic_address', 'name', 'email', 'created_at', 'ref_id')->get();
+        $checkL1          = User::where('ref_id', $userId)->select('id', 'ocn_address', 'name', 'email', 'created_at', 'ref_id')->get();
 
         $level1_ids       = $checkL1->pluck('id')->toArray();
         // Fetch level 2 users based on level 1 IDs
@@ -2135,21 +2135,75 @@ class UserController extends Controller
         return response()->json($response);
     }
 
+
+
+    public function pinUpdateClient(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'old_pin'          => 'required|min:6|max:6',
+            'new_pin'          => 'required|min:6|max:6',
+            'pin_confirmation' => 'required|min:6|max:6|same:new_pin',
+        ]);
+        
+        $user = User::find($this->userid);
+
+        if ($user->old_pin) {
+            // If the user already has an old_pin, validate it
+            $validator->after(function ($validator) use ($request, $user) {
+                if ($request->old_pin !== $user->old_pin) {
+                    $validator->errors()->add('old_pin', 'The old PIN is incorrect.');
+                }
+            });
+        } else {
+            // If it's the first time setting a PIN, old_pin is required but doesn't need to be validated
+            $validator->setRules(array_merge($validator->getRules(), [
+                'old_pin' => 'required|min:4',
+            ]));
+        }
+        
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        
+        // Set the new PIN
+        $user->old_pin = $request->new_pin;
+        $user->new_pin      = $request->new_pin; 
+        $user->save();
+ 
+
+        // $user = User::find($this->userid);
+
+        // $user->old_pin      = $request->old_pin;
+        // $user->new_pin      = $request->new_pin; // Consider removing this line for security reasons
+        // $user->save();
+
+        $response = "PIN successfully changed!";
+        return response()->json($response);
+
+
+
+
+    }
+
+
+
+
+
+
     public function changePasswordClient(Request $request)
     {
 
         $validator = Validator::make($request->all(), [
-            'id' => 'required',
-            'password' => 'required|min:2|confirmed', // Use 'confirmed' rule for password confirmation
+            'password'              => 'required|min:2|confirmed', // Use 'confirmed' rule for password confirmation
             'password_confirmation' => 'required|min:2',
-            'old_password' => 'required|min:2', // Add validation for old password
+            'old_password'          => 'required|min:2', // Add validation for old password
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $user = User::find($request->id);
+        $user = User::find($this->userid);
 
         // Validate old password before updating
         if (!Hash::check($request->old_password, $user->password)) {

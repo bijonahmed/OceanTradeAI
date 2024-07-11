@@ -14,33 +14,49 @@
             <div class="sign-in__main">
               <div class="top center">
                 <h3 class="title">Sign up</h3>
-                <p class="fs-17">Create New ICOLand Account</p>
+                <p class="fs-17">Create New OCN Account</p>
               </div>
-
-              <form>
+              <center>
+                <div class="loading-indicator" v-if="loading" style="text-align: center;">
+                  <Loader />
+                </div>
+              </center>
+              <form @submit.prevent="register()">
                 <div class="form-group">
                   <label>Email address <span>*</span> </label>
                   <div class="input_bt_group">
-                    <input type="text" placeholder="example@gmail.com" class="form-control">
-                    <button class="btn_copy">Send code </button>
+                    <input type="text" placeholder="example@gmail.com" class="form-control" v-model="email">
+                    <span class="text-danger" v-if="errors.email">{{ errors.email[0] }}</span>
+                    <button class="btn_copy" @click="sendCode" :disabled="buttonDisabled">Send code
+                      <span v-if="loading"><span style="color:white">Loading...</span></span>
+
+                    </button>
                   </div>
 
                 </div>
                 <div class="form-group">
                   <label for="code">OTP Code<span>*</span></label>
-                  <input type="text" class="form-control" id="code" placeholder="OTP">
+                  <input type="text" class="form-control" id="code" placeholder="OTP" v-model="otp">
+                  <p class="ms-2" style="font-size: 12px;">Click 'Send Code,' check your email (inbox/spam) for the OTP.
+                  </p>
+                  <span class="text-danger" v-if="errors.otp">{{ errors.otp[0] }}</span>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Password<span>*</span></label>
-                  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                  <input id="newpass" :type="passwordFieldType" name="password" class="form-control" v-model="password">
+                  <span class="text-danger" v-if="errors.password">{{ errors.password[0] }}</span>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Confirm Password<span>*</span></label>
-                  <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Confirm Password">
+                  <input id="repass" :type="confirmPasswordFieldType" name="password" class="form-control"
+                    v-model="confirmPassword">
+                  <span class="text-danger" v-if="errors.password_confirmation">{{ errors.password_confirmation[0]
+                    }}</span>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Invite code <span>*</span></label>
-                  <input type="text" class="form-control" id="exampleInputPassword2" placeholder="Invite code">
+                  <input type="text" class="form-control" placeholder="Invite code" v-model="inviteCode">
+                  <span class="text-danger" v-if="errors.inviteCode">{{ errors.inviteCode[0] }}</span>
                 </div>
                 <div class="form-check">
                   <div class="left" style="height: 20px;">
@@ -49,27 +65,6 @@
                         of User</a></label>
                   </div>
                 </div>
-                <!-- chapcha  -->
-                <div class="input_group">
-                  <div class="CaptchaWrap">
-                    <div id="CaptchaImageCode" class="CaptchaTxtField">
-                      <canvas id="CapCode" class="capcode" width="500" height="80"></canvas>
-                    </div>
-                    <button type="button" class="ReloadBtn">
-                      <img src="/assets/images/refresh.webp" alt="" />
-                    </button>
-                  </div>
-
-                  <input type="hidden" id="UserCaptchaCode" class="CaptchaTxtField form-control mt-2"
-                    placeholder="Enter Captcha - Case Sensitive" />
-
-                  <input type="text" class="CaptchaTxtField form-control mt-2"
-                    placeholder="Enter Captcha - Case Sensitive" v-model="userCapInput" />
-
-                  <span id="WrongCaptchaError" class="error">WrongCaptchaError</span>
-                </div>
-
-
                 <button type="submit" class="btn-action style-1"><span>Sign Up</span> </button>
               </form>
 
@@ -85,7 +80,95 @@
 </template>
 
 
-<script setup>
 
+<script setup>
+import { ref, watch, onMounted } from "vue";
+import { useUserStore } from '~~/stores/user';
+import axios from "axios";
+import Swal from "sweetalert2";
+
+const router = useRouter();
+const userStore = useUserStore()
+const errors = ref({});
+
+const loading = ref(false)
+let email = ref('');
+let name = ref('');
+let password = ref(null);
+let inviteCode = ref(null);
+let confirmPassword = ref(null);
+let otp = ref(null)
+
+const passwordFieldType = ref('password');
+const confirmPasswordFieldType = ref('password');
+
+const checkEmail = async () => {
+  try {
+    loading.value = true;
+
+    //console.log("====" + email.value);
+    const response = await axios.post('/sendEmail', {
+      email: email.value // Send the email value in the request body
+    });
+    console.log("Send Code: " + response.data);
+    //productdata.value = response.data.data;
+
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Email sent successfully! Please check your email or spam folder for the OTP.",
+      showConfirmButton: false,
+      timer: 3000
+    });
+
+
+
+  } catch (error) {
+    if (error.response && error.response.status === 422) {
+      errors.value = error.response.data.errors;
+    } else {
+      // Handle other types of errors here
+      console.error('An error occurred:', error);
+    }
+  }
+};
+
+const buttonDisabled = ref(false); // Initially, button is enabled
+
+async function sendCode() {
+  if (!buttonDisabled.value) { // Check if button is not disabled
+    try {
+      loading.value = true; // Show loader
+      buttonDisabled.value = true; // Disable the button to prevent double-clicking
+      // Your asynchronous operation (e.g., axios request)
+      await checkEmail(); // Assuming checkEmail is an asynchronous function
+    } finally {
+      loading.value = false; // Hide loader
+      buttonDisabled.value = false; // Re-enable the button after operation completes or fails
+    }
+  }
+}
+
+const register = async () => {
+  loading.value = true;
+  try {
+    await userStore.register(
+      name.value,
+      email.value,
+      otp.value,
+      inviteCode.value,
+      password.value,
+      confirmPassword.value
+    )
+    router.push('/sign-in')
+  } catch (error) {
+    //console.log(error)
+    errors.value = error.response.data.errors
+  } finally {
+    loading.value = false; // Hide loader
+
+  }
+
+}
 
 </script>

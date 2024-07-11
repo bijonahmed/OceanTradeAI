@@ -29,7 +29,8 @@ use App\Http\Controllers\Report\PartnerReportController;
 use App\Http\Controllers\Chat\ChatController;
 use App\Http\Controllers\Mining\MiningController;
 use App\Http\Middleware\CheckUserStatus;
-use App\Http\Controllers\ChartController;
+use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\ResetPasswordController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -41,13 +42,7 @@ use App\Http\Controllers\ChartController;
 |
 */
 
-Route::get('allPost', [UnauthenticatedController::class, 'allPostLists']);
-Route::get('/chart-data', [ChartController::class, 'getData']);
-Route::post('messages', [ChatController::class, 'message']);
-Route::get('/messages/{community_slug}', [ChatController::class, 'getMessages']);
-Route::get('/long-poll/{communitySlug}', [ChatController::class, 'longPoll']);
-Route::get('settingrowClient', [UnauthenticatedController::class, 'settingrowClient']);
-
+Route::post('sendEmail', [UnauthenticatedController::class, 'checkEmail']);
 
 Route::group([
    'middleware' => 'api',
@@ -155,6 +150,7 @@ Route::group([
     Route::post('saveDepartment', [UserController::class, 'saveDepartment']);
     Route::post('changePassword', [UserController::class, 'changePassword']);
     Route::post('changePasswordClient', [UserController::class, 'changePasswordClient']);
+    Route::post('pinUpdateClient', [UserController::class, 'pinUpdateClient']);
     Route::post('changePasswordPartner', [UserController::class, 'changePasswordPartner']);
     Route::post('withdrawPasswordPartner', [UserController::class, 'withdrawPasswordPartner']);
     Route::post('withdrawPasswordByAdmin', [UserController::class, 'withdrawPasswordByAdmin']);
@@ -430,42 +426,7 @@ Route::group([
     Route::get('getAllDocuments', [DocumentsController::class, 'getAllDocuments']);
     Route::get('documents-row/{id}', [DocumentsController::class, 'editId']);
 });
-
-Route::group([
-    //'middleware' => 'api',
-    'prefix' => 'unauthenticate'
-], function () {
-    //Add to cart 
-    Route::get('cart', [CartController::class, 'index']);
-    Route::get('getCartData', [CartController::class, 'getCartData']);
-    Route::post('addToCart', [CartController::class, 'addToCart']);
-    Route::get('searchProductCategory', [UnauthenticatedController::class, 'productCategory']);
-    Route::get('getSliders', [UnauthenticatedController::class, 'getSliders']);
-    Route::get('getCategory', [UnauthenticatedController::class, 'getCategory']);
-    Route::get('productWiseBrand', [UnauthenticatedController::class, 'productWiseBrand']);
-    Route::post('checkEmail', [UnauthenticatedController::class, 'checkEmail']);
-    Route::get('productWiseSubcategory', [UnauthenticatedController::class, 'productWiseSubcategory']);
-
-    Route::get('slidersImages', [UnauthenticatedController::class, 'slidersImages']);
-    Route::get('topSellingProducts', [UnauthenticatedController::class, 'topSellProducts']);
-    Route::get('limitedProducts', [UnauthenticatedController::class, 'limitedProducts']);
-    Route::get('filterCategorys', [UnauthenticatedController::class, 'filterCategory']);
-    Route::get('getCategoryList', [UnauthenticatedController::class, 'allCategory']);
-    Route::get('findCategorys', [UnauthenticatedController::class, 'findCategorys']);
-    Route::get('getProductrow', [UnauthenticatedController::class, 'getProductrow']);
-    Route::get('get-paginated-products', [UnauthenticatedController::class, 'getPaginatedData']);
-    Route::get('defaultShowingProduct', [UnauthenticatedController::class, 'defaultShowingProduct']);
-    Route::get('defaultShowingMovies', [UnauthenticatedController::class, 'defaultShowingMovies']);
-    Route::get('showingMoviesCatWise', [UnauthenticatedController::class, 'showingMoviesCatWise']);
-    Route::get('videoPagination', [UnauthenticatedController::class, 'videoPagination']);
-    Route::get('videoLoadMorePagination', [UnauthenticatedController::class, 'loadMorePagination']);
-    Route::get('catloadMorePagination', [UnauthenticatedController::class, 'loadMorePagination']);
-    Route::get('filderProduct', [UnauthenticatedController::class, 'filderProduct']);
-    Route::get('autocomplete', [UnauthenticatedController::class, 'autocomplete']);
-    Route::get('sliders', [UnauthenticatedController::class, 'slidersImages']);
-    Route::post('getCategoryViewStore', [UnauthenticatedController::class, 'getCategoryViewStore']);
-   
-});
+ 
 
 Route::group([
     'middleware' => 'api',

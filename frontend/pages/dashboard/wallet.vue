@@ -253,4 +253,16 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import DashboardSidebar from "~/layouts/DashboardSidebar.vue";
 import DashboardHeader from "~/layouts/DashboardHeader.vue";
+
+import { useUserStore } from "~~/stores/user";
+const userStore = useUserStore();
+const isLoggedIn = computed(() => userStore.isLoggedIn);
+definePageMeta({
+  middleware: "is-logged-out",
+});
+
+
+
+
+
 </script>

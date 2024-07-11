@@ -1,101 +1,97 @@
 <template>
   <div>
-    <title>Signup</title>
-
-    <div class="wrapper">
-      <div class="nav-menu">
-        <nav class="menu">
-       
-        </nav>
-      </div>
-      <div class="wrapper-inline">
-        <!-- Header area start -->
-        <!-- <Header/> -->
-        <!-- Footer menu -->
-        <Footer />
-        <!-- Page content start -->
-        <main class="margin mt-0">
-          <div class="dash-balance">
-            <div class="dash-content relative">
-              <h3 class="w-text">Signup</h3>
-              <div class="notification">
-
-              </div>
+    <title>Sign Up</title>
+    <section class="sign-in sign-up">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="sign-in__top center">
+              <nuxt-link to="/">
+                <img id="site-logo" src="/assets/images/logo/logo-main.png" alt="Monteno" width="165" height="40"
+                  data-retina="assets/images/logo/logo-main@x2.png" data-width="165" data-height="40">
+              </nuxt-link>
             </div>
-          </div>
-
-          <section class="bal-section container">
-            <div class="container">
-              <div class="form-divider"></div>
-
-
-              <form class="mt-12" @submit.prevent="register()">
-
-                <div class="alert alert-success" v-if="showmessages" style="text-align: center; font-size: 12px;">{{ showmessages }}</div>
-
-                <div class="form-row-group with-icons">
-                  <div class="form-row no-padding">
-                    <i class="fa fa-envelope"></i>
-                    <input type="email" name="Email" class="form-element" placeholder="Email" v-model="email">
+            <div class="sign-in__main">
+              <div class="top center">
+                <h3 class="title">Sign up</h3>
+                <p class="fs-17">Create New OCN Account</p>
+              </div>
+              <center>
+                <div class="loading-indicator" v-if="loading" style="text-align: center;">
+                  <Loader />
+                </div>
+              </center>
+              <form @submit.prevent="register()">
+                <div class="form-group">
+                  <label>Email address <span>*</span> </label>
+                  <div class="input_bt_group">
+                    <input type="text" placeholder="example@gmail.com" class="form-control" v-model="email">
                     <span class="text-danger" v-if="errors.email">{{ errors.email[0] }}</span>
-                  </div>
-                  <div class="form-row no-padding">
-                    <i class="fa fa-lock"></i>
-                    <input type="password" name="Password" class="form-element" placeholder="Password"
-                      v-model="password">
-                    <span class="text-danger" v-if="errors.password">{{ errors.password[0] }}</span>
-                  </div>
-                  <div class="form-row no-padding">
-                    <i class="fa fa-lock"></i>
-                    <input type="password" name="rePassword" class="form-element" placeholder="Confirm Password"
-                       v-model="confirmPassword">
+                    <button class="btn_copy" @click="sendCode" :disabled="buttonDisabled">Send code
+                      <span v-if="loading"><span style="color:white">Loading...</span></span>
 
-                    <span class="text-danger" v-if="errors.confirmPassword">{{ errors.confirmPassword[0]
-                      }}</span>
+                    </button>
                   </div>
-                  <div class="form-row no-padding">
-                    <i class="fa fa-link"></i>
-                    <input type="text" name="Invite-Code" class="form-element" placeholder="Invitation Code" disabled v-model="inviteCode">
-                    <span class="text-danger" v-if="errors.inviteCode">{{ errors.inviteCode[0] }}</span>
+
+                </div>
+                <div class="form-group">
+                  <label for="code">OTP Code<span>*</span></label>
+                  <input type="text" class="form-control" id="code" placeholder="OTP" v-model="otp">
+                  <p class="ms-2" style="font-size: 12px;">Click 'Send Code,' check your email (inbox/spam) for the OTP.
+                  </p>
+                  <span class="text-danger" v-if="errors.otp">{{ errors.otp[0] }}</span>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Password<span>*</span></label>
+                  <input id="newpass" :type="passwordFieldType" name="password" class="form-control" v-model="password">
+                  <span class="text-danger" v-if="errors.password">{{ errors.password[0] }}</span>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Confirm Password<span>*</span></label>
+                  <input id="repass" :type="confirmPasswordFieldType" name="password" class="form-control"
+                    v-model="confirmPassword">
+                  <span class="text-danger" v-if="errors.password_confirmation">{{ errors.password_confirmation[0]
+                    }}</span>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Ref. <span>*</span></label>
+                  <input type="text" class="form-control" placeholder="Invite code" v-model="inviteCode">
+                  <span class="text-danger" v-if="errors.inviteCode">{{ errors.inviteCode[0] }}</span>
+                </div>
+                <div class="form-check">
+                  <div class="left" style="height: 20px;">
+                    <input type="checkbox" checked class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">I agree to the <a href="#">Terms
+                        of User</a></label>
                   </div>
                 </div>
-
-                <div class="form-divider"></div>
-
-                <div class="form-row">
-                  <!-- <a href="#" class="button circle block orange">Sign Up</a> :disabled="loading"-->
-                  <button class="button circle block orange" type="submit">Sign up
-                                <span v-if="loading">Loading...</span>
-                            </button>
-                </div>
-
-                <div class="form-row txt-center mt-15">
-                  Already have an account? <nuxt-link to="/login" data-loader='show'>Login</nuxt-link>
-                </div>
+                <button type="submit" class="btn-action style-1"><span>Sign Up</span> </button>
               </form>
 
             </div>
 
-          </section>
-
-
-        </main>
-        <!-- Page content end -->
+            <p class="bottom">Dont have an account? <nuxt-link to="/sign-in">Sign in</nuxt-link></p>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   </div>
+
 </template>
+
+
 
 <script setup>
 import { ref, watch, onMounted } from "vue";
 import { useUserStore } from '~~/stores/user';
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const router = useRouter();
 const userStore = useUserStore()
-const loading = ref(false);
 const errors = ref({});
 
+const loading = ref(false)
 let email = ref('');
 let name = ref('');
 let password = ref(null);
@@ -106,23 +102,23 @@ let otp = ref(null)
 const passwordFieldType = ref('password');
 const confirmPasswordFieldType = ref('password');
 
-const togglePassword = (id) => {
-  const inputField = document.querySelector(id);
-  if (inputField.type === 'password') {
-    inputField.type = 'text';
-  } else {
-    inputField.type = 'password';
-  }
-};
-
 const checkEmail = async () => {
   try {
     loading.value = true;
-    const response = await axios.post('/unauthenticate/checkEmail', {
+    const response = await axios.post('/sendEmail', {
       email: email.value // Send the email value in the request body
     });
     console.log("Send Code: " + response.data);
-    //productdata.value = response.data.data;
+
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Email sent successfully! Please check your email or spam folder for the OTP.",
+      showConfirmButton: false,
+      timer: 3000
+    });
+
+
 
   } catch (error) {
     if (error.response && error.response.status === 422) {
@@ -135,6 +131,7 @@ const checkEmail = async () => {
 };
 
 const buttonDisabled = ref(false); // Initially, button is enabled
+
 async function sendCode() {
   if (!buttonDisabled.value) { // Check if button is not disabled
     try {
@@ -148,9 +145,9 @@ async function sendCode() {
     }
   }
 }
-let showmessages = ref('');
+
 const register = async () => {
-  loading.value = true; 
+  loading.value = true;
   try {
     await userStore.register(
       name.value,
@@ -160,24 +157,18 @@ const register = async () => {
       password.value,
       confirmPassword.value
     )
-
-    const messages = "Registration successful! A confirmation email has been sent to your email address. Please check your inbox or spam folder.";
-        console.log("messages:" + messages); // You can handle the messages here
-        showmessages.value = messages;
-
-
-    //router.push('/signin/email-login')
+    router.push('/sign-in')
   } catch (error) {
     //console.log(error)
     errors.value = error.response.data.errors
   } finally {
-      loading.value = false; // Hide loader
-     
-    }
-  
+    loading.value = false; // Hide loader
+
   }
 
+}
 
+ 
 let queryParams = {};
 if (process.client) {
   queryParams = new URLSearchParams(window.location.search);
@@ -185,6 +176,4 @@ if (process.client) {
   console.log("----" + codeValue);
   inviteCode.value = codeValue;
 }
-
-
 </script>
