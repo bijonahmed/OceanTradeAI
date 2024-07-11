@@ -31,6 +31,7 @@ use App\Http\Controllers\Mining\MiningController;
 use App\Http\Middleware\CheckUserStatus;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\Affiliate\AffiliateController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -64,6 +65,19 @@ Route::group([
 
 Route::middleware(['auth:api', CheckUserStatus::class])->group(function () {
 
+
+Route::group([
+    'prefix' => 'affiliate'
+], function () {
+    Route::get('getLevelOneDetails', [AffiliateController::class, 'getLevelOneDetails']);
+    Route::get('getLevelTwoDetails', [AffiliateController::class, 'getLevelTwoDetails']);
+    Route::get('getLevelThreeDetails', [AffiliateController::class, 'getLevelThreeDetails']);
+    Route::get('getLevelthree', [AffiliateController::class, 'getLevelthree']);
+    
+});
+
+
+
     Route::group([
     'prefix' => 'order'
 ], function () {
@@ -91,7 +105,6 @@ Route::middleware(['auth:api', CheckUserStatus::class])->group(function () {
     Route::post('assignOrder', [OrderController::class, 'assignOrder']);
 });
 Route::group([
-    'middleware' => 'api',
     'prefix' => 'customer'
 ], function () {
     Route::post('saveLead', [CustomerController::class, 'saveLead']);
@@ -101,8 +114,11 @@ Route::group([
     Route::get('getCustomerRow/{id}', [CustomerController::class, 'checkCustomer']);
     Route::get('getLeadRow/{id}', [CustomerController::class, 'checkLead']);
 });
+
+
+
+
 Route::group([
-    'middleware' => 'api',
     'prefix' => 'user'
 ], function () {
 

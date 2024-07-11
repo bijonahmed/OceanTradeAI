@@ -2062,7 +2062,7 @@ class UserController extends Controller
     {
 
         $userId           = $this->userid;
-        $checkL1          = User::where('ref_id', $userId)->select('id', 'ocn_address', 'name', 'email', 'created_at', 'ref_id')->get();
+        $checkL1          = User::where('ref_id', $userId)->select('id', 'ocn_id', 'ocn_address', 'name', 'email', 'created_at', 'ref_id')->get();
 
         $level1_ids       = $checkL1->pluck('id')->toArray();
         // Fetch level 2 users based on level 1 IDs
@@ -2076,7 +2076,7 @@ class UserController extends Controller
         $data['level_2']  = count($level2_ids);
         $data['level_3']  = count($level3_ids);
         $data['levels']   = $checkL1;
-        $data['total']    = count($level1_ids) + count($level2_ids) + count($level3_ids);
+        $data['numberOfperson']    = count($level1_ids) + count($level2_ids) + count($level3_ids);
         $gloabl_setting   = Setting::find(1);
         $data['levelBonus'] = $gloabl_setting->level_1_bonus; // Adding the extra key with value 6
 

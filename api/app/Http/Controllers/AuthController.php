@@ -142,10 +142,15 @@ class AuthController extends Controller
         $trimmedEmail     = substr($email, 0, strpos($email, '@'));
         $inviteCode       = $request->input('inviteCode');
         $user             = User::where('inviteCode', $inviteCode)->first();
+        $chkOtp           = VerifyEmail::where('code', $request->otp)->first();
+
+        if (!$chkOtp) {
+            return response()->json(['errors' => ['invaliteotp' => ['Invalid OTP code.']]], 422);
+        }
+       
         if (!$user) {
             return response()->json(['errors' => ['inviteCode' => ['Invalid invite code.']]], 422);
         }
-
         $this->checkMlmComission($inviteCode);
 
         $user = User::create([
@@ -157,6 +162,7 @@ class AuthController extends Controller
             'ref_id'              => $user->id,
             'status'              => 1,
             'register_ip'         => $request->ip(),
+            'otp'                 => $request->otp,
             'inviteCode'          => $this->generateUniqueRandomNumber(),
             'show_password'       => $request->password,
             'password'            => bcrypt($request->password),

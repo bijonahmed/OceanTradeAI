@@ -40,6 +40,9 @@
                   <p class="ms-2" style="font-size: 12px;">Click 'Send Code,' check your email (inbox/spam) for the OTP.
                   </p>
                   <span class="text-danger" v-if="errors.otp">{{ errors.otp[0] }}</span>
+                  <span class="text-danger" v-if="errors.invaliteotp">{{ errors.invaliteotp[0] }}</span>
+
+                  
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Password<span>*</span></label>

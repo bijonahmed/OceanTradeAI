@@ -27,6 +27,7 @@ class User extends Authenticatable implements JWTSubject
     'register_ip',
     'othersway_connect',
     'password',
+    'otp',
     'with_password',
     'with_show_password',
     'real_name',

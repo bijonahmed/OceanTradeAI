@@ -4,118 +4,120 @@
 
         <DashboardSidebar />
         <div class="dashboard_main_content">
-        <div class="dashboard__content">
-
-            
-          <DashboardHeader/>
-           
- 
-    <center>
-      <div class="loading-indicator" v-if="loading" style="text-align: center">
-        <Loader />
-      </div>
-    </center>
+            <div class="dashboard__content">
 
 
+                <DashboardHeader />
 
-            <div class="dashboard__main">
-                <div class="affiliate_section">
-                    <div class="top_affi_balance">
-                        <h1><img src="assets/images/usdt.png" alt="" class="img-fluid">1,249.03</h1>
-                        <p>Total Referal Earnings</p>
-                        <span>This month 18.98% </span>
 
+                <center>
+                    <div class="loading-indicator" v-if="loading" style="text-align: center">
+                        <Loader />
                     </div>
-                    <!-- refer link section start here  -->
-                    <div class="refer_link">
-                        <div class="link_header">
-                            <div>
-                                <h4>Refer Fiends & Earn</h4>
-                                <p>Lorem ipsum dolor sit amet.</p>
+                </center>
+
+
+
+                <div class="dashboard__main">
+                    <div class="affiliate_section">
+                        <div class="top_affi_balance">
+                            <h1><img src="assets/images/usdt.png" alt="" class="img-fluid">1,249.03</h1>
+                            <p>Total Referal Earnings</p>
+                            <span>This month 18.98% </span>
+
+                        </div>
+                        <!-- refer link section start here  -->
+                        <div class="refer_link">
+                            <div class="link_header">
+                                <div>
+                                    <h4>Refer Fiends & Earn</h4>
+                                    <p>Lorem ipsum dolor sit amet.</p>
+                                </div>
+                                <div class="refer_bonus">
+                                    <h6>20.00 USDT</h6>
+                                    <p>Bonus</p>
+                                </div>
                             </div>
-                            <div class="refer_bonus">
-                                <h6>20.00 USDT</h6>
-                                <p>Bonus</p>
+                            <div class="refer_body">
+                                <label for="">Refer link</label>
+                                <div class="input_bt_group">
+                                    <input type="text" v-model="intielink" disabled class="form-control">
+
+                                    <div style="display: none;">
+                                        <strong id="invite_link" class="textToCopy"> {{ intielink }}</strong>
+                                    </div>
+                                    <button class="btn_copy" @click="copyAddressToClipboard()"><i
+                                            class="far fa-copy"></i></button>
+                                </div>
+
+                                <label for="">Refer Code</label>
+                                <div class="input_bt_group">
+                                    <input type="text" class="form-control" disabled v-model="inviteCode">
+                                    <div style="display: none;">
+                                        <strong id="invite_code" class="textToCopy"> {{ inviteCode }}</strong>
+                                    </div>
+                                    <button class="btn_copy" @click="copyinviteCodeToClipboard()"><i
+                                            class="far fa-copy"></i></button>
+                                </div>
                             </div>
                         </div>
-                        <div class="refer_body">
-                            <label for="">Refer link</label>
-                            <div class="input_bt_group">
-                                <input type="text" v-model="intielink" disabled class="form-control">
-
-                                <div style="display: none;">
-                                   <strong id="invite_link" class="textToCopy"> {{ intielink }}</strong>
-                                 </div>
-                                <button class="btn_copy" @click="copyAddressToClipboard()"><i class="far fa-copy"></i></button>
-                            </div>
-
-                            <label for="">Refer Code</label>
-                            <div class="input_bt_group">
-                                <input type="text" class="form-control" disabled v-model="inviteCode">
-                                <div style="display: none;">
-                                   <strong id="invite_code" class="textToCopy"> {{ inviteCode }}</strong>
-                                 </div>
-                                <button class="btn_copy" @click="copyinviteCodeToClipboard()"><i class="far fa-copy"></i></button>
-                            </div>
+                        <!-- team members  -->
+                        <div class="team_container">
+                            <nuxt-link to="/dashboard/associate/affiliateAllhistory">
+                                <div class="team_box">
+                                    <h4>Total Members: </h4>
+                                    <h4>{{ numberOfperson }}</h4>
+                                    <p>0.00 USDT</p>
+                                </div>
+                            </nuxt-link>
+                            <nuxt-link to="/dashboard/associate/affiliate-level-history-one">
+                                <div class="team_box">
+                                    <h4>Level 1:</h4>
+                                    <h4>{{ level_1 }}</h4>
+                                    <p>0.00 USDT</p>
+                                </div>
+                            </nuxt-link>
+                            <nuxt-link to="/dashboard/associate/affiliate-level-history-two">
+                                <div class="team_box">
+                                    <h4>Level 2:</h4>
+                                    <h4>{{ level_2 }}</h4>
+                                    <p>0.00 USDT</p>
+                                </div>
+                            </nuxt-link>
+                            <nuxt-link to="/dashboard/associate/affiliate-level-history-three">
+                                <div class="team_box">
+                                    <h4>Level 3:</h4>
+                                    <h4>{{ level_3 }}</h4>
+                                    <p>0.00 USDT</p>
+                                </div>
+                            </nuxt-link>
                         </div>
-                    </div>
-                    <!-- team members  -->
-                    <div class="team_container">
-                        <nuxt-link to="/dashboard/affiliateAllhistory">
-                            <div class="team_box">
-                                <h4>Total Members: </h4>
-                                <h4>600</h4>
-                                <p>36.00 USDT</p>
-                            </div>
-                        </nuxt-link>
-                        <nuxt-link to="/dashboard/affiliate-level-history">
-                            <div class="team_box">
-                                <h4>Level 1:</h4>
-                                <h4>200 </h4>
-                                <p>12.00 USDT</p>
-                            </div>                            
-                        </nuxt-link>
-                        <nuxt-link to="/dashboard/affiliate-level-history">
-                            <div class="team_box">
-                                <h4>Level 2:</h4>
-                                <h4>200 </h4>
-                                <p>12.00 USDT</p>
-                            </div>                            
-                        </nuxt-link>
-                        <nuxt-link to="/dashboard/affiliate-level-history">
-                            <div class="team_box">
-                                <h4>Level 3:</h4>
-                                <h4>200 </h4>
-                                <p>12.00 USDT</p>
-                            </div>                            
-                        </nuxt-link>
-                    </div>
-                    <!--refere members list  -->
-                    <div class="refer_members">
-                        <h4>Reffered members list</h4>
-                        <ul>
-                            <li v-for="(level, index) in levels" :key="level.id">
-                                <div class="member_left">
-                                    <p>{{ index + 1 }}</p>
-                                    <div class="member_desc">
-                                        <img src="assets/images/avt/team-01.jpg" alt="" class="img-fluid">
-                                        <div>
-                                            <p>abc@mail.com </p>
-                                            <span>MID 234234234</span>
+                        <!--refere members list  -->
+                        <div class="refer_members">
+                            <h4>Reffered members list</h4>
+                            <ul>
+                                <li v-for="(level, index) in levels" :key="level.id">
+                                    <div class="member_left">
+                                        <p>{{ index + 1 }}</p>
+                                        <div class="member_desc">
+                                            <img src="assets/images/avt/team-01.jpg" alt="" class="img-fluid">
+                                            <div>
+                                                <p>{{ level.email }}</p>
+                                                <span>{{ level.ocn_id }}</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <strong><span class="text-success">+923423</span>USDT</strong>
-                            </li>
-                           
-                        </ul>
-                        
-                    </div>
+                                    <strong><span class="text-success">+0</span>USDT</strong>
+                                </li>
 
+                            </ul>
+
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
 
@@ -143,13 +145,13 @@ const intielink = ref('');
 const level_1 = ref('');
 const level_2 = ref('');
 const level_3 = ref('');
-const total = ref('');
+const numberOfperson = ref('');
 const total_referal_warnings = ref(0);
 const levelBonus = ref('');
 const levels = ref([]);
 
 const getInviteCode = async () => {
-   
+
     try {
         const response = await axios.get(`/user/getInviteCode`);
         const setIntielink = window.location.origin + '/invite-code/?code=' + response.data.inviteCode;
@@ -225,23 +227,23 @@ const copyAddressToClipboard = () => {
 }
 
 const fetchLevelData = async () => {
-  try {
-    loading.value = true;
-    const response = await axios.get("/user/getLevelDetails");
-    console.log("Response data:", response.data.level_1);
-    // Assuming maximum_supply and total_supply are DOM elements or component state
-    level_1.value   = response.data.level_1;
-    level_2.value   = response.data.level_2;
-    level_3.value   = response.data.level_3;
-    total.value     = response.data.total;
-    levels.value     = response.data.levels;
-    levelBonus.value     = response.data.levelBonus;
-    total_referal_warnings.value     = response.data.total_referal_warnings;
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  }finally{
-    loading.value = false;
-  }
+    try {
+        loading.value = true;
+        const response = await axios.get("/user/getLevelDetails");
+        console.log("Response data:", response.data.level_1);
+        // Assuming maximum_supply and total_supply are DOM elements or component state
+        level_1.value = response.data.level_1;
+        level_2.value = response.data.level_2;
+        level_3.value = response.data.level_3;
+        numberOfperson.value = response.data.numberOfperson;
+        levels.value = response.data.levels;
+        levelBonus.value = response.data.levelBonus;
+        total_referal_warnings.value = response.data.total_referal_warnings;
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    } finally {
+        loading.value = false;
+    }
 };
 
 
@@ -250,15 +252,6 @@ onMounted(async () => {
     fetchLevelData();
 
 });
-
-
-
-
-
-
-
-
-
 
 
 
