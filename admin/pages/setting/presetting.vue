@@ -672,7 +672,7 @@ const success_noti = () => {
 const loadingRow = () => {
     const id = router.currentRoute.value.query.parameter;
     //console.log("----" + category_id);
-    axios.get(`/setting/settingrow`).then((response) => {
+    axios.get(`/setting/settingrowSystem`).then((response) => {
         //console.log("====" + response.data.data.name);
         //return false;
         insertdata.name = response.data.data.name;

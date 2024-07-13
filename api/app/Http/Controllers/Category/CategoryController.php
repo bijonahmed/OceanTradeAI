@@ -12,6 +12,7 @@ use App\Models\Categorys;
 use App\Category;
 use App\Models\AttributeValues;
 use App\Models\Attribute;
+use App\Models\GlobalWalletAddress;
 use App\Models\MiningCategory;
 use App\Models\MiningHistory;
 use App\Models\Mystore;
@@ -44,8 +45,6 @@ class CategoryController extends Controller
         return response()->json($categories);
     }
 
-    
-
     public function inserMiningCategory(Request $request)
     {
 
@@ -54,7 +53,7 @@ class CategoryController extends Controller
             'minining_amount_per_secnd'  => 'required',
             'second'                     => 'required|integer|gt:0',
             'minute'                     => 'required|integer|gt:0',
-           // 'duration_in_hour'           => 'required|integer|gt:0',
+            // 'duration_in_hour'           => 'required|integer|gt:0',
             'duration_in_hour'              => 'required',
             'mining_value_mention_at_hour'  => 'required',
             'status'                        => 'required',
@@ -78,11 +77,8 @@ class CategoryController extends Controller
             'minute'                     => $request->minute,
             'duration_in_hour'           => $request->duration_in_hour,
             'offer_description'          => $request->offer_description,
-
             'daily_mining_amount'          => $request->daily_mining_amount,
             'mining_value_mention_at_hour' => $request->mining_value_mention_at_hour,
-
-
             'status'                     => 1,
             'entry_by'                   => $this->userid
         );
@@ -90,7 +86,54 @@ class CategoryController extends Controller
         return response()->json($resdata);
     }
 
-    public function editMiningCategory(Request $request){
+    public function editglobalwalletAddress(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'name'                       => 'required',
+            'lock_unlock'                => 'required',
+            'status'                     => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $data = array(
+            'name'                       => $request->name,
+            'lock_unlock'                => $request->lock_unlock,
+            'status'                     => $request->status,
+        );
+        GlobalWalletAddress::where('id', $request->id)->update($data);
+        return response()->json("Successfully update");
+    }
+
+    public function addglobalwalletAddress(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'name'                       => 'required',
+            'lock_unlock'                => 'required',
+            'status'                     => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        // Check if a category with the same name already exists
+        $existingCategory =  GlobalWalletAddress::where('name', $request->input('name'))->first();
+        if ($existingCategory) {
+            return response()->json(['errors_name' => 'Category with this name already exists'], 422);
+        }
+        $data = array(
+            'name'                       => $request->name,
+            'lock_unlock'                => $request->lock_unlock,
+            'status'                     => $request->status,
+        );
+        $resdata['id']                    = GlobalWalletAddress::insertGetId($data);
+        return response()->json($resdata);
+    }
+
+    public function editMiningCategory(Request $request)
+    {
 
         $validator = Validator::make($request->all(), [
             'name'                       => 'required',
@@ -105,7 +148,7 @@ class CategoryController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-       
+
         $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $request->input('name'))));
         $data = array(
             'name'                       => $request->name,
@@ -122,9 +165,8 @@ class CategoryController extends Controller
         );
         $post = MiningCategory::find($request->id);
         $post->update($data);
-   
-        return response()->json($data);
 
+        return response()->json($data);
     }
 
     public function save(Request $request)
@@ -297,6 +339,8 @@ class CategoryController extends Controller
         return response()->json($attribute);
     }
 
+   
+
     public function postCategorysearch()
     {
         $data = PostCategory::where('status', 1)->get();
@@ -372,6 +416,17 @@ class CategoryController extends Controller
         ];
         return response()->json($response, 200);
     }
+
+    public function globalAddressrow($id)
+    {
+        $data = GlobalWalletAddress::find($id);
+        $response = [
+            'data'    => $data,
+            'message' => 'success'
+        ];
+        return response()->json($response, 200);
+    }
+
     public function attributeRow($id)
     {
         $data = Attribute::find($id);

@@ -46,7 +46,7 @@
 
                                     </ul>
                                     <div class="content-tab">
-                                        <div class="content-inner flat-accordion" style="display: none;">
+                                        <div class="content-inner flat-accordion" >
                                             <div class="search_section">
                                                 <form action="">
                                                     <div class="search_div">
@@ -111,7 +111,7 @@
                                                 </table>
                                             </div>
                                         </div>
-                                        <div class="content-inner flat-accordion" style="display: none;">
+                                        <div class="content-inner flat-accordion" >
                                             <div class="search_section">
                                                 <form action="">
                                                     <div class="search_div">
@@ -195,17 +195,22 @@
         <div class="offcanvas-body small pt-0">
             <div class="row">
                 <div class="col-md-4 m-auto">
-                    <form action="" class="withdraw_form but_token_form">
 
+                    <form @submit.prevent="depositSubmit()" id="formrest" class="withdraw_form but_token_form">
                         <div class="input_form mb-2 m-0">
                             <label for="amount" class="mb-2">Enter Deposit Amount</label>
                             <div class="input_group">
-                                <input type="text" class="form-control" placeholder="00.00">
+                                <input type="text" class="form-control" placeholder="00.00" v-model="deposit_amount">
                                 <img src="/assets/images/usdt.png" alt="" class="img-fluid img_g_coin">
+                                
                             </div>
+                            <span class="text-danger" v-if="errors.deposit_amount">{{ errors.deposit_amount[0]}}</span>
                         </div>
-                        <a href="dashboard-desposite-confirm.html" class="btn-action style-5 btn_confirm btn_deposit_confirm" >Confirm</a>
+                        <!-- <a href="dashboard-desposite-confirm.html" class="btn-action style-5 btn_confirm btn_deposit_confirm" >Confirm</a> -->
+                         <button type="submit" class="btn-action style-5 btn_confirm btn_deposit_confirm" >Confirm</button>
                     </form>
+
+
 
                     <div class="refer_members latest_buy text-start">
                         <h6>Latest Deposit</h6>
@@ -253,16 +258,91 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import DashboardSidebar from "~/layouts/DashboardSidebar.vue";
 import DashboardHeader from "~/layouts/DashboardHeader.vue";
-
+import swal from "sweetalert2";
 import { useUserStore } from "~~/stores/user";
 const userStore = useUserStore();
+const router = useRouter()
 const isLoggedIn = computed(() => userStore.isLoggedIn);
 definePageMeta({
   middleware: "is-logged-out",
 });
 
 
+const deposit_amount = ref("");
+const errors = ref({});
+
+const depositSubmit = () => {
+    const dpAmount = deposit_amount.value;
+    if(dpAmount == ""){
+        error_noti();
+     return false; 
+    }else{
+    localStorage.setItem('depositAmount', dpAmount)
+    console.log(`Deposit amount ${dpAmount} has been saved to local storage.`)
+    router.push('/dashboard/deposit/deposit-confirm')
+    }
+   
+
+}
+// const depositSubmit = () => {
+//   const formData = new FormData();
+//   formData.append("deposit_amount", deposit_amount.value);
+//   const headers = {
+//     "Content-Type": "multipart/form-data",
+//   };
+//   axios
+//     .post("/deposit/depositRequest", formData, { headers })
+//     .then((res) => {
+//       document.getElementById("formrest").reset();
+//       success_noti();
+//       router.push("/dashboard/wallet");
+//     })
+//     .catch((error) => {
+//       if (error.response && error.response.status === 422) {
+//         errors.value = error.response.data.errors;
+//       } else {
+//         // Handle other types of errors here
+//         console.error("An error occurred:", error);
+//       }
+//     });
+// };
 
 
+const error_noti = () => {
+  const Toast = swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 2200,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.onmouseenter = swal.stopTimer;
+      toast.onmouseleave = swal.resumeTimer;
+    },
+  });
+  Toast.fire({
+    icon: "error",
+    title: "Please input amount.",
+  });
+};
+
+ 
+onMounted(() => {
+  const flattabs = () => {
+    $('.flat-tabs').each(function() {
+      $(this).find('.content-tab').children().hide()
+      $(this).find('.content-tab').children().first().show()
+      $(this).find('.menu-tab').children('li').on('click', function() {
+        const liActive = $(this).index()
+        const contentActive = $(this).siblings().removeClass('active').parents('.flat-tabs').find('.content-tab').children().eq(liActive)
+        contentActive.addClass('active').fadeIn('slow')
+        contentActive.siblings().removeClass('active')
+        $(this).addClass('active').parents('.flat-tabs').find('.content-tab').children().eq(liActive).siblings().hide()
+      })
+    })
+  }
+  
+  flattabs()
+})
 
 </script>

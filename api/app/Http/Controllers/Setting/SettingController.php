@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Setting;
 
 use App\Http\Controllers\Controller;
+use App\Models\GlobalWalletAddress;
 use Illuminate\Http\Request;
 use Auth;
 use Validator;
@@ -11,10 +12,15 @@ use App\Models\User;
 use App\Models\Setting;
 use App\Models\Profile;
 use App\Models\Sliders;
+use App\Models\UserWalletAddress;
+use App\Models\WalletAddRandom;
+use App\Models\WalletAddress;
 use Illuminate\Support\Str;
 use App\Rules\MatchOldPassword;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 use DB;
+use GlobalFunctionFile;
 
 class SettingController extends Controller
 {
@@ -27,8 +33,131 @@ class SettingController extends Controller
             $user = User::find($id->id);
             $this->userid = $user->id;
         }
-        
     }
+
+
+    public function updateUserwalletAddress(Request $request){
+
+
+        $id  = $request->id; 
+        
+
+        $row = UserWalletAddress::where('id',$id)->first();
+        if (isset($row->global_user_wall_add_id)) {
+            GlobalWalletAddress::where('id', $row->global_user_wall_add_id)->update(['lock_unlock' => 0]); 
+        }
+
+        if (isset($row->global_user_wall_add_id)) {
+            UserWalletAddress::where('global_user_wall_add_id', $row->global_user_wall_add_id)->delete();
+        }
+        
+        $response = [
+            'message' => 'Successfully unlock your wallet Address',
+        ];
+        return response()->json($response);
+
+
+    }
+
+
+    public function getUsersRealTimeWalletAddress(Request $request){
+
+        $page     = $request->input('page', 1);
+        $pageSize = $request->input('pageSize', 20);
+
+        // Get search query from the request
+        $searchQuery    = $request->searchQuery;
+        $status         = (int)$request->selectedFilter;
+        $lock         = (int)$request->selectedFilterLock;
+        //dd($status);
+        $query = UserWalletAddress::select('user_wallet_address.*')
+                ->select('users.email','user_wallet_address.name as wallet_address','user_wallet_address.created_at','user_wallet_address.id')
+                ->join('users', 'users.id', '=', 'user_wallet_address.user_id');
+
+        if ($searchQuery !== null) {
+            $query->where('user_wallet_address.name', 'like', '%' . $searchQuery . '%');
+        }
+
+        $paginator = $query->paginate($pageSize, ['*'], 'page', $page);
+        $modifiedCollection = $paginator->getCollection()->map(function ($item) {
+            return [
+                'id'                        => $item->id,
+                'email'                     => $item->email,
+                'wallet_address'            => $item->wallet_address,
+                'created_at'                => date("Y-M-d", strtotime($item->created_at)),
+                
+            ];
+        });
+
+        // Return the modified collection along with pagination metadata
+        return response()->json([
+            'data' => $modifiedCollection,
+            'current_page' => $paginator->currentPage(),
+            'total_pages' => $paginator->lastPage(),
+            'total_records' => $paginator->total(),
+        ], 200);
+
+
+
+    }
+
+    public function getGlobalWalletAddress(Request $request){
+
+
+        $page     = $request->input('page', 1);
+        $pageSize = $request->input('pageSize', 10);
+
+        // Get search query from the request
+        $searchQuery    = $request->searchQuery;
+        $status         = (int)$request->selectedFilter;
+        $lock         = (int)$request->selectedFilterLock;
+        //dd($status);
+        $query = GlobalWalletAddress::select('global_wallet_address.*');
+
+        if ($searchQuery !== null) {
+            $query->where('global_wallet_address.name', 'like', '%' . $searchQuery . '%');
+        }
+
+        if (!empty($status)) {
+            $query->where('global_wallet_address.status', $status);
+        } else {
+            $query->whereIn('global_wallet_address.status',[0,1]);
+        }
+
+
+        if (!empty($lock)) {
+            $query->where('global_wallet_address.lock_unlock', $lock);
+        } else {
+            $query->whereIn('global_wallet_address.lock_unlock',[0,1]);
+        }
+
+        $paginator = $query->paginate($pageSize, ['*'], 'page', $page);
+
+        $modifiedCollection = $paginator->getCollection()->map(function ($item) {
+            return [
+                'id'                        => $item->id,
+                'name'                      => $item->name,
+                'status'                    => $item->status,
+                'lock_unlock'               => $item->lock_unlock == 1 ? 'Lock' : 'Unlock',
+                'lockunlock'                => $item->lock_unlock
+            ];
+        });
+
+        // Return the modified collection along with pagination metadata
+        return response()->json([
+            'data' => $modifiedCollection,
+            'current_page' => $paginator->currentPage(),
+            'total_pages' => $paginator->lastPage(),
+            'total_records' => $paginator->total(),
+        ], 200);
+
+
+    }
+
+
+
+
+
     public function insertEmployeeType(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -603,6 +732,42 @@ class SettingController extends Controller
     public function settingrow()
     {
 
+        date_default_timezone_set('Asia/Dhaka');
+        $wallet_row =  GlobalWalletAddress::where('lock_unlock', 0)->first();
+        $chkPoint = UserWalletAddress::where('user_id', $this->userid)->first();
+
+        if (empty($chkPoint)) {
+
+            $data['user_id']                    = $this->userid;
+            $data['global_user_wall_add_id']    = !empty($wallet_row->id) ? $wallet_row->id : "";
+            $data['name']                       = !empty($wallet_row->name) ? $wallet_row->name : "";
+            $data['status']                     = 1;
+            $data['created_at']                 = Carbon::now();
+            $data['delete_time']                = Carbon::now()->addMinutes(30);
+
+            UserWalletAddress::insert($data);
+
+            $udata['lock_unlock'] = 1;
+            GlobalWalletAddress::where('id', $wallet_row->id)->update($udata);
+
+            $data = UserWalletAddress::where('user_id', $this->userid)->first();
+            $response = [
+                'data' => !empty($data) ?  $data->name : "",
+                'message' => 'success'
+            ];
+            return response()->json($response, 200);
+        } else {
+            $response = [
+                'data' => "Not available wallet address. Please contact system admin.",
+                'message' => 'success'
+            ];
+            return response()->json($response, 200);
+        }
+    }
+
+    public function settingrowSystem()
+    {
+
         $data = Setting::find(1);
         $response = [
             'data' => $data,
@@ -610,6 +775,7 @@ class SettingController extends Controller
         ];
         return response()->json($response, 200);
     }
+
     public function checkPayItemRow($id)
     {
         $id = (int) $id;
@@ -636,7 +802,6 @@ class SettingController extends Controller
             'level_2_bonus'      => 'required',
             'level_3_bonus'      => 'required',
 
-
             'liquidity_total_supply'      => 'required',
             'circlation'                  => 'required',
             'beganing_price'              => 'required',
@@ -660,7 +825,7 @@ class SettingController extends Controller
             'level_1_bonus'          => !empty($request->level_1_bonus) ? $request->level_1_bonus : "",
             'level_2_bonus'          => !empty($request->level_2_bonus) ? $request->level_2_bonus : "",
             'level_3_bonus'          => !empty($request->level_3_bonus) ? $request->level_3_bonus : "",
-            
+
             'deposit_service_charge'      => !empty($request->deposit_service_charge) ? $request->deposit_service_charge : "",
             'withdraw_service_charge'     => !empty($request->withdraw_service_charge) ? $request->withdraw_service_charge : "",
             'crypto_wallet_address'       => !empty($request->crypto_wallet_address) ? $request->crypto_wallet_address : "",
@@ -694,6 +859,4 @@ class SettingController extends Controller
         ];
         return response()->json($response);
     }
-
-
 }

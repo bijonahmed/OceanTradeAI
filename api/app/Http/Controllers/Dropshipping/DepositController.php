@@ -410,8 +410,8 @@ class DepositController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'deposit_amount'  => 'required|numeric',
-                'payment_method' => 'required',
-                'trxId' => 'required',
+               // 'payment_method' => 'required',
+               // 'trxId' => 'required',
             ]);
             if ($validator->fails()) {
                 return response()->json(['errors' => $validator->errors()], 422);

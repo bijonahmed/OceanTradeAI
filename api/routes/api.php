@@ -78,32 +78,35 @@ Route::group([
 
 
 
-    Route::group([
-    'prefix' => 'order'
-], function () {
-    Route::post('bulkOrderStatus', [OrderController::class, 'bulkOrderStatus']);
-    Route::post('bulkOrderSend', [OrderController::class, 'bulkOrderSend']);
-    Route::post('updatOrderSchedularStatus', [OrderController::class, 'updatOrderSchedularStatus']);
-    Route::get('checkOrderPrice', [OrderController::class, 'checkOrderPrice']);
-    Route::get('checkOrderData', [OrderController::class, 'checkOrderData']);
-    Route::get('orderCancel', [OrderController::class, 'orderCancel']);
-    Route::get('orderInfo', [OrderController::class, 'orderInfo']);
-    Route::get('transferOrder', [OrderController::class, 'transferOrder']);
-    Route::get('cancelOrderRequest', [OrderController::class, 'cancelOrderRequest']);
-    Route::post('sendManualOrderAdmin', [OrderController::class, 'sendManualOrderAdmin']);
-    Route::post('sendConfirmOrders', [OrderController::class, 'sendConfirmOrders']);
-    Route::post('updateOrder', [OrderController::class, 'updateOrder']);
-    Route::get('getOrderStatus', [OrderController::class, 'getOrderStatus']);
-    Route::get('getOrderStatusSchedular', [OrderController::class, 'getOrderStatusSchedular']);
-    Route::get('filterOrderList', [OrderController::class, 'filterOrderList']);
-    Route::get('orderTobePaid', [OrderController::class, 'orderTobePaid']);
-    Route::get('tobeConfirmed', [OrderController::class, 'tobeConfirmed']);
-    Route::get('tobeRecived', [OrderController::class, 'tobeRecived']);
-    Route::get('platformProcced', [OrderController::class, 'platformProcced']);
-    Route::get('tobeShipped', [OrderController::class, 'tobeShipped']);
-    Route::get('completeOrder', [OrderController::class, 'completeOrder']);
-    Route::post('assignOrder', [OrderController::class, 'assignOrder']);
-});
+//     Route::group([
+//     'prefix' => 'order'
+// ], function () {
+//     Route::post('bulkOrderStatus', [OrderController::class, 'bulkOrderStatus']);
+//     Route::post('bulkOrderSend', [OrderController::class, 'bulkOrderSend']);
+//     Route::post('updatOrderSchedularStatus', [OrderController::class, 'updatOrderSchedularStatus']);
+//     Route::get('checkOrderPrice', [OrderController::class, 'checkOrderPrice']);
+//     Route::get('checkOrderData', [OrderController::class, 'checkOrderData']);
+//     Route::get('orderCancel', [OrderController::class, 'orderCancel']);
+//     Route::get('orderInfo', [OrderController::class, 'orderInfo']);
+//     Route::get('transferOrder', [OrderController::class, 'transferOrder']);
+//     Route::get('cancelOrderRequest', [OrderController::class, 'cancelOrderRequest']);
+//     Route::post('sendManualOrderAdmin', [OrderController::class, 'sendManualOrderAdmin']);
+//     Route::post('sendConfirmOrders', [OrderController::class, 'sendConfirmOrders']);
+//     Route::post('updateOrder', [OrderController::class, 'updateOrder']);
+//     Route::get('getOrderStatus', [OrderController::class, 'getOrderStatus']);
+//     Route::get('getOrderStatusSchedular', [OrderController::class, 'getOrderStatusSchedular']);
+//     Route::get('filterOrderList', [OrderController::class, 'filterOrderList']);
+//     Route::get('orderTobePaid', [OrderController::class, 'orderTobePaid']);
+//     Route::get('tobeConfirmed', [OrderController::class, 'tobeConfirmed']);
+//     Route::get('tobeRecived', [OrderController::class, 'tobeRecived']);
+//     Route::get('platformProcced', [OrderController::class, 'platformProcced']);
+//     Route::get('tobeShipped', [OrderController::class, 'tobeShipped']);
+//     Route::get('completeOrder', [OrderController::class, 'completeOrder']);
+//     Route::post('assignOrder', [OrderController::class, 'assignOrder']);
+// });
+
+
+
 Route::group([
     'prefix' => 'customer'
 ], function () {
@@ -201,12 +204,15 @@ Route::group([
     Route::get('selectOrganisationProfile', [UserController::class, 'selectOrganisationProfile']);
     Route::post('organisationUpdateprofile', [UserController::class, 'organisationUpdateprofile']);
     Route::post('addrealname', [UserController::class, 'addrealname']);
+   
 });
 
 Route::group([
     'middleware' => 'api',
     'prefix' => 'category'
 ], function () {
+    Route::post('addglobalwalletAddress', [CategoryController::class, 'addglobalwalletAddress']);
+    Route::post('editglobalwalletAddress', [CategoryController::class, 'editglobalwalletAddress']);
     Route::post('inserMiningCategory', [CategoryController::class, 'inserMiningCategory']);
     Route::post('editMiningCategory', [CategoryController::class, 'editMiningCategory']);
     Route::post('save', [CategoryController::class, 'save']);
@@ -217,6 +223,7 @@ Route::group([
     Route::get('allMiningCategoryes', [CategoryController::class, 'allMiningCategoryes']);
     Route::get('getInacCategoryList', [CategoryController::class, 'allInacCategory']);
     Route::get('categoryRow/{id}', [CategoryController::class, 'findCategoryRow']);
+    Route::get('globalAddressrow/{id}', [CategoryController::class, 'globalAddressrow']);
     Route::get('getCategoryListParent', [CategoryController::class, 'getCategoryListParent']);
     Route::get('getSubCategoryChild/{id}', [CategoryController::class, 'getSubCategoryChild']);
     Route::get('minningCategoryrow/{id}', [CategoryController::class, 'minningCategoryrow']);
@@ -318,7 +325,6 @@ Route::group([
 // });
 
 Route::group([
-    'middleware' => 'api',
     'prefix' => 'deposit'
 ], function () {
     Route::get('getSendReceived', [DepositController::class, 'getSendReceived']);
@@ -340,36 +346,34 @@ Route::group([
 
 });
 
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'dropUser'
-], function () {
-    Route::get('filterUsersProducts', [DropUserController::class, 'filterUsersProducts']);
-    Route::get('filterOrders', [DropUserController::class, 'filterOrders']);
+// Route::group([
+//     'prefix' => 'dropUser'
+// ], function () {
+//     Route::get('filterUsersProducts', [DropUserController::class, 'filterUsersProducts']);
+//     Route::get('filterOrders', [DropUserController::class, 'filterOrders']);
     
-    Route::post('sendWithdrawRequestToMerchant', [DropUserController::class, 'sendWithdrawRequestToMerchant']);
-    Route::get('getTransactionReport', [DropUserController::class, 'getTransactionReport']);
-    Route::get('getManualAdjustmentReport', [DropUserController::class, 'getManualAdjustmentReport']);
-    Route::get('getwalletAddress', [DropUserController::class, 'getwalletAddress']);
-    Route::get('report', [DropUserController::class, 'report']);
-    Route::get('getComissionReport', [DropUserController::class, 'getComissionReport']);
-    Route::get('getComissionReportToday', [DropUserController::class, 'getComissionReportToday']);
-    Route::get('getCurrentBalance', [DropUserController::class, 'getCurrentBalance']);
-    Route::post('depositRequest', [DropUserController::class, 'depositRequest']);
-    Route::post('withdrawRequest', [DropUserController::class, 'withdrawRequest']);
-    Route::get('depositRequestList', [DropUserController::class, 'depositRequestList']);
-    Route::get('withDrawalRequestList', [DropUserController::class, 'withDrawalRequestList']);
-    Route::get('accountDetailsList', [DropUserController::class, 'accountDetailsList']);
-    Route::get('getMyDepositAmount', [DropUserController::class, 'getMyDepositAmount']);
-    Route::get('getCurrencyType', [DropUserController::class, 'getCurrencyType']);
-    Route::get('checkWithdrawalMethod', [DropUserController::class, 'checkWithdrawalMethod']);
-    Route::get('chkfindWithdraInfo', [DropUserController::class, 'chkfindWithdraInfo']);
-    Route::post('makeBank', [DropUserController::class, 'makeBank']);
-    Route::post('updateMakeBank', [DropUserController::class, 'updateMakeBank']);
-});
+//     Route::post('sendWithdrawRequestToMerchant', [DropUserController::class, 'sendWithdrawRequestToMerchant']);
+//     Route::get('getTransactionReport', [DropUserController::class, 'getTransactionReport']);
+//     Route::get('getManualAdjustmentReport', [DropUserController::class, 'getManualAdjustmentReport']);
+//     Route::get('getwalletAddress', [DropUserController::class, 'getwalletAddress']);
+//     Route::get('report', [DropUserController::class, 'report']);
+//     Route::get('getComissionReport', [DropUserController::class, 'getComissionReport']);
+//     Route::get('getComissionReportToday', [DropUserController::class, 'getComissionReportToday']);
+//     Route::get('getCurrentBalance', [DropUserController::class, 'getCurrentBalance']);
+//     Route::post('depositRequest', [DropUserController::class, 'depositRequest']);
+//     Route::post('withdrawRequest', [DropUserController::class, 'withdrawRequest']);
+//     Route::get('depositRequestList', [DropUserController::class, 'depositRequestList']);
+//     Route::get('withDrawalRequestList', [DropUserController::class, 'withDrawalRequestList']);
+//     Route::get('accountDetailsList', [DropUserController::class, 'accountDetailsList']);
+//     Route::get('getMyDepositAmount', [DropUserController::class, 'getMyDepositAmount']);
+//     Route::get('getCurrencyType', [DropUserController::class, 'getCurrencyType']);
+//     Route::get('checkWithdrawalMethod', [DropUserController::class, 'checkWithdrawalMethod']);
+//     Route::get('chkfindWithdraInfo', [DropUserController::class, 'chkfindWithdraInfo']);
+//     Route::post('makeBank', [DropUserController::class, 'makeBank']);
+//     Route::post('updateMakeBank', [DropUserController::class, 'updateMakeBank']);
+// });
 
 Route::group([
-    'middleware' => 'api',
     'prefix' => 'post'
 ], function () {
 
@@ -384,7 +388,6 @@ Route::group([
 });
 
 Route::group([
-    //'middleware' => 'api',
     'prefix' => 'manufacturers'
 ], function () {
     Route::post('save', [ManufacturesController::class, 'save']);
@@ -393,7 +396,6 @@ Route::group([
 });
 
 Route::group([
-    //'middleware' => 'api',
     'prefix' => 'mining'
 ], function () {
     Route::get('minningDurationrow/{id}', [MiningController::class, 'minningDurationrow']);
@@ -410,7 +412,6 @@ Route::group([
 });
 
 Route::group([
-    //'middleware' => 'api',
     'prefix' => 'brands'
 ], function () {
     Route::post('save', [BrandsController::class, 'save']);
@@ -424,7 +425,6 @@ Route::group([
 });
 
 Route::group([
-    'middleware' => 'api',
     'prefix' => 'project'
 ], function () {
     Route::post('saveTask', [ProjectController::class, 'saveTask']);
@@ -435,7 +435,6 @@ Route::group([
     Route::get('taskRow/{id}', [ProjectController::class, 'editTaskId']);
 });
 Route::group([
-    'middleware' => 'api',
     'prefix' => 'documents'
 ], function () {
     Route::post('saveDocuments', [DocumentsController::class, 'saveDocuments']);
@@ -445,9 +444,11 @@ Route::group([
  
 
 Route::group([
-    'middleware' => 'api',
     'prefix' => 'setting'
 ], function () {
+    Route::get('updateUserwalletAddress', [SettingController::class, 'updateUserwalletAddress']);
+    Route::get('getUsersRealTimeWalletAddress', [SettingController::class, 'getUsersRealTimeWalletAddress']);
+    Route::get('getGlobalWalletAddress', [SettingController::class, 'getGlobalWalletAddress']);
     //emp type
     Route::post('insertEmployeeType', [SettingController::class, 'insertEmployeeType']);
     Route::get('getEmployeeTypeList', [SettingController::class, 'getEmployeeTypeList']);
@@ -492,10 +493,10 @@ Route::group([
     Route::get('sliderrow/{id}', [SettingController::class, 'sliderrow']);
     //setting row
     Route::get('settingrow', [SettingController::class, 'settingrow']);
+    Route::get('settingrowSystem', [SettingController::class, 'settingrowSystem']);
   
 });
 Route::group([
-    'middleware' => 'api',
     'prefix' => 'holiday'
 ], function () {
     Route::get('getholidaylist', [LeaveController::class, 'getholidaylist']);
@@ -506,7 +507,6 @@ Route::group([
     Route::get('chkleadlistId/{id}', [LeaveController::class, 'chkleadlistId']);
 });
 Route::group([
-    'middleware' => 'api',
     'prefix' => 'leave'
 ], function () {
     Route::post('createEditLeaveAllocation', [LeaveController::class, 'createEditLeaveAllocation']);

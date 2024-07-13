@@ -127,14 +127,13 @@ const menuItems = ref([
     open: false,
     route: null,
     children: [
+
+    { label: "Global Wallet Address", icon: "fa-circle", route: "/setting/wallet/globalwalletAddressList" },
+    { label: "Real Time Wallet Tracking", icon: "fa-circle", route: "/setting/wallet/realtimewalletTracking" },
     { label: "Notification", icon: "fa-circle", route: "/setting/notificationlist" },
-      { label: "Pre-Setting", icon: "fa-circle", route: "/setting/presetting" },
-      {
-        label: "Mining Category",
-        icon: "fa-circle",
-        route: "/setting/mining-category-list",
-      },
-      {
+    { label: "Pre-Setting", icon: "fa-circle", route: "/setting/presetting" },
+    { label: "Mining Category", icon: "fa-circle", route: "/setting/mining-category-list", },
+    {
         label: "Mining Duration",
         icon: "fa-circle",
         route: "/setting/duration/mining-duration-list",

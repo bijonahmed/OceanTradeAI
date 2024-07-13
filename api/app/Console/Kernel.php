@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
          $schedule->command(command: 'app:start-command')->everySecond();
-          //$schedule->command('app:start-command')->everySecond();
+         $schedule->command(command: 'app:wallet-setup-command')->everySecond();
    
     }
 
