@@ -189,6 +189,7 @@ const formatTime = (timeInSeconds) => {
 const formattedTime = ref(formatTime(timeLeft.value));
 
 const depositSubmit = () => {
+    
     const formData = new FormData();
     formData.append("crypto_wallet_address", crypto_wallet_address.value);
     formData.append("network", network.value);

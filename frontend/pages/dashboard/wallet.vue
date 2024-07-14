@@ -38,10 +38,10 @@
                                 <div class="faq__content pe-0">
                                     <div class="flat-tabs">
                                         <ul class="menu-tab">
-                                            <li class="active">
+                                            <li class="active" @click="fetchDepositData">
                                                 <h5>Deposit</h5>
                                             </li>
-                                            <li class="">
+                                            <li class="" @click="fetchWithdrawalData">
                                                 <h5>Withdraw</h5>
                                             </li>
 
@@ -97,8 +97,7 @@
                                                         <tbody>
                                                             <tr v-for="v in depositData" :key="v.id">
                                                                 <td>{{ v.trxId }}</td>
-                                                                <td class="text-center">{{ formatDateTime(v.created_at)
-                                                                    }}</td>
+                                                                <td class="text-center">{{ formatDateTime(v.created_at)}}</td>
                                                                 <td class="text-center">{{ v.deposit_amount }}</td>
 
                                                                 <td class="text-center"><span class="text-warning">
@@ -124,18 +123,17 @@
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <div class="input_form mb-2 m-0">
-                                                                        <input type="text" placeholder="Search TRX id"
-                                                                            class="form-control">
+                                                                        <input type="text" placeholder="Search Withdrawal Id" class="form-control" v-model="withdrawal_Id" @keyup="fetchWithdrawalData">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <div class=" d-flex align-items-center w-100">
                                                                         <div class="input_form w-100">
-                                                                            <input type="date" class="form-control">
+                                                                            <input type="date" class="form-control" v-model="withdrawal_frmDate">
                                                                         </div>
                                                                         <p>TO</p>
                                                                         <div class="input_form w-100 m-0">
-                                                                            <input type="date" class="form-control">
+                                                                            <input type="date" class="form-control" v-model="withdrawal_toDate" @change="fetchWithdrawalData">
                                                                         </div>
 
                                                                     </div>
@@ -148,7 +146,7 @@
                                                     <table class="table table-dark table-striped table_crypto">
                                                         <thead>
                                                             <tr>
-                                                                <th scope="col">TRX id</th>
+                                                                <th scope="col">Withdraw ID</th>
                                                                 <th scope="col" class="text-center">Date</th>
                                                                 <th scope="col" class="text-center">Amount</th>
                                                                 <th scope="col" class="text-center">Status</th>
@@ -156,30 +154,22 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td>TR234234323</td>
-                                                                <td class="text-center">7/7/2024 <br> 12:12:00</td>
-                                                                <td class="text-center">2,399.85</td>
-                                                                <td class="text-center"><span
-                                                                        class="text-warning">Pending</span></td>
-                                                                <td>-</td>
+                                                            <tr v-for="v in withdrwalData" :key="v.id">
+                                                                <td>{{ v.withdrawID }}</td>
+                                                                <td class="text-center">{{ formatDateTime(v.created_at)}}</td>
+                                                                <td class="text-center">{{ v.withdrawal_amount }}</td>
+                                                                <td class="text-center"><span class="text-warning">
+                                                                        <span v-if="v.status == 0"
+                                                                            style="color:yellow;">Pending</span>
+                                                                        <span v-if="v.status == 1"
+                                                                            style="color:green;">Approved</span>
+                                                                        <span v-if="v.status == 2"
+                                                                            style="color:red;">Reject</span>
+                                                                    </span>
+                                                                </td>
+                                                                <td>{{ v.remarks }}</td>
                                                             </tr>
-                                                            <tr>
-                                                                <td>TR234234323</td>
-                                                                <td class="text-center">7/7/2024 <br> 12:12:00</td>
-                                                                <td class="text-center">2,399.85</td>
-                                                                <td class="text-center"><span
-                                                                        class="text-success">Approve</span></td>
-                                                                <td>Receive</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>TR234234323</td>
-                                                                <td class="text-center">7/7/2024 <br> 12:12:00</td>
-                                                                <td class="text-center">2,399.85</td>
-                                                                <td class="text-center"><span
-                                                                        class="text-danger">Reject</span></td>
-                                                                <td>not receive</td>
-                                                            </tr>
+                                                            
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -339,6 +329,13 @@ const depsoit_frmDate = ref('');
 const depsoit_toDate = ref('');
 const depositData = ref([]);
 
+const withdrawal_Id = ref('');
+const withdrawal_frmDate = ref('');
+const withdrawal_toDate = ref('');
+
+const withdrwalData = ref([]);
+
+
 const fetchDepositData = async () => {
     try {
         loading.value = true;
@@ -359,8 +356,31 @@ const fetchDepositData = async () => {
     }
 };
 
+const fetchWithdrawalData = async () => {
+    try {
+        loading.value = true;
+        const response = await axios.get("/deposit/getWithdrwalfetchdata", {
+            params: {
+                withdrawal_Id: withdrawal_Id.value,
+                frmDate: withdrawal_frmDate.value,
+                toDate: withdrawal_toDate.value
+            }
+        });
+        //console.log("Response data:", response.data.levels);
+        withdrwalData.value = response.data.withdrwalData;
+
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    } finally {
+        loading.value = false;
+    }
+};
+
+
+
 onMounted(() => {
     fetchDepositData();
+    fetchWithdrawalData();
     const flattabs = () => {
         $('.flat-tabs').each(function () {
             $(this).find('.content-tab').children().hide()

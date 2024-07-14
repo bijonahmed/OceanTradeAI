@@ -32,7 +32,7 @@
 
                                 <div class="col-lg-2 col-md-3 col-sm-12 mb-2">
                                     <input type="text" v-model="searchOrderId" class="form-control"
-                                        placeholder="Search Order ID" />
+                                        placeholder="Search Withdrwal ID" />
                                 </div>
 
                                 <div class="col-lg-2 col-md-3 col-sm-12 mb-2">

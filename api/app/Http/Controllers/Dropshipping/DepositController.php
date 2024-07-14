@@ -26,6 +26,7 @@ use App\Models\WalletAddress;
 use App\Models\Withdraw;
 use App\Models\addWithDrawMethod;
 use App\Models\SendReceived;
+use App\Models\UserPaymentAddress;
 use App\Models\WithdrawMethod;
 use Illuminate\Support\Str;
 use App\Rules\MatchOldPassword;
@@ -331,78 +332,60 @@ class DepositController extends Controller
     public function withdrawRequest(Request $request)
     {
 
-        try {
-            $validator = Validator::make($request->all(), [
-                'withdrawal_method'  => 'required',
-                'account_number'     => 'required',
-                'confirm_password'   => 'required',
-                'usd_amount'         => 'required',
-                'uic_amount'         => 'required',
-            ]);
-            if ($validator->fails()) {
-                return response()->json(['errors' => $validator->errors()], 422);
-            }
-
-            $user = User::find($this->userid);
-            // Check if the user exists
-            if (!$user) {
-                return response()->json(['error' => 'User not found'], 404);
-            }
-
-            // Check if the provided password matches the user's password
-            if (!Hash::check($request->confirm_password, $user->password)) {
-                return response()->json(['errors' => ['password_wrong' => ['Incorrect password']]], 422);
-            }
-
-            $userid         = $request->userid;
-            $response       = app('App\Http\Controllers\User\UserController')->getBalance($userid);
-            $usdt_amount    = $response instanceof JsonResponse ? $response->getData(true)['usdt_amount'] : 0;
-            $uic_amount     = $response instanceof JsonResponse ? $response->getData(true)['mining_amount'] : 0;
-
-            if ($request->usd_amount > $usdt_amount) {
-                return response()->json(['errors' => ['error_usdt' => ['You have no sufficiant USDT balance']]], 422);
-            }
-
-            if ($request->uic_amount > $uic_amount) {
-                return response()->json(['errors' => ['error_uic' => ['You have no sufficiant UIC balance']]], 422);
-            }
-
-            $withmethod = $request->withdrawal_method;
-            $getRow     = WithdrawMethod::where('id', $withmethod)->first();
-
-            $uniqueID = 'W.' . $this->generateUnique4DigitNumber();
-            $data = array(
-                'withdrawID'     => $uniqueID,
-                'depscription'   => $uniqueID,
-                'withdraw_amount' => $request->uic_amount,
-                'payment_method' => !empty($getRow) ? $getRow->name : "",
-                'account_number' => $request->account_number,
-                'usd_amount'     => $request->usd_amount,
-                'uic_amount'     => $request->uic_amount,
-                'password'       => $request->confirm_password,
-
-                'status'         => 0,
-                'user_id'        => $this->userid
-            );
-            $last_Id = Withdraw::insertGetId($data);
-
-            /*
-            $tran['user_id']     = $this->userid;
-            $tran['type']        = 2; //Withdraw
-            $tran['last_Id']     = $last_Id;
-            $tran['amount']      = $request->uic_amount;
-            $tran['description'] = 'Withdraw';
-            TransactionHistory::insert($tran);
-            */
-
-            return response()->json($last_Id);
-        } catch (QueryException $e) {
-            // Log the error or handle it as needed
-            return response()->json(['error' => 'Database error occurred.'], 500);
-        } catch (\Exception $e) {
-            // Handle other exceptions
-            return response()->json(['error' => 'An unexpected error occurred.'], 500);
+        $validator = Validator::make($request->all(), [
+            'withdrawal_amount'  => 'required',
+            'wallet_address'     => 'required',
+            'withdrawal_pin'   => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
         }
+
+        $user = User::find($this->userid);
+        // Check if the user exists
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        // Check if the provided password matches the user's password
+        if ($request->withdrawal_pin !== $user->new_pin) {
+            return response()->json(['errors' => ['withdrawal_pin' => ['Incorrect PIN']]], 422);
+        }
+
+        $userid        = $this->userid;
+        $depositAmount = Deposit::where('user_id', $userid)->select('deposit_amount')->where('status', 1)->sum('deposit_amount');
+        $setting       = Setting::find(1);
+        $walletInfo    = UserPaymentAddress::where('user_id', $userid)->first();
+
+        if ($request->withdrawal_amount < $setting->minimum_withdrawal) {
+            return response()->json(['errors' => ['error_minim_usdt' => ['Minimum USDT balance is ', $setting->minimum_withdrawal]]], 422);
+        }
+
+        if ($request->withdrawal_amount > $depositAmount) {
+            return response()->json(['errors' => ['error_usdt' => ['You have no sufficiant USDT balance']]], 422);
+        }
+
+        $uniqueID = 'W.' . $this->generateUnique4DigitNumber();
+        $data = array(
+            'withdrawID'     => $uniqueID,
+            'depscription'   => $uniqueID,
+            'withdrawal_amount' => $request->withdrawal_amount,
+            'wallet_address' => $walletInfo->wallet_address,
+            'withdrawal_pin' => $request->withdrawal_pin,
+            'status'         => 0,
+            'payment_method' => 'TRX(TRC20)',
+            'user_id'        => $this->userid
+        );
+        $last_Id = Withdraw::insertGetId($data);
+
+        $tran['user_id']     = $this->userid;
+        $tran['type']        = 2; //Withdraw
+        $tran['last_Id']     = $last_Id;
+        $tran['amount']      = $request->withdrawal_amount;
+        $tran['description'] = 'Withdraw';
+        TransactionHistory::insert($tran);
+
+        return response()->json(['data' => 'Successfully send your request.'], 200);
     }
 
     public function depositRequest(Request $request)
@@ -435,7 +418,7 @@ class DepositController extends Controller
                 'trxId'          => $request->trxId,
                 'to_crypto_wallet_address'   => $request->crypto_wallet_address,
                 'frm_wallet_address'         => $request->frm_wallet_address,
-                
+
                 'status'         => 0,
                 'user_id'        => $this->userid
             );
@@ -541,7 +524,7 @@ class DepositController extends Controller
 
     public function getwithdrawalList(Request $request)
     {
-       // dd($request->all());
+        // dd($request->all());
         $page = $request->input('page', 1);
         $pageSize = $request->input('pageSize', 10);
 
@@ -562,8 +545,6 @@ class DepositController extends Controller
             $query->where('withdraw.withdrawID', $searchOrderId);
         }
 
-        
-
         // Check if filter dates are provided
         if (!empty($filterFrmDate) && !empty($filterToDate)) {
             // Filter by range (inclusive)
@@ -583,7 +564,7 @@ class DepositController extends Controller
         $cleanedSelectedFilter = isset($selectedFilter) ? (int) trim($selectedFilter) : null;
 
         if ($cleanedSelectedFilter == 5) {
-            $query->whereIn('withdraw.status', [0, 1, 2]); 
+            $query->whereIn('withdraw.status', [0, 1, 2]);
         } else {
             $query->where('withdraw.status', $cleanedSelectedFilter);
         }
@@ -628,20 +609,19 @@ class DepositController extends Controller
     }
 
 
-    public function getDepositfetchdata(Request $request){
+
+    public function getWithdrwalfetchdata(Request $request){
 
         $userId           = $this->userid;
         $frmDate          = $request->frmDate;
         $toDate           = $request->toDate;
-        $trxId            = $request->trxId;
+        $withdrawal_Id    = $request->withdrawal_Id;
 
-        $query = Deposit::where('user_id', $userId)->select('id', 'trxId', 'created_at', 'deposit_amount', 'status');
+        $query = Withdraw::where('user_id', $userId)->select('id', 'withdrawID', 'created_at', 'withdrawal_amount', 'remarks', 'status');
 
-        if ($trxId) {
-        $query->where('trxId', 'like', '%' . $trxId . '%');
-           // $query->where('trxId', $trxId);
+        if ($withdrawal_Id) {
+            $query->where('withdrawID', 'like', '%' . $withdrawal_Id . '%');
         }
-
         if ($frmDate && $toDate) {
             $query->whereBetween('created_at', [$frmDate, $toDate]);
         } elseif ($frmDate) {
@@ -651,20 +631,57 @@ class DepositController extends Controller
         }
 
         $data = $query->get();
+
+
         return response()->json([
-            'depositData'  => $data,
+            'withdrwalData'        => $data,
         ]);
 
-        
+
+
+
     }
 
 
 
+    public function getDepositfetchdata(Request $request)
+    {
 
+        $userId           = $this->userid;
+        $frmDate          = $request->frmDate;
+        $toDate           = $request->toDate;
+        $trxId            = $request->trxId;
 
+        $query = Deposit::where('user_id', $userId)->select('id', 'trxId', 'created_at', 'deposit_amount','status');
 
+        if ($trxId) {
+            $query->where('trxId', 'like', '%' . $trxId . '%');
+            // $query->where('trxId', $trxId);
+        }
+        if ($frmDate && $toDate) {
+            $query->whereBetween('created_at', [$frmDate, $toDate]);
+        } elseif ($frmDate) {
+            $query->where('created_at', '>=', $frmDate);
+        } elseif ($toDate) {
+            $query->where('created_at', '<=', $toDate);
+        }
 
+        $data = $query->get();
 
+        $depositAmount = Deposit::where('user_id', $userId)->select('deposit_amount')->where('status', 1)->sum('deposit_amount');
+        $maxWithdraw   = Setting::find(1);
+        $walletAddress = UserPaymentAddress::where('user_id', $userId)->first();
+
+        $wdata['minimum_withdrawal'] = $maxWithdraw->minimum_withdrawal;
+        $wdata['maximum_withdrawal'] = $maxWithdraw->maximum_withdrawal;
+
+        return response()->json([
+            'depositData'        => $data,
+            'depositAmount'      => $depositAmount,
+            'withdrawData'       => $wdata,
+            'walletAddress'      => $walletAddress,
+        ]);
+    }
 
     public function getDepositList(Request $request)
     {
@@ -706,12 +723,10 @@ class DepositController extends Controller
             $query->where('deposit.depositID', $searchOrderId);
         }
 
-       // $cleanedSelectedFilter = isset($selectedFilter) ? (int) trim($selectedFilter) : null;
-       
+        // $cleanedSelectedFilter = isset($selectedFilter) ? (int) trim($selectedFilter) : null;
 
         if ($selectedFilter == 5) {
-            $query->whereIn('deposit.status', [0, 1, 2]); 
-           
+            $query->whereIn('deposit.status', [0, 1, 2]);
         } else {
             $query->where('deposit.status', $selectedFilter);
         }
@@ -776,18 +791,17 @@ class DepositController extends Controller
         try {
 
             $user = Withdraw::where('withdraw.id', $id)
-            ->select('users.name', 'withdraw.*')
-            ->join('users', 'withdraw.user_id', '=', 'users.id')
-            ->first();
-           
-            $checkWalletAddress     =  WalletAddress::where('user_id', $user->user_id)->first();
-            $wallet_address         = !empty($checkWalletAddress->wallet_address) ? $checkWalletAddress->wallet_address : "";
+                ->select('users.name', 'withdraw.*')
+                ->join('users', 'withdraw.user_id', '=', 'users.id')
+                ->first();
+
+      
+            $wallet_address         = !empty($user->wallet_address) ? $user->wallet_address : "";
             $data['datarow']        = $user;
             $data['created_at']     = !empty($user->created_at) ? date("d-m-Y H:i:s", strtotime($user->created_at)) : "";
             $data['remarks']        = !empty($user->remarks) ? $user->remarks : "";
             $data['wallet_address'] = $wallet_address;
             return response()->json($data);
-           
         } catch (\Exception $e) {
             echo "Error: " . $e->getMessage();
             $error = $e->getMessage();

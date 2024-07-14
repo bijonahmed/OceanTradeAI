@@ -51,16 +51,12 @@
                                                         <td>{{ request.name }}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>UIC Amount</td>
+                                                        <td>Amount</td>
                                                         <td><strong>:</strong></td>
-                                                        <td>{{ request.uic_amount }}</td>
+                                                        <td>{{ request.withdrawal_amount }}</td>
                                                     </tr>
 
-                                                    <tr>
-                                                        <td>USDT Amount</td>
-                                                        <td><strong>:</strong></td>
-                                                        <td>{{ request.usdt_amount }}</td>
-                                                    </tr>
+                                                   
 
                                                     <tr>
                                                         <td>Payment Method</td>
@@ -68,9 +64,9 @@
                                                         <td>{{ request.payment_method }}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Account Number </td>
+                                                        <td>Request Wallet Address </td>
                                                         <td><strong>:</strong></td>
-                                                        <td>{{ request.account_number }}</td>
+                                                        <td>{{ request.wallet_address }}</td>
                                                     </tr>
 
 
@@ -158,12 +154,11 @@ const request = ref({
     withdrawID: '',
     transection_fee: '',
     user_id: '',
-    uic_amount: '',
+    withdrawal_amount: '',
     usdt_amount: '',
-    wallet_address: '',
     payable_amount: '',
     payment_method: '',
-    account_number: '',
+    wallet_address: '',
     currency_type_name: '',
     remarks:'',
     approved_by: '',
@@ -214,8 +209,6 @@ const submitToApproved = () => {
 
 }
 const saveData = () => {
-
-
     if(request.value.remarks == ""){
         error_noti();
         return false; 
@@ -279,16 +272,17 @@ const productDetails = () => {
         console.log("created_at" + response.data.created_at);
         const data = response.data.datarow;
         const wallet_address = response.data.wallet_address;
+        console.log("request wallet address: " + wallet_address);
         request.value.name = data.name;
         request.value.withdrawID = data.withdrawID;
-        request.value.uic_amount = data.uic_amount;
+        request.value.withdrawal_amount = data.withdrawal_amount;
         request.value.usdt_amount = data.usd_amount;
         request.value.payable_amount = data.payable_amount;
         request.value.payment_method = data.payment_method;
         request.value.approved_by = data.approved_by;
 
         request.value.payment_method = data.payment_method;
-        request.value.account_number = data.account_number;
+       // request.value.wallet_address = data.wallet_address;
 
         request.value.created_at = response.data.created_at;
 

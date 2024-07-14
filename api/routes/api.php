@@ -320,6 +320,7 @@ Route::group([
         'prefix' => 'deposit'
     ], function () {
         Route::get('getDepositfetchdata', [DepositController::class, 'getDepositfetchdata']);
+        Route::get('getWithdrwalfetchdata', [DepositController::class, 'getWithdrwalfetchdata']);
         Route::get('getSendReceived', [DepositController::class, 'getSendReceived']);
         Route::get('getWithMethodList', [DepositController::class, 'getWithMethodList']);
         Route::get('getWithdrawRequest', [DepositController::class, 'getWithdrawRequest']);

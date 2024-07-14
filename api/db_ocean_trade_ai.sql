@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2024 at 10:59 AM
+-- Generation Time: Jul 14, 2024 at 06:35 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -655,6 +655,222 @@ CREATE TABLE `logs` (
   `updated_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `logs`
+--
+
+INSERT INTO `logs` (`method`, `url`, `ip_address`, `user_agent`, `user_id`, `created_at`, `updated_at`) VALUES
+('GET', 'http://127.0.0.1:8000/api/mining/allMiningDuration?page=1&pageSize=20&searchQuery=Whale%20Excavator&selectedFilter=1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 09:00:22', '2024-07-14 09:00:22'),
+('GET', 'http://127.0.0.1:8000/api/mining/allMiningDuration?page=1&pageSize=20&searchQuery=&selectedFilter=1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 09:00:27', '2024-07-14 09:00:27'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 09:00:47', '2024-07-14 09:00:47'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 09:01:02', '2024-07-14 09:01:02'),
+('POST', 'http://127.0.0.1:8000/api/auth/logout', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 09:01:07', '2024-07-14 09:01:07'),
+('POST', 'http://127.0.0.1:8000/api/auth/login', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', NULL, '2024-07-14 09:28:40', '2024-07-14 09:28:40'),
+('POST', 'http://127.0.0.1:8000/api/auth/me', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', NULL, '2024-07-14 09:28:42', '2024-07-14 09:28:42'),
+('GET', 'http://127.0.0.1:8000/api/product/dashboardCounting', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 09:28:43', '2024-07-14 09:28:43'),
+('POST', 'http://127.0.0.1:8000/api/auth/me', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 09:28:43', '2024-07-14 09:28:43'),
+('GET', 'http://127.0.0.1:8000/api/user/allUsers?page=1&pageSize=10&searchQuery=&selectedFilter=1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 09:28:49', '2024-07-14 09:28:49'),
+('GET', 'http://127.0.0.1:8000/api/user/allUsers?page=1&pageSize=10&searchQuery=gazigiash&selectedFilter=1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 09:29:05', '2024-07-14 09:29:05'),
+('GET', 'http://127.0.0.1:8000', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', NULL, '2024-07-14 09:29:52', '2024-07-14 09:29:52'),
+('POST', 'http://127.0.0.1:8000/api/auth/login', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', NULL, '2024-07-14 09:30:18', '2024-07-14 09:30:18'),
+('GET', 'http://127.0.0.1:8000/api/category/allMiningCategoryes?page=1&pageSize=10&searchQuery=&selectedFilter=1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 09:30:42', '2024-07-14 09:30:42'),
+('GET', 'http://127.0.0.1:8000/api/mining/allMiningDuration?page=1&pageSize=20&searchQuery=&selectedFilter=1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 09:31:11', '2024-07-14 09:31:11'),
+('GET', 'http://127.0.0.1:8000/api/category/allMiningCategoryes?page=1&pageSize=10&searchQuery=&selectedFilter=1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 09:32:24', '2024-07-14 09:32:24'),
+('GET', 'http://127.0.0.1:8000/api/mining/allMiningDuration?page=1&pageSize=20&searchQuery=&selectedFilter=1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 09:33:45', '2024-07-14 09:33:45'),
+('GET', 'http://127.0.0.1:8000/api/mining/getMiningCategory', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 09:35:35', '2024-07-14 09:35:35'),
+('GET', 'http://127.0.0.1:8000/api/category/allMiningCategoryes?page=1&pageSize=10&searchQuery=&selectedFilter=1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 09:36:01', '2024-07-14 09:36:01'),
+('GET', 'http://127.0.0.1:8000/api/category/allMiningCategoryes?page=1&pageSize=10&searchQuery=&selectedFilter=1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 09:36:36', '2024-07-14 09:36:36'),
+('GET', 'http://127.0.0.1:8000/api/category/minningCategoryrow/4', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 09:36:38', '2024-07-14 09:36:38'),
+('POST', 'http://127.0.0.1:8000/api/auth/login', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', NULL, '2024-07-14 13:11:46', '2024-07-14 13:11:46'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:11:53', '2024-07-14 13:11:53'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:14:57', '2024-07-14 13:14:57'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:15:03', '2024-07-14 13:15:03'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:18:56', '2024-07-14 13:18:56'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:22:29', '2024-07-14 13:22:29'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:24:41', '2024-07-14 13:24:41'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:25:07', '2024-07-14 13:25:07'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:25:09', '2024-07-14 13:25:09'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:25:16', '2024-07-14 13:25:16'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:25:46', '2024-07-14 13:25:46'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:26:04', '2024-07-14 13:26:04'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:26:50', '2024-07-14 13:26:50'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:29:47', '2024-07-14 13:29:47'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=TJ1GEtjoXfy8kRmJvQ44ekEj8DeAVKMDqo1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:29:52', '2024-07-14 13:29:52'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=TJ1GEtjoXfy8kRmJvQ44ekEj8DeAVKMDqo1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:29:52', '2024-07-14 13:29:52'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=TJ1GEtjoXfy8kRmJvQ44ekEj8DeAVKMDqo1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:29:54', '2024-07-14 13:29:54'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=TJ1GEtjoXfy8kRmJvQ44ekEj8DeAVKMDqo1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:29:54', '2024-07-14 13:29:54'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:29:54', '2024-07-14 13:29:54'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:30:42', '2024-07-14 13:30:42'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:31:02', '2024-07-14 13:31:02'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:31:08', '2024-07-14 13:31:08'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:31:47', '2024-07-14 13:31:47'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:32:19', '2024-07-14 13:32:19'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:33:06', '2024-07-14 13:33:06'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:33:42', '2024-07-14 13:33:42'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:33:51', '2024-07-14 13:33:51'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:44:06', '2024-07-14 13:44:06'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:44:19', '2024-07-14 13:44:19'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:44:23', '2024-07-14 13:44:23'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:47:36', '2024-07-14 13:47:36'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:48:07', '2024-07-14 13:48:07'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:51:26', '2024-07-14 13:51:26'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:51:37', '2024-07-14 13:51:37'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:52:49', '2024-07-14 13:52:49'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:53:17', '2024-07-14 13:53:17'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:53:28', '2024-07-14 13:53:28'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:53:50', '2024-07-14 13:53:50'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:54:19', '2024-07-14 13:54:19'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 13:54:27', '2024-07-14 13:54:27'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:08:29', '2024-07-14 14:08:29'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:14:03', '2024-07-14 14:14:03'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:14:23', '2024-07-14 14:14:23'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:15:33', '2024-07-14 14:15:33'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:18:05', '2024-07-14 14:18:05'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:18:21', '2024-07-14 14:18:21'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:18:31', '2024-07-14 14:18:31'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:18:46', '2024-07-14 14:18:46'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:20:13', '2024-07-14 14:20:13'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:20:55', '2024-07-14 14:20:55'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:21:06', '2024-07-14 14:21:06'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:21:25', '2024-07-14 14:21:25'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:21:34', '2024-07-14 14:21:34'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:21:45', '2024-07-14 14:21:45'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:21:54', '2024-07-14 14:21:54'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:22:00', '2024-07-14 14:22:00'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:22:13', '2024-07-14 14:22:13'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:22:30', '2024-07-14 14:22:30'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:23:17', '2024-07-14 14:23:17'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:23:53', '2024-07-14 14:23:53'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:29:07', '2024-07-14 14:29:07'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:29:21', '2024-07-14 14:29:21'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:30:06', '2024-07-14 14:30:06'),
+('GET', 'http://127.0.0.1:8000/api/user/checkPayment', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:35:08', '2024-07-14 14:35:08'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:35:33', '2024-07-14 14:35:33'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:35:43', '2024-07-14 14:35:43'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:37:46', '2024-07-14 14:37:46'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:39:17', '2024-07-14 14:39:17'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:39:51', '2024-07-14 14:39:51'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:41:20', '2024-07-14 14:41:20'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:41:56', '2024-07-14 14:41:56'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:42:10', '2024-07-14 14:42:10'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:42:26', '2024-07-14 14:42:26'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:42:44', '2024-07-14 14:42:44'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:45:04', '2024-07-14 14:45:04'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:45:19', '2024-07-14 14:45:19'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:46:23', '2024-07-14 14:46:23'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:48:03', '2024-07-14 14:48:03'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:48:12', '2024-07-14 14:48:12'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:48:20', '2024-07-14 14:48:20'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:48:51', '2024-07-14 14:48:51'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:49:00', '2024-07-14 14:49:00'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:49:07', '2024-07-14 14:49:07'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:49:17', '2024-07-14 14:49:17'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:50:10', '2024-07-14 14:50:10'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:50:17', '2024-07-14 14:50:17'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:50:25', '2024-07-14 14:50:25'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:50:53', '2024-07-14 14:50:53'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:50:53', '2024-07-14 14:50:53'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:51:14', '2024-07-14 14:51:14'),
+('POST', 'http://127.0.0.1:8000/api/deposit/withdrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:51:15', '2024-07-14 14:51:15'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 14:59:03', '2024-07-14 14:59:03'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 15:00:28', '2024-07-14 15:00:28'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 15:00:28', '2024-07-14 15:00:28'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 15:01:33', '2024-07-14 15:01:33'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getWithdrwalfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 15:01:33', '2024-07-14 15:01:33'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 15:03:53', '2024-07-14 15:03:53'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getWithdrwalfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 15:03:53', '2024-07-14 15:03:53'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 15:06:21', '2024-07-14 15:06:21'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getWithdrwalfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 15:06:21', '2024-07-14 15:06:21'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 15:14:22', '2024-07-14 15:14:22'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getWithdrwalfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 15:14:22', '2024-07-14 15:14:22'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getWithdrwalfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 15:14:40', '2024-07-14 15:14:40'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getWithdrwalfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 15:14:40', '2024-07-14 15:14:40'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 15:15:40', '2024-07-14 15:15:40'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getWithdrwalfetchdata?frmDate=&toDate=&withdrawal_Id=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 15:15:40', '2024-07-14 15:15:40'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=TJ1GEtjoXfy8kRmJvQ44ekEj8DeAVKMDqo1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 15:16:10', '2024-07-14 15:16:10'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=TJ1GEtjoXfy8kRmJvQ44ekEj8DeAVKMDqo1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 15:16:10', '2024-07-14 15:16:10'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=TJ1GEtjoXfy8kRmJvQ44ekEj8DeAVKMDqo1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 15:16:12', '2024-07-14 15:16:12'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=TJ1GEtjoXfy8kRmJvQ44ekEj8DeAVKMDqo1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 15:16:12', '2024-07-14 15:16:12'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 15:16:13', '2024-07-14 15:16:13'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getWithdrwalfetchdata?frmDate=&toDate=&withdrawal_Id=69386f6bb1dfed68692a24c8686939b9', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 15:16:17', '2024-07-14 15:16:17'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getWithdrwalfetchdata?frmDate=&toDate=&withdrawal_Id=69386f6bb1dfed68692a24c8686939b9', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 15:16:17', '2024-07-14 15:16:17'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getWithdrwalfetchdata?frmDate=&toDate=&withdrawal_Id=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 15:16:35', '2024-07-14 15:16:35'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getWithdrwalfetchdata?frmDate=2024-07-02&toDate=2024-07-05&withdrawal_Id=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 15:16:41', '2024-07-14 15:16:41'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getWithdrwalfetchdata?frmDate=2024-07-01&toDate=2024-07-20&withdrawal_Id=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 15:16:47', '2024-07-14 15:16:47'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 15:17:17', '2024-07-14 15:17:17'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 15:17:20', '2024-07-14 15:17:20'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getWithdrwalfetchdata?frmDate=&toDate=&withdrawal_Id=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 15:17:20', '2024-07-14 15:17:20'),
+('POST', 'http://127.0.0.1:8000/api/auth/login', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', NULL, '2024-07-14 16:15:20', '2024-07-14 16:15:20'),
+('POST', 'http://127.0.0.1:8000/api/auth/me', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', NULL, '2024-07-14 16:15:20', '2024-07-14 16:15:20'),
+('GET', 'http://127.0.0.1:8000/api/product/dashboardCounting', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:15:23', '2024-07-14 16:15:23'),
+('POST', 'http://127.0.0.1:8000/api/auth/me', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:15:23', '2024-07-14 16:15:23'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawal-list?filterFrmDate=2024-07-14&filterToDate=2024-07-14&page=1&pageSize=10&searchEmail=&searchOrderId=&searchQuery=&selectedFilter=0', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:15:29', '2024-07-14 16:15:29'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawal-list?filterFrmDate=2024-07-14&filterToDate=2024-07-14&page=1&pageSize=10&searchEmail=&searchOrderId=1aa6f8ae85e92e03593a6b5a37f60c57&searchQuery=&selectedFilter=0', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:15:36', '2024-07-14 16:15:36'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawal-list?filterFrmDate=2024-07-14&filterToDate=2024-07-14&page=1&pageSize=10&searchEmail=&searchOrderId=&searchQuery=&selectedFilter=0', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:15:39', '2024-07-14 16:15:39'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawal-list?filterFrmDate=2024-07-14&filterToDate=2024-07-14&page=1&pageSize=10&searchEmail=gazigiashuddin%40gmail.com&searchOrderId=&searchQuery=&selectedFilter=0', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:15:47', '2024-07-14 16:15:47'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawal-list?filterFrmDate=2024-07-14&filterToDate=2024-07-14&page=1&pageSize=10&searchEmail=gazigiashuddin%40g1mail.com&searchOrderId=&searchQuery=&selectedFilter=0', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:15:50', '2024-07-14 16:15:50'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawal-list?filterFrmDate=2024-07-14&filterToDate=2024-07-14&page=1&pageSize=10&searchEmail=&searchOrderId=&searchQuery=&selectedFilter=0', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:15:54', '2024-07-14 16:15:54'),
+('POST', 'http://127.0.0.1:8000/api/auth/me', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:16:10', '2024-07-14 16:16:10'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawrow/6', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:16:10', '2024-07-14 16:16:10'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawal-list?filterFrmDate=2024-07-14&filterToDate=2024-07-14&page=1&pageSize=10&searchEmail=&searchOrderId=&searchQuery=&selectedFilter=0', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:16:20', '2024-07-14 16:16:20'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawal-list?filterFrmDate=2024-07-14&filterToDate=2024-07-14&page=1&pageSize=10&searchEmail=&searchOrderId=W.e1fc9c082df6cfff8cbcfff2b5a722ef&searchQuery=&selectedFilter=0', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:17:56', '2024-07-14 16:17:56'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawal-list?filterFrmDate=2024-07-14&filterToDate=2024-07-14&page=1&pageSize=10&searchEmail=&searchOrderId=&searchQuery=&selectedFilter=0', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:18:01', '2024-07-14 16:18:01'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawrow/6', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:18:08', '2024-07-14 16:18:08'),
+('POST', 'http://127.0.0.1:8000/api/auth/me', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:19:54', '2024-07-14 16:19:54'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawrow/6', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:19:54', '2024-07-14 16:19:54'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawrow/6', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:20:24', '2024-07-14 16:20:24'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawrow/6', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:21:16', '2024-07-14 16:21:16'),
+('POST', 'http://127.0.0.1:8000/api/auth/me', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:21:22', '2024-07-14 16:21:22'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawrow/6', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:21:22', '2024-07-14 16:21:22'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawrow/6', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:22:19', '2024-07-14 16:22:19'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawrow/6', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:22:41', '2024-07-14 16:22:41'),
+('POST', 'http://127.0.0.1:8000/api/auth/me', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:22:52', '2024-07-14 16:22:52'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawrow/6', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:22:52', '2024-07-14 16:22:52'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawrow/6', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:23:44', '2024-07-14 16:23:44'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawrow/6', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:24:14', '2024-07-14 16:24:14'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawrow/6', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:24:20', '2024-07-14 16:24:20'),
+('POST', 'http://127.0.0.1:8000/api/auth/me', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:24:56', '2024-07-14 16:24:56'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawrow/6', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:24:56', '2024-07-14 16:24:56'),
+('GET', 'http://127.0.0.1:8000/api/deposit/approvedWithdrawRequest/6', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:25:15', '2024-07-14 16:25:15'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawal-list?filterFrmDate=2024-07-14&filterToDate=2024-07-14&page=1&pageSize=10&searchEmail=&searchOrderId=&searchQuery=&selectedFilter=0', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:25:16', '2024-07-14 16:25:16'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawal-list?filterFrmDate=2024-07-14&filterToDate=2024-07-14&page=1&pageSize=10&searchEmail=&searchOrderId=&searchQuery=&selectedFilter=5', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:25:19', '2024-07-14 16:25:19'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawrow/9', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:25:21', '2024-07-14 16:25:21'),
+('POST', 'http://127.0.0.1:8000/api/deposit/updateWithDrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:25:28', '2024-07-14 16:25:28'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawal-list?filterFrmDate=2024-07-14&filterToDate=2024-07-14&page=1&pageSize=10&searchEmail=&searchOrderId=&searchQuery=&selectedFilter=0', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:25:28', '2024-07-14 16:25:28'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawal-list?filterFrmDate=2024-07-14&filterToDate=2024-07-14&page=1&pageSize=10&searchEmail=&searchOrderId=&searchQuery=&selectedFilter=2', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:25:31', '2024-07-14 16:25:31'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawal-list?filterFrmDate=2024-07-14&filterToDate=2024-07-14&page=1&pageSize=10&searchEmail=&searchOrderId=&searchQuery=&selectedFilter=5', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:25:32', '2024-07-14 16:25:32'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 16:25:38', '2024-07-14 16:25:38'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getWithdrwalfetchdata?frmDate=&toDate=&withdrawal_Id=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 16:25:38', '2024-07-14 16:25:38'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 16:27:04', '2024-07-14 16:27:04'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getWithdrwalfetchdata?frmDate=&toDate=&withdrawal_Id=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 16:27:04', '2024-07-14 16:27:04'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 16:27:49', '2024-07-14 16:27:49'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getWithdrwalfetchdata?frmDate=&toDate=&withdrawal_Id=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 16:27:50', '2024-07-14 16:27:50'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 16:27:50', '2024-07-14 16:27:50'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 16:27:52', '2024-07-14 16:27:52'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getWithdrwalfetchdata?frmDate=&toDate=&withdrawal_Id=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 16:27:52', '2024-07-14 16:27:52'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 16:28:33', '2024-07-14 16:28:33'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getWithdrwalfetchdata?frmDate=&toDate=&withdrawal_Id=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 16:28:33', '2024-07-14 16:28:33'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 16:28:43', '2024-07-14 16:28:43'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getWithdrwalfetchdata?frmDate=&toDate=&withdrawal_Id=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 16:28:43', '2024-07-14 16:28:43'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 16:29:04', '2024-07-14 16:29:04'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getWithdrwalfetchdata?frmDate=&toDate=&withdrawal_Id=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 16:29:05', '2024-07-14 16:29:05'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 16:29:31', '2024-07-14 16:29:31'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getWithdrwalfetchdata?frmDate=&toDate=&withdrawal_Id=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 16:29:31', '2024-07-14 16:29:31'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawrow/9', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:32:22', '2024-07-14 16:32:22'),
+('POST', 'http://127.0.0.1:8000/api/deposit/updateWithDrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:32:28', '2024-07-14 16:32:28'),
+('POST', 'http://127.0.0.1:8000/api/deposit/updateWithDrawRequest', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:32:56', '2024-07-14 16:32:56'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawal-list?filterFrmDate=2024-07-14&filterToDate=2024-07-14&page=1&pageSize=10&searchEmail=&searchOrderId=&searchQuery=&selectedFilter=0', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:32:56', '2024-07-14 16:32:56'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawal-list?filterFrmDate=2024-07-14&filterToDate=2024-07-14&page=1&pageSize=10&searchEmail=&searchOrderId=&searchQuery=&selectedFilter=2', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:33:00', '2024-07-14 16:33:00'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawrow/9', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:33:01', '2024-07-14 16:33:01'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawal-list?filterFrmDate=2024-07-14&filterToDate=2024-07-14&page=1&pageSize=10&searchEmail=&searchOrderId=&searchQuery=&selectedFilter=0', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:33:07', '2024-07-14 16:33:07'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawal-list?filterFrmDate=2024-07-14&filterToDate=2024-07-14&page=1&pageSize=10&searchEmail=&searchOrderId=&searchQuery=&selectedFilter=5', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:33:15', '2024-07-14 16:33:15'),
+('GET', 'http://127.0.0.1:8000/api/deposit/withdrawrow/10', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:33:35', '2024-07-14 16:33:35'),
+('POST', 'http://127.0.0.1:8000/api/auth/logout', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 1, '2024-07-14 16:33:52', '2024-07-14 16:33:52'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 16:34:45', '2024-07-14 16:34:45'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getWithdrwalfetchdata?frmDate=&toDate=&withdrawal_Id=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 16:34:46', '2024-07-14 16:34:46'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getDepositfetchdata?frmDate=&toDate=&trxId=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 16:35:02', '2024-07-14 16:35:02'),
+('GET', 'http://127.0.0.1:8000/api/deposit/getWithdrwalfetchdata?frmDate=&toDate=&withdrawal_Id=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0', 8, '2024-07-14 16:35:03', '2024-07-14 16:35:03');
+
 -- --------------------------------------------------------
 
 --
@@ -1299,7 +1515,7 @@ CREATE TABLE `setting` (
 --
 
 INSERT INTO `setting` (`id`, `name`, `deposit_service_charge`, `convert_php_amt`, `withdraw_service_charge`, `withdraw_minimum_amount`, `withdraw_maximum_amount`, `minimum_trade_amount`, `minimum_deposit_amount`, `trade_fee`, `tel`, `email`, `address`, `whatsApp`, `emergency`, `photo`, `description`, `copyright`, `status`, `admin_photo`, `admin_name`, `admin_email`, `admin_phone`, `meta_keywords`, `meta_description`, `pphoto`, `bg_color`, `currency`, `openinig_balance_date`, `reffer_bonus`, `maximum_supply`, `total_supply`, `openinig_balance_comments`, `fblink`, `twitterlink`, `linkdinlink`, `instragramlink`, `store_policy`, `crypto_wallet_address`, `master_pass_acc_no`, `website`, `telegram`, `register_bonus`, `mininmum_deposit_amount`, `maximum_deposit_amount`, `minimum_withdrawal`, `maximum_withdrawal`, `level_1_bonus`, `level_2_bonus`, `level_3_bonus`, `daily_max_withdraw_request`, `withdrawal_free_amount`, `withdrawal_free_on_percentage`, `mimumun_transfer_amount_to_other_user`, `maximum_transfer_amount_to_other_user`, `transfer_fee_fixed_amount`, `traansfer_fee_on_percentage`, `liquidity_total_supply`, `beganing_price`, `circlation`, `update_by`, `created_at`, `updated_at`) VALUES
-(1, 'OCN TRADE AI', 5, 64, 5, 20, 4000, 5, 20, 6, '+44245454545', 'uic@abcd.com', 'Addres', '00000055555', '+000000', 'pic/2tAjiUpJ0X8GziIrKJJJ.png', 'Business Description', 'Copyright © 2024 uic . All Rights Reserved', 1, 'pic/ZOdc8nsWAMY1YELkp9zH.jpg', 'admin', 'info@admin.com', '+44245454545', NULL, NULL, '', '#ffffff', '$', '2020-05-13', 5, '300000000', '120000000', NULL, 'https://www.fiverr.com', 'https://www.facebook.com', 'https://web.whatsapp.com/', '#', '', 'TPpMvdKfhENfJqYZsDJQLgEopMRBy15jeU', '225588996633', 'http://winup360.com', '116898999999', 5, 55.00, 5.00, 5.00, 5.00, 3, 2, 1, 5.00, 5.00, 5.00, 5.00, 5.00, 5.00, 50.00, '1000', '0.00000833333333', '66666666', 2993, '2024-05-12 05:32:50', '2024-05-12 03:42:05');
+(1, 'OCN TRADE AI', 5, 64, 5, 20, 4000, 5, 20, 6, '+44245454545', 'uic@abcd.com', 'Addres', '00000055555', '+000000', 'pic/2tAjiUpJ0X8GziIrKJJJ.png', 'Business Description', 'Copyright © 2024 uic . All Rights Reserved', 1, 'pic/ZOdc8nsWAMY1YELkp9zH.jpg', 'admin', 'info@admin.com', '+44245454545', NULL, NULL, '', '#ffffff', '$', '2020-05-13', 5, '300000000', '120000000', NULL, 'https://www.fiverr.com', 'https://www.facebook.com', 'https://web.whatsapp.com/', '#', '', 'TPpMvdKfhENfJqYZsDJQLgEopMRBy15jeU', '225588996633', 'http://winup360.com', '116898999999', 5, 55.00, 5.00, 20.00, 3690.00, 3, 2, 1, 5.00, 5.00, 5.00, 5.00, 5.00, 5.00, 50.00, '1000', '0.00000833333333', '66666666', 2993, '2024-05-12 05:32:50', '2024-05-12 03:42:05');
 
 -- --------------------------------------------------------
 
@@ -1356,7 +1572,18 @@ INSERT INTO `transaction_history` (`id`, `user_id`, `type`, `last_Id`, `descript
 (6, 8, 1, 3, 'Deposit', '801', '2024-07-13 22:52:55', '2024-07-13 22:52:55'),
 (7, 8, 1, 4, 'Deposit', '901', '2024-07-13 22:53:09', '2024-07-13 22:53:09'),
 (8, 8, 1, 5, 'Deposit', '23', '2024-07-13 22:53:34', '2024-07-13 22:53:34'),
-(9, 8, 1, 6, 'Deposit', '21', '2024-07-14 05:58:58', '2024-07-14 05:58:58');
+(9, 8, 1, 6, 'Deposit', '21', '2024-07-14 05:58:58', '2024-07-14 05:58:58'),
+(10, 8, 2, 1, 'Withdraw', '22', '2024-07-14 14:35:43', '2024-07-14 14:35:43'),
+(11, 8, 2, 1, 'Withdraw', '22', '2024-07-14 14:37:46', '2024-07-14 14:37:46'),
+(12, 8, 2, 2, 'Withdraw', '22', '2024-07-14 14:39:17', '2024-07-14 14:39:17'),
+(13, 8, 2, 3, 'Withdraw', '18', '2024-07-14 14:39:51', '2024-07-14 14:39:51'),
+(14, 8, 2, 4, 'Withdraw', '10', '2024-07-14 14:42:26', '2024-07-14 14:42:26'),
+(15, 8, 2, 5, 'Withdraw', '15', '2024-07-14 14:45:04', '2024-07-14 14:45:04'),
+(16, 8, 2, 6, 'Withdraw', '22', '2024-07-14 14:48:20', '2024-07-14 14:48:20'),
+(17, 8, 2, 7, 'Withdraw', '22', '2024-07-14 14:49:17', '2024-07-14 14:49:17'),
+(18, 8, 2, 8, 'Withdraw', '22', '2024-07-14 14:50:10', '2024-07-14 14:50:10'),
+(19, 8, 2, 9, 'Withdraw', '22', '2024-07-14 14:50:25', '2024-07-14 14:50:25'),
+(20, 8, 2, 10, 'Withdraw', '22', '2024-07-14 14:50:53', '2024-07-14 14:50:53');
 
 -- --------------------------------------------------------
 
@@ -1436,14 +1663,14 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `ocn_id`, `ocn_address`, `inviteCode`, `ref_id`, `employee_id`, `role_id`, `email`, `available_balance`, `mining_amount`, `level_commission`, `show_password`, `password`, `name`, `real_name`, `phone_number`, `image`, `doc_file`, `address`, `address_1`, `address_2`, `website`, `github`, `gender`, `date_of_birth`, `twitter`, `instagram`, `nationality_id`, `state_id`, `register_bonus`, `otp`, `facebook`, `wallet_balance`, `old_pin`, `new_pin`, `email_verified_at`, `telegram`, `whtsapp`, `othersway_connect`, `remember_token`, `entry_by`, `register_ip`, `lastlogin_ip`, `lastlogin_country`, `lastlogin_datetime`, `created_at`, `updated_at`, `status`, `logged_out`) VALUES
-(1, NULL, '6f21357fs863ce24ce21c1a82f49a7d5d13', '0000123', 0, 4, 1, 'dev1@mail.com', 1.00000000, NULL, 1, 'dev1@mail.com', '$2a$12$oT7dmrympiE1Y1tfnz8iIOYWGL1qLEtpB5LDmVAwVEhxZ6rPHLmJq', 'Dev1', NULL, '0000123', '/backend/files/hZkagctUSINKsFU64UJr.png', NULL, 'Dhaka', '', '', 'http://localhost:3000/profile', 'http://localhost:3000/profile', '', '1982-01-30', 'http://localhost:3000/profile', 'http://localhost:3000/profile', 0, 0, 0, NULL, 'http://localhost:3000/profile', NULL, '000000', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '127.0.0.1', NULL, '2024-07-14 10:11:31', '2023-06-22 03:20:43', '2024-07-14 04:11:31', 1, NULL),
+(1, NULL, '6f21357fs863ce24ce21c1a82f49a7d5d13', '0000123', 0, 4, 1, 'dev1@mail.com', 1.00000000, NULL, 1, 'dev1@mail.com', '$2a$12$oT7dmrympiE1Y1tfnz8iIOYWGL1qLEtpB5LDmVAwVEhxZ6rPHLmJq', 'Dev1', NULL, '0000123', '/backend/files/hZkagctUSINKsFU64UJr.png', NULL, 'Dhaka', '', '', 'http://localhost:3000/profile', 'http://localhost:3000/profile', '', '1982-01-30', 'http://localhost:3000/profile', 'http://localhost:3000/profile', 0, 0, 0, NULL, 'http://localhost:3000/profile', NULL, '000000', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '127.0.0.1', NULL, '2024-07-14 22:15:20', '2023-06-22 03:20:43', '2024-07-14 16:15:20', 1, NULL),
 (2, 'UIC000000002', '3839cc87060e26b9e4111f63af1ab7f4', '25409115', 1, NULL, 2, 'cadasd@gmail.com', 1.00000000, NULL, 1, '95998989989', '$2y$10$XqEIa.K8BnclhSw18g3KweXskOh1IQSrfO0tYmCOrzzoui5VlQ1C6', 'cadasd', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, '000000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '127.0.0.1', NULL, NULL, NULL, '2024-07-10 14:25:40', '2024-07-10 16:21:17', 0, NULL),
 (3, 'OCN000000003', 'd8c918769ac4145a3b53531acd4a3d7e', '33207501', 2, NULL, 2, 'jons@gmal.com', 1.00000000, NULL, 1, '25409115', '$2y$10$OQJffvL1z1xIXR41Zvgdx.8VD0KwPVD45/mg4FmLT0GDDUA5AIEBu', 'jons', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, '000000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '127.0.0.1', NULL, NULL, NULL, '2024-07-10 14:38:40', '2024-07-10 16:22:49', 0, NULL),
 (4, 'OCN000000004', '1e6e3b49cc9b7746f8ab4d1f4f8da2ab', '47334704', 3, NULL, 2, 'mdbijon311131@gmail.com', 1.00000000, NULL, 1, '{{ $details[\'otp\'] }}', '$2y$10$OUtvSNhG7AQnXQELk/YxPOooaJU.hc0o883mJ/4OzKuBTdRPx53bG', 'mdbijon311131', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, '000000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '127.0.0.1', NULL, NULL, NULL, '2024-07-10 16:08:53', '2024-07-11 12:45:08', 0, NULL),
 (5, 'OCN000000005', '82da8e4233dea2bda931b8dde29550c3', '59000614', 4, NULL, 2, 'mdbijo1n311131@gmail.com', 5.00000000, NULL, NULL, 'mdbijon311131@gmail.com', '$2y$10$GDKNaaZ3ti5KVBdXCOOMgOK0rpaiCwwKg0Qtp9tjjckvtqc.w.0zS', 'mdbijo1n311131', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, '000000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '127.0.0.1', NULL, NULL, NULL, '2024-07-10 16:11:40', '2024-07-10 16:11:40', 0, NULL),
 (6, 'OCN000000006', '189e39170561e49e5710bd2c686838be', '60762015', 4, NULL, 2, 'kamal@gmail.com', 5.00000000, NULL, NULL, '72287228', '$2y$10$feZSpqPMNE8/kawdJyoXLOMhvAmFoyanLhAivfy4AM1hsENzQc15a', 'kamal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, '000000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '127.0.0.1', NULL, NULL, NULL, '2024-07-10 16:14:36', '2024-07-10 16:14:36', 0, NULL),
 (7, 'OCN000000007', 'ade0cd39d5f900bbb80eb148b6fef048', '74775396', 4, NULL, 2, 'mdbijon123@gmail.com', 1.00000000, NULL, 1, 'mdbijon123@gmail.com', '$2y$10$AhZtiWS22XxDXeiwowptnOOAuK37Rg.dJi8pfBSssqBifyIsO0amS', 'mdbijon123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, '000000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '127.0.0.1', '127.0.0.1', NULL, '2024-07-10 22:43:59', '2024-07-10 16:21:17', '2024-07-11 19:38:53', 1, NULL),
-(8, 'OCN000000008', 'cd800a2aa5af56acb1d0acfaedc427e9', '85691278', 7, NULL, 2, 'gazigiashuddin@gmail.com', 1.00000000, NULL, 1, 'gazigiashuddin@gmail.com', '$2y$10$JXR7VeScf7yerzoy/wuhkuS2X.8oFe4/NKUsFHw0hxlSvzkihBOMa', 'gazigiashuddin', 'Bijon', '0018457877888', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'https://www.twitter.com/', '', NULL, NULL, 5, NULL, 'https://www.facebook.com/', NULL, '123123', '123123', NULL, 'https://www.telegram.com/', '8801915728982', NULL, NULL, NULL, '127.0.0.1', '127.0.0.1', NULL, '2024-07-14 10:35:33', '2024-07-10 16:22:49', '2024-07-14 04:35:33', 1, NULL),
+(8, 'OCN000000008', 'cd800a2aa5af56acb1d0acfaedc427e9', '85691278', 7, NULL, 2, 'gazigiashuddin@gmail.com', 1.00000000, NULL, 1, 'gazigiashuddin@gmail.com', '$2y$10$JXR7VeScf7yerzoy/wuhkuS2X.8oFe4/NKUsFHw0hxlSvzkihBOMa', 'gazigiashuddin', 'Bijon', '0018457877888', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'https://www.twitter.com/', '', NULL, NULL, 5, NULL, 'https://www.facebook.com/', NULL, '123123', '123123', NULL, 'https://www.telegram.com/', '8801915728982', NULL, NULL, NULL, '127.0.0.1', '127.0.0.1', NULL, '2024-07-14 19:11:48', '2024-07-10 16:22:49', '2024-07-14 13:11:48', 1, NULL),
 (9, 'OCN000000009', '0d3a3ea346cd912d77ed72a874ee622a', '99082839', 8, NULL, 2, 'jannat@gmail.com', 3.00000000, NULL, 3, 'jannat@gmail.com', '$2y$10$2kafjH2Lk1Gf/PXqiPH5v.0DlqrWPGGAUErygWH/OoahgsU5g7lpq', 'jannat', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, '123456', '123456', NULL, NULL, NULL, NULL, NULL, NULL, '127.0.0.1', '127.0.0.1', NULL, '2024-07-13 22:56:49', '2024-07-11 12:45:08', '2024-07-13 16:56:49', 1, NULL),
 (10, 'OCN000000010', '74f34e84897b400c0e2824b41b61bb42', '103604993', 9, NULL, 2, 'ibraheem@gmail.com', 5.00000000, NULL, NULL, 'ibraheem@gmail.com', '$2y$10$hmSSJFnKakgsL5GI6O3aSugtzZp5XYaUH.kHGPGMKS7ccp1GcsNSq', 'ibraheem', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, '000000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '127.0.0.1', '127.0.0.1', NULL, '2024-07-11 19:42:51', '2024-07-11 13:42:40', '2024-07-11 13:42:51', 1, NULL),
 (12, 'OCN0000002009', '0d3a3ea346cd912d77ed72a874ee3622a', '990828392', 8, NULL, 2, 'jannat1@gmail.com', 2.00000000, NULL, 2, 'jannat@gmail.com', '$2y$10$2kafjH2Lk1Gf/PXqiPH5v.0DlqrWPGGAUErygWH/OoahgsU5g7lpq', 'jannat', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, '123456', '123456', NULL, NULL, NULL, NULL, NULL, NULL, '127.0.0.1', '127.0.0.1', NULL, '2024-07-12 01:33:34', '2024-07-11 12:45:08', '2024-07-11 20:09:13', 1, NULL),
@@ -1554,18 +1781,15 @@ CREATE TABLE `withdraw` (
   `withdrawID` varchar(255) DEFAULT NULL,
   `depscription` text DEFAULT NULL,
   `payment_method` varchar(255) DEFAULT NULL,
-  `account_number` varchar(255) DEFAULT NULL,
-  `usd_amount` varchar(255) DEFAULT NULL,
-  `uic_amount` varchar(255) DEFAULT NULL,
+  `withdrawal_amount` varchar(255) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `receivable_amount` int(11) DEFAULT NULL COMMENT 'no need this column',
-  `password` varchar(255) DEFAULT NULL,
+  `receivable_amount` int(11) DEFAULT NULL,
+  `wallet_address` varchar(255) DEFAULT NULL,
+  `withdrawal_pin` varchar(255) DEFAULT NULL,
   `remarks` text DEFAULT NULL,
   `approved_by` int(11) DEFAULT NULL,
   `transection_fee` int(11) NOT NULL COMMENT '%',
   `payable_amount` double(10,2) DEFAULT NULL COMMENT 'After 5% deduction amount',
-  `withdraw_amount` double(10,2) DEFAULT NULL,
-  `withdrawal_method_id` int(11) DEFAULT NULL,
   `status` int(11) DEFAULT NULL COMMENT ' 	0=Review,2=Reject,1=Approved 	',
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp()
@@ -1575,11 +1799,16 @@ CREATE TABLE `withdraw` (
 -- Dumping data for table `withdraw`
 --
 
-INSERT INTO `withdraw` (`id`, `withdrawID`, `depscription`, `payment_method`, `account_number`, `usd_amount`, `uic_amount`, `user_id`, `receivable_amount`, `password`, `remarks`, `approved_by`, `transection_fee`, `payable_amount`, `withdraw_amount`, `withdrawal_method_id`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'W.b17446af05919be6e83500be7f5df5c4', 'W.b17446af05919be6e83500be7f5df5c4', 'Easypaisa', '8799', '6', '6', 3, NULL, 'dfdf', NULL, NULL, 0, NULL, 6.00, NULL, 1, '2024-06-07 14:08:02', '2024-06-07 14:08:02'),
-(2, 'W.0e2db0cb2c4645904a054261104b7a14', 'W.0e2db0cb2c4645904a054261104b7a14', 'Bank Account', '34343434', '2', '5', 3, NULL, 'b@gmail.com', NULL, 1, 0, NULL, 2222.00, NULL, 1, '2024-06-07 14:18:15', '2024-06-22 00:52:34'),
-(3, 'W.53edebc543333dfbf7c5933af792c9c4', 'W.53edebc543333dfbf7c5933af792c9c4', 'Test-5', '6898999', '5', '55', 3, NULL, 'b@gmail.com', NULL, 1, 0, NULL, 55.00, NULL, 1, '2024-06-09 15:30:54', '2024-06-22 00:52:15'),
-(4, 'W.53edebc543333dfbf7c5933af792c9c4', 'W.53edebc543333dfbf7c5933af792c9c4', 'Test-5', '6898999', '5', '55', 2, NULL, 'r@gmail.com', 'ss', 1, 0, NULL, 55.00, NULL, 2, '2024-06-09 15:30:54', '2024-06-22 00:49:39');
+INSERT INTO `withdraw` (`id`, `withdrawID`, `depscription`, `payment_method`, `withdrawal_amount`, `user_id`, `receivable_amount`, `wallet_address`, `withdrawal_pin`, `remarks`, `approved_by`, `transection_fee`, `payable_amount`, `status`, `created_at`, `updated_at`) VALUES
+(2, 'W.69386f6bb1dfed68692a24c8686939b9', 'W.69386f6bb1dfed68692a24c8686939b9', 'TRX(TRC20)', '22', 8, NULL, 'TY9h7s4aQ2hX4N8b4C1Jv2L3pW4ZmR7sT1', '123123', NULL, NULL, 0, NULL, 0, '2024-07-14 14:39:17', '2024-07-14 14:39:17'),
+(3, 'W.760abe2f7ea403a5c8ac329f72e4d42e', 'W.760abe2f7ea403a5c8ac329f72e4d42e', 'TRX(TRC20)', '18', 8, NULL, 'TY9h7s4aQ2hX4N8b4C1Jv2L3pW4ZmR7sT1', '123123', NULL, NULL, 0, NULL, 0, '2024-07-14 14:39:51', '2024-07-14 14:39:51'),
+(4, 'W.e1fc9c082df6cfff8cbcfff2b5a722ef', 'W.e1fc9c082df6cfff8cbcfff2b5a722ef', 'TRX(TRC20)', '10', 8, NULL, 'TY9h7s4aQ2hX4N8b4C1Jv2L3pW4ZmR7sT1', '123123', 'remarks', NULL, 0, NULL, 0, '2024-07-14 14:42:26', '2024-07-14 14:42:26'),
+(5, 'W.cd6ce2f9cb75d8f41dc96d3c0b8952b9', 'W.cd6ce2f9cb75d8f41dc96d3c0b8952b9', 'TRX(TRC20)', '15', 8, NULL, 'TY9h7s4aQ2hX4N8b4C1Jv2L3pW4ZmR7sT1', '123123', 'remarks', NULL, 0, NULL, 0, '2024-07-14 14:45:04', '2024-07-14 14:45:04'),
+(6, 'W.1aa6f8ae85e92e03593a6b5a37f60c57', 'W.1aa6f8ae85e92e03593a6b5a37f60c57', 'TRX(TRC20)', '22', 8, NULL, 'TY9h7s4aQ2hX4N8b4C1Jv2L3pW4ZmR7sT1', '123123', 'remarks', NULL, 0, NULL, 1, '2024-07-14 14:48:20', '2024-07-14 16:25:15'),
+(7, 'W.6101903146e4bbf4999c449d78441606', 'W.6101903146e4bbf4999c449d78441606', 'TRX(TRC20)', '22', 8, NULL, 'TY9h7s4aQ2hX4N8b4C1Jv2L3pW4ZmR7sT1', '123123', 'remarks', NULL, 0, NULL, 2, '2024-07-14 14:49:17', '2024-07-14 14:49:17'),
+(8, 'W.8f187f643090a53e52550571a8e92ad8', 'W.8f187f643090a53e52550571a8e92ad8', 'TRX(TRC20)', '22', 8, NULL, 'TY9h7s4aQ2hX4N8b4C1Jv2L3pW4ZmR7sT1', '123123', NULL, NULL, 0, NULL, 2, '2024-07-14 14:50:10', '2024-07-14 14:50:10'),
+(9, 'W.95177e528f8d6c7c28a5473fd5a471b6', 'W.95177e528f8d6c7c28a5473fd5a471b6', 'TRX(TRC20)', '22', 8, NULL, 'TY9h7s4aQ2hX4N8b4C1Jv2L3pW4ZmR7sT1', '123123', 'dddddd', 1, 0, NULL, 2, '2024-07-14 14:50:25', '2024-07-14 16:32:56'),
+(10, 'W.b071cfa81605a94ad80cfa2bbc747448', 'W.b071cfa81605a94ad80cfa2bbc747448', 'TRX(TRC20)', '22', 8, NULL, 'TY9h7s4aQ2hX4N8b4C1Jv2L3pW4ZmR7sT1', '123123', NULL, NULL, 0, NULL, 1, '2024-07-14 14:50:53', '2024-07-14 14:50:53');
 
 -- --------------------------------------------------------
 
@@ -1598,15 +1827,6 @@ CREATE TABLE `withdrawal_method` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `withdrawal_method`
---
-
-INSERT INTO `withdrawal_method` (`id`, `user_id`, `name`, `account_number`, `currency_type_id`, `wallet_address`, `remarks`, `created_at`, `updated_at`) VALUES
-(5, 3, 'Test-5', '6898999', NULL, NULL, NULL, '2024-06-09 14:22:25', '2024-06-09 14:22:25'),
-(6, 3, 'USDT TRC-20', '455566666666666', NULL, NULL, NULL, '2024-06-28 11:26:45', '2024-06-28 11:26:45'),
-(7, 3, 'USDT TRC-20', '89645665566666', NULL, NULL, NULL, '2024-06-28 11:27:20', '2024-06-28 11:27:20');
 
 --
 -- Indexes for dumped tables
@@ -2123,7 +2343,7 @@ ALTER TABLE `states`
 -- AUTO_INCREMENT for table `transaction_history`
 --
 ALTER TABLE `transaction_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `transfer`
@@ -2153,13 +2373,13 @@ ALTER TABLE `verifyemail`
 -- AUTO_INCREMENT for table `withdraw`
 --
 ALTER TABLE `withdraw`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `withdrawal_method`
 --
 ALTER TABLE `withdrawal_method`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
