@@ -25,6 +25,7 @@ use App\Models\kyc;
 use App\Models\Notification;
 use App\Models\Setting;
 use App\Models\SwapHistory;
+use App\Models\UserPaymentAddress;
 use App\Models\Withdraw;
 use Illuminate\Support\Str;
 use App\Rules\MatchOldPassword;
@@ -51,6 +52,30 @@ class UserController extends Controller
             $this->userid = $user->id;
             $this->email = $user->email;
         }
+    }
+
+
+
+    
+    public function checkPayment(){
+ 
+ 
+        $chkPoint = UserPaymentAddress::where('user_id',$this->userid)->first();
+
+         // Initialize the data array with default values
+        $data = [
+            'wallet_address' => '',
+            'status'         => 0,
+        ];
+        // Update the data if the record exists
+        if (!is_null($chkPoint)) {
+            $data['wallet_address'] = $chkPoint->wallet_address;
+            $data['status']         = 1;
+        }
+
+        // Return the JSON response
+    return response()->json($data);
+        
     }
 
     public function insertKycDriving(Request $request)
@@ -255,21 +280,17 @@ class UserController extends Controller
 
         try {
             $users = User::select('id', 'uic_address', 'mining_amount')
-                    ->orderBy('mining_amount', 'desc')
-                    ->get();
-
+                ->orderBy('mining_amount', 'desc')
+                ->get();
 
             $userrows = [];
             foreach ($users as $v) {
                 $userrows[] = [
                     'id'             => $v->id,
                     'uic_address'    => $v->uic_address,
-                    'mining_amount'    => !empty($v->mining_amount) ? number_format($v->mining_amount,7) : '0.000000',
+                    'mining_amount'    => !empty($v->mining_amount) ? number_format($v->mining_amount, 7) : '0.000000',
                 ];
             }
-
-
-
 
             $data['totalHolders'] = count($users);
             $data['users']        = $userrows;
@@ -413,84 +434,25 @@ class UserController extends Controller
         return response()->json($data);
     }
 
-    public function sweapCalculation(Request $request)
+    public function addUserPaymentWallet(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
-            'wallet_type_frm'    => 'required',
-            'wallet_type_to'     => 'required',
-            'swap_amount'        => 'required|gt:0',
+            'name'               => 'required',
+            'wallet_address'     => 'required',
 
         ]);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $userid         = $request->userid;
-        $response       = app('App\Http\Controllers\User\UserController')->getBalance($userid);
-        $usdt_amount    = $response instanceof JsonResponse ? $response->getData(true)['usdtamount'] : 0;
-        $uic_amount     = $response instanceof JsonResponse ? $response->getData(true)['miningamount'] : 0;
+       $data = array(
+            'user_id'           => $this->userid,
+            'name'              => $request->name,
+            'wallet_address'    => $request->wallet_address,
+        );
 
-        if ($request->wallet_type_frm == 1) {
-            if ($request->swap_amount > $uic_amount) {
-                return response()->json(['errors' => ['error_uic' => ['You have no sufficiant UIC balance']]], 422);
-            }
-        } elseif ($request->wallet_type_frm == 2) {
-            if ($request->swap_amount > $usdt_amount) {
-                return response()->json(['errors' => ['error_usdt' => ['You have no sufficiant USDT balance']]], 422);
-            }
-        }
-
-        if ($request->wallet_type_frm == 1) {
-            $type_frm = 'UIC';
-        } elseif ($request->wallet_type_frm == 2) {
-            $type_frm = 'USDT';
-        }
-
-        if ($request->wallet_type_to == 1) {
-            $type_to = 'UIC';
-        } elseif ($request->wallet_type_to == 2) {
-            $type_to = 'USDT';
-        }
-        $setting                 = Setting::find(1)->first();
-        // $circulatingSupply       = User::where('status', 1)->sum('mining_amount');
-
-        if ($request->wallet_type_frm == 2) { //FOR USDT 
-            $beganing_price          = $setting->beganing_price;
-            $eSwapAmt                = $request->swap_amount / $beganing_price;
-            $formattedResult         = number_format($eSwapAmt, 2);
-        }
-
-        if ($request->wallet_type_frm == 1) { //FOR UIC 
-            $beganing_price          = $setting->beganing_price;
-            $formattedResult         = $request->swap_amount * $beganing_price;
-        }
-
-        if ($request->wallet_type_frm == 1) { //FOR UIC 
-            $data['type']        = $request->wallet_type_frm;
-        }
-
-        if ($request->wallet_type_frm == 2) {  //FOR USDT 
-            $data['type']        = $request->wallet_type_frm;
-        }
-        $data['to_amount']     = $formattedResult;
-        // dd($data['swap_amount']);
-
-        $data['user_id']         = $this->userid;
-        $data['frm_amount']      = $request->swap_amount;
-        $data['wallet_type_frm'] = $type_frm;
-        $data['wallet_type_to']  = $type_to;
-        $data['swape_date']      =  date("Y-m-d");
-        $last_Id                 = SwapHistory::insertGetId($data);
-        //Transaction
-        // $tran['user_id']     = $this->userid;
-        // $tran['type']        = 5; //Sweap Transaction
-        // $tran['last_Id']     = $last_Id;
-        // $tran['amount']      = $request->swap_amount;
-        // $tran['description'] = 'Sweap Transaction';
-        // TransactionHistory::insert($tran);
-
-        return response()->json(['message' => 'successfully transaction done'], 200);
+        UserPaymentAddress::insert($data);
+        return response()->json(['message' => 'Successfully add your wallet address'], 200);
     }
 
     public function checkWalletType(Request $request)
@@ -2135,16 +2097,15 @@ class UserController extends Controller
         return response()->json($response);
     }
 
-
-
-    public function pinUpdateClient(Request $request){
+    public function pinUpdateClient(Request $request)
+    {
 
         $validator = Validator::make($request->all(), [
             'old_pin'          => 'required|min:6|max:6',
             'new_pin'          => 'required|min:6|max:6',
             'pin_confirmation' => 'required|min:6|max:6|same:new_pin',
         ]);
-        
+
         $user = User::find($this->userid);
 
         if ($user->old_pin) {
@@ -2160,16 +2121,15 @@ class UserController extends Controller
                 'old_pin' => 'required|min:4',
             ]));
         }
-        
+
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-        
+
         // Set the new PIN
         $user->old_pin = $request->new_pin;
-        $user->new_pin      = $request->new_pin; 
+        $user->new_pin      = $request->new_pin;
         $user->save();
- 
 
         // $user = User::find($this->userid);
 
@@ -2179,16 +2139,7 @@ class UserController extends Controller
 
         $response = "PIN successfully changed!";
         return response()->json($response);
-
-
-
-
     }
-
-
-
-
-
 
     public function changePasswordClient(Request $request)
     {
@@ -2384,28 +2335,74 @@ class UserController extends Controller
         return response()->json(['data' => 'Real name updated successfully'], 200);
     }
 
-
-    public function sendNotification(Request $request){
+    public function sendNotification(Request $request)
+    {
 
         $validator = Validator::make($request->all(), [
             'name'                       => 'required',
-            
+
         ]);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
         // Check if a category with the same name already exists
-       
+
         $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $request->input('name'))));
         $data = array(
             'name'                       => $request->name,
-          
+
         );
         $resdata['id']                    = Notification::insertGetId($data);
         return response()->json($resdata);
-
-
-
     }
+
+    public function getwalletAddress(Request $request)
+    {
+
+        $page = $request->input('page', 1);
+        $pageSize = $request->input('pageSize', 10);
+        // Get search query from the request
+        $searchQuery    = $request->searchQuery;
+        $selectedFilter = (int)$request->selectedFilter;
+        // dd($selectedFilter);
+        $query = UserPaymentAddress::orderBy('add_user_payment_address.id', 'desc') // Base query
+            ->join('users', 'add_user_payment_address.user_id', '=', 'users.id') // Join on user_id
+            ->select( // Select the relevant columns
+                'add_user_payment_address.*', // Select all columns from ManualAdjustment
+                'users.name', // Additional user data
+                'users.email',
+                'users.id as userid'
+            );
+
+        if (!empty($searchQuery)) {
+            // $query->where('depositID', 'like', '%' . $searchQuery . '%');
+            $query->where('users.email', $searchQuery);
+        }
+
+       
+        $paginator = $query->paginate($pageSize, ['*'], 'page', $page);
+
+        $modifiedCollection = $paginator->getCollection()->map(function ($item) {
+            $userrow = User::find($item->user_id);
+            return [
+                'id'                  => $item->id,
+                'user_id'             => $item->userid,
+                'name'                => !empty($userrow->name) ?  $userrow->name : "N/A",
+                'email'               => !empty($userrow->email) ?  $userrow->email : "N/A",
+                'phone'               => !empty($userrow->phone_number) ?  $userrow->phone_number : "N/A",
+                'wallet_address'      => $item->wallet_address ,
+                'created_at'          => date("Y-m-d", strtotime($item->created_at)),
+            ];
+        });
+
+        // Return the modified collection along with pagination metadata
+        return response()->json([
+            'data' => $modifiedCollection,
+            'current_page' => $paginator->currentPage(),
+            'total_pages' => $paginator->lastPage(),
+            'total_records' => $paginator->total(),
+        ], 200);
+    }
+
 }

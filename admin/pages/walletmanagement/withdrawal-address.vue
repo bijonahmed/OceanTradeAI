@@ -6,7 +6,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <p>Withdrawal Address</p>
+                <p>Show All Users Withdrawal Address</p>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -68,7 +68,7 @@
                       <th class="text-left">User Info</th>
                       <th class="text-left">Address</th>
                       <th class="text-center">Created Date</th>
-                      <th class="text-center">Action</th>
+                      <!-- <th class="text-center">Action</th> -->
                     </tr>
                   </thead>
                   <tbody>
@@ -85,11 +85,11 @@
                       <td class="text-left">{{ pro.wallet_address }}</td>
                       <td class="text-center">{{ pro.created_at }}</td>
                      
-                      <td>
+                      <!-- <td>
                         <center>
                           <span @click="deleteRow(pro.id)"><button class="w-50"><i class="fa fa-trash" aria-hidden="true"></i></button></span>
                         </center>
-                      </td>
+                      </td> -->
                     </tr>
                   </tbody>
                   <tfoot>
@@ -98,7 +98,7 @@
                       <th class="text-left">User Info</th>
                       <th class="text-left">Address</th>
                       <th class="text-center">Created Date</th>
-                      <th class="text-center">Action</th>
+                      <!-- <th class="text-center">Action</th> -->
                     </tr>
                   </tfoot>
                 </table>
@@ -197,7 +197,7 @@
   const fetchData = async (page) => {
     try {
       loading.value = true;
-      const response = await axios.get(`/dropUser/getwalletAddress`, {
+      const response = await axios.get(`/user/getwalletAddress`, {
         params: {
           page: page,
           pageSize: pageSize,

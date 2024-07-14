@@ -132,7 +132,7 @@ definePageMeta({
 const router = useRouter();
 const loading = ref(false);
 const currentPage = ref(1);
-const pageSize = 10;
+const pageSize = 20;
 const totalRecords = ref(0);
 const totalPages = ref(0);
 const productdata = ref([]);

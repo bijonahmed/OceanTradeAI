@@ -41,6 +41,24 @@
                                                     </tr>
 
                                                     <tr>
+                                                        <td width="40%">To Address </td>
+                                                        <td width="1%"><strong>:</strong></td>
+                                                        <td width="50%">{{ request.to_crypto_wallet_address }}</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td width="40%">Form Address </td>
+                                                        <td width="1%"><strong>:</strong></td>
+                                                        <td width="50%">{{ request.frm_wallet_address }}</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td width="40%">Trn ID </td>
+                                                        <td width="1%"><strong>:</strong></td>
+                                                        <td width="50%">{{ request.trxId }}</td>
+                                                    </tr>
+
+                                                    <tr>
                                                         <td>Request By</td>
                                                         <td><strong>:</strong></td>
                                                         <td>{{ request.name }}</td>
@@ -184,6 +202,11 @@ const request = ref({
     depositID: '',
     deposit_amount: '',
     receivable_amount: '',
+
+    to_crypto_wallet_address: '',
+    frm_wallet_address: '',
+    trxId: '',
+
     payment_method: '',
     approved_by: '',
     created_at: '',
@@ -259,6 +282,11 @@ const productDetails = () => {
         request.value.payment_method = data.payment_method;
         request.value.approved_by = data.approved_by;
         request.value.created_at = data.created_at;
+
+        request.value.to_crypto_wallet_address = data.to_crypto_wallet_address;
+        request.value.frm_wallet_address = data.frm_wallet_address;
+        request.value.trxId = data.trxId;
+
         request.value.status = data.status;
 
     });

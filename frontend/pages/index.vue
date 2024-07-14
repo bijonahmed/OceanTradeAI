@@ -250,4 +250,7 @@
     color: #1a6ca9;
     font-size: 28px;
 }
+body{
+    overflow: auto !important;
+}
 </style>

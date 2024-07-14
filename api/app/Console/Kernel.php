@@ -13,9 +13,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        // $schedule->command('inspire')->hourly(); everyTwoMinutes everySecond
          $schedule->command(command: 'app:start-command')->everySecond();
-         $schedule->command(command: 'app:wallet-setup-command')->everySecond();
+         $schedule->command(command: 'app:wallet-setup-command')->everyTwoMinutes();
    
     }
 

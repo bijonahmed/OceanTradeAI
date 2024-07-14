@@ -2,177 +2,187 @@
     <div class="dashboard show">
         <title>My Wallet</title>
         <DashboardSidebar />
-         
+
         <div class="dashboard_main_content">
-        <div class="dashboard__content">
+            <div class="dashboard__content">
 
-           <DashboardHeader/>
-            <div class="dashboard__main">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="wallet_container">
-                            <div class="wallet_box">
-                                <h4> <img src="/assets/images/gold_coin.png" alt="" class="img-fluid"> 23,343</h4>
-                                <p>OCN Balance</p>
-                            </div>
-                            <div class="wallet_box">
-                                <h4><img src="/assets/images/usdt.png" alt="" class="img-fluid"> 23,343</h4>
-                                <p>USDT Balance</p>
+                <DashboardHeader />
+                <div class="dashboard__main">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="wallet_container">
+                                <div class="wallet_box">
+                                    <h4> <img src="/assets/images/gold_coin.png" alt="" class="img-fluid"> 23,343</h4>
+                                    <p>OCN Balance</p>
+                                </div>
+                                <div class="wallet_box">
+                                    <h4><img src="/assets/images/usdt.png" alt="" class="img-fluid"> 23,343</h4>
+                                    <p>USDT Balance</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="d-flex justify-content-start align-items-center buy_btns">
-                            <a class="btn-action style-5 btn_boost mx-0 me-2" data-bs-toggle="offcanvas"
-                                data-bs-target="#deposit_" aria-controls="deposit_">Deposit</a>
-                            <nuxt-link to="/dashboard/withdraw" class="btn-action style-5 btn_boost mx-0">Withdraw</nuxt-link>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="d-flex justify-content-start align-items-center buy_btns">
+                                <a class="btn-action style-5 btn_boost mx-0 me-2" data-bs-toggle="offcanvas"
+                                    data-bs-target="#deposit_" aria-controls="deposit_">Deposit</a>
+                                <nuxt-link to="/dashboard/withdraw"
+                                    class="btn-action style-5 btn_boost mx-0">Withdraw</nuxt-link>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="market section-faq style-2 ">
-                            <div class="faq__content pe-0">
-                                <div class="flat-tabs">
-                                    <ul class="menu-tab">
-                                        <li class="active">
-                                            <h5>Deposit</h5>
-                                        </li>
-                                        <li class="">
-                                            <h5>Withdraw</h5>
-                                        </li>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="market section-faq style-2 ">
+                                <div class="faq__content pe-0">
+                                    <div class="flat-tabs">
+                                        <ul class="menu-tab">
+                                            <li class="active">
+                                                <h5>Deposit</h5>
+                                            </li>
+                                            <li class="">
+                                                <h5>Withdraw</h5>
+                                            </li>
 
-                                    </ul>
-                                    <div class="content-tab">
-                                        <div class="content-inner flat-accordion" >
-                                            <div class="search_section">
-                                                <form action="">
-                                                    <div class="search_div">
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <div class="input_form mb-2 m-0">
-                                                                    <input type="text" placeholder="Search TRX id"
-                                                                        class="form-control">
+                                        </ul>
+                                        <center>
+                                            <div class="loading-indicator" v-if="loading" style="text-align: center">
+                                                <Loader />
+                                            </div>
+                                        </center>
+                                        <div class="content-tab">
+                                            <div class="content-inner flat-accordion">
+                                                <div class="search_section">
+                                                    <form action="">
+                                                        <div class="search_div">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <div class="input_form mb-2 m-0">
+                                                                        <input type="text" placeholder="Search TRX id"
+                                                                            class="form-control" v-model="depsoit_trxId"
+                                                                            @keyup="fetchDepositData">
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class=" d-flex align-items-center w-100">
-                                                                    <div class="input_form w-100">
-                                                                        <input type="date" class="form-control">
-                                                                    </div>
-                                                                    <p>TO</p>
-                                                                    <div class="input_form w-100 m-0">
-                                                                        <input type="date" class="form-control">
-                                                                    </div>
+                                                                <div class="col-md-6">
+                                                                    <div class=" d-flex align-items-center w-100">
+                                                                        <div class="input_form w-100">
+                                                                            <input type="date" class="form-control"
+                                                                                v-model="depsoit_frmDate">
+                                                                        </div>
+                                                                        <p>TO</p>
+                                                                        <div class="input_form w-100 m-0">
+                                                                            <input type="date" class="form-control"
+                                                                                v-model="depsoit_toDate"
+                                                                                @change="fetchDepositData">
+                                                                        </div>
 
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </form>
-                                            </div>
+                                                    </form>
+                                                </div>
 
-                                            <div class="table-responsive">
-                                                <table class="table table-dark table-striped table_crypto">
-                                                    <thead>
-                                                        <tr>
-                                                            <th scope="col">TRX id</th>
-                                                            <th scope="col" class="text-center">Date</th>
-                                                            <th scope="col" class="text-center">Amount</th>
-                                                            <th scope="col" class="text-center">Status</th>
-                                                            <th scope="col">Remark</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>TR234234323</td>
-                                                            <td class="text-center">7/7/2024 <br> 12:12:00</td>
-                                                            <td class="text-center">2,399.85</td>
-                                                            <td class="text-center"><span class="text-warning">Pending</span></td>
-                                                            <td>-</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>TR234234323</td>
-                                                            <td class="text-center">7/7/2024 <br> 12:12:00</td>
-                                                            <td class="text-center">2,399.85</td>
-                                                            <td class="text-center"><span class="text-success">Approve</span></td>
-                                                            <td>Receive</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>TR234234323</td>
-                                                            <td class="text-center">7/7/2024 <br> 12:12:00</td>
-                                                            <td class="text-center">2,399.85</td>
-                                                            <td class="text-center"><span class="text-danger">Reject</span></td>
-                                                            <td>not receive</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                                <div class="table-responsive">
+                                                    <table class="table table-dark table-striped table_crypto">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">TRX id</th>
+                                                                <th scope="col" class="text-center">Date</th>
+                                                                <th scope="col" class="text-center">Amount</th>
+                                                                <th scope="col" class="text-center">Status</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr v-for="v in depositData" :key="v.id">
+                                                                <td>{{ v.trxId }}</td>
+                                                                <td class="text-center">{{ formatDateTime(v.created_at)
+                                                                    }}</td>
+                                                                <td class="text-center">{{ v.deposit_amount }}</td>
+
+                                                                <td class="text-center"><span class="text-warning">
+                                                                        <span v-if="v.status == 0"
+                                                                            style="color:yellow;">Pending</span>
+                                                                        <span v-if="v.status == 1"
+                                                                            style="color:green;">Approved</span>
+                                                                        <span v-if="v.status == 2"
+                                                                            style="color:red;">Reject</span>
+                                                                    </span>
+                                                                </td>
+
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="content-inner flat-accordion" >
-                                            <div class="search_section">
-                                                <form action="">
-                                                    <div class="search_div">
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <div class="input_form mb-2 m-0">
-                                                                    <input type="text" placeholder="Search TRX id"
-                                                                        class="form-control">
+                                            <div class="content-inner flat-accordion">
+                                                <div class="search_section">
+                                                    <form action="">
+                                                        <div class="search_div">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <div class="input_form mb-2 m-0">
+                                                                        <input type="text" placeholder="Search TRX id"
+                                                                            class="form-control">
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class=" d-flex align-items-center w-100">
-                                                                    <div class="input_form w-100">
-                                                                        <input type="date" class="form-control">
-                                                                    </div>
-                                                                    <p>TO</p>
-                                                                    <div class="input_form w-100 m-0">
-                                                                        <input type="date" class="form-control">
-                                                                    </div>
+                                                                <div class="col-md-6">
+                                                                    <div class=" d-flex align-items-center w-100">
+                                                                        <div class="input_form w-100">
+                                                                            <input type="date" class="form-control">
+                                                                        </div>
+                                                                        <p>TO</p>
+                                                                        <div class="input_form w-100 m-0">
+                                                                            <input type="date" class="form-control">
+                                                                        </div>
 
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </form>
-                                            </div>                                            
-                                            <div class="table-responsive">
-                                                <table class="table table-dark table-striped table_crypto">
-                                                    <thead>
-                                                        <tr>
-                                                            <th scope="col">TRX id</th>
-                                                            <th scope="col" class="text-center">Date</th>
-                                                            <th scope="col" class="text-center">Amount</th>
-                                                            <th scope="col" class="text-center">Status</th>
-                                                            <th scope="col">Remark</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>TR234234323</td>
-                                                            <td class="text-center">7/7/2024 <br> 12:12:00</td>
-                                                            <td class="text-center">2,399.85</td>
-                                                            <td class="text-center"><span class="text-warning">Pending</span></td>
-                                                            <td>-</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>TR234234323</td>
-                                                            <td class="text-center">7/7/2024 <br> 12:12:00</td>
-                                                            <td class="text-center">2,399.85</td>
-                                                            <td class="text-center"><span class="text-success">Approve</span></td>
-                                                            <td>Receive</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>TR234234323</td>
-                                                            <td class="text-center">7/7/2024 <br> 12:12:00</td>
-                                                            <td class="text-center">2,399.85</td>
-                                                            <td class="text-center"><span class="text-danger">Reject</span></td>
-                                                            <td>not receive</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                                    </form>
+                                                </div>
+                                                <div class="table-responsive">
+                                                    <table class="table table-dark table-striped table_crypto">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">TRX id</th>
+                                                                <th scope="col" class="text-center">Date</th>
+                                                                <th scope="col" class="text-center">Amount</th>
+                                                                <th scope="col" class="text-center">Status</th>
+                                                                <th scope="col">Remark</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>TR234234323</td>
+                                                                <td class="text-center">7/7/2024 <br> 12:12:00</td>
+                                                                <td class="text-center">2,399.85</td>
+                                                                <td class="text-center"><span
+                                                                        class="text-warning">Pending</span></td>
+                                                                <td>-</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>TR234234323</td>
+                                                                <td class="text-center">7/7/2024 <br> 12:12:00</td>
+                                                                <td class="text-center">2,399.85</td>
+                                                                <td class="text-center"><span
+                                                                        class="text-success">Approve</span></td>
+                                                                <td>Receive</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>TR234234323</td>
+                                                                <td class="text-center">7/7/2024 <br> 12:12:00</td>
+                                                                <td class="text-center">2,399.85</td>
+                                                                <td class="text-center"><span
+                                                                        class="text-danger">Reject</span></td>
+                                                                <td>not receive</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -183,72 +193,70 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!-- deposit offcanvas  -->
-    <div class="offcanvas offcanvas-bottom trade_history_table" tabindex="-1" id="deposit_"
-        aria-labelledby="deposit_Label">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="mininge_confirmLabel"></h5>
-            <button type="button" class="btn_close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"><i
-                    class="fas fa-times"></i></button>
-        </div>
-        <div class="offcanvas-body small pt-0">
-            <div class="row">
-                <div class="col-md-4 m-auto">
+        <!-- deposit offcanvas  -->
+        <div class="offcanvas offcanvas-bottom trade_history_table" tabindex="-1" id="deposit_"
+            aria-labelledby="deposit_Label">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="mininge_confirmLabel"></h5>
+                <button type="button" class="btn_close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <div class="offcanvas-body small pt-0">
+                <div class="row">
+                    <div class="col-md-4 m-auto">
 
-                    <form @submit.prevent="depositSubmit()" id="formrest" class="withdraw_form but_token_form">
-                        <div class="input_form mb-2 m-0">
-                            <label for="amount" class="mb-2">Enter Deposit Amount</label>
-                            <div class="input_group">
-                                <input type="text" class="form-control" placeholder="00.00" v-model="deposit_amount">
-                                <img src="/assets/images/usdt.png" alt="" class="img-fluid img_g_coin">
-                                
+                        <form @submit.prevent="depositSubmit()" id="formrest" class="withdraw_form but_token_form">
+                            <center style="font-size: 22px; color: red;">{{ show_messages }}</center>
+                            <div class="input_form mb-2 m-0">
+                                <label for="amount" class="mb-2">Enter Deposit Amount</label>
+                                <div class="input_group">
+                                    <input type="text" class="form-control" placeholder="00.00" v-model="deposit_amount"
+                                        @keypress="isNumber($event)">
+                                    <img src="/assets/images/usdt.png" alt="" class="img-fluid img_g_coin">
+
+                                </div>
+                                <span class="text-danger" v-if="errors.deposit_amount">{{
+                                    errors.deposit_amount[0] }}</span>
                             </div>
-                            <span class="text-danger" v-if="errors.deposit_amount">{{ errors.deposit_amount[0]}}</span>
+                            <!-- <a href="dashboard-desposite-confirm.html" class="btn-action style-5 btn_confirm btn_deposit_confirm" >Confirm</a> -->
+                            <button type="submit"
+                                class="btn-action style-5 btn_confirm btn_deposit_confirm">Confirm</button>
+                        </form>
+
+                        <div class="refer_members latest_buy text-start">
+                            <h6>Latest Deposit</h6>
+                            <ul>
+                                <li>
+                                    <strong>@user1 desposit xyz </strong>
+                                </li>
+                                <li>
+                                    <strong>@user1 desposit xyz </strong>
+                                </li>
+                                <li>
+                                    <strong>@user1 desposit xyz </strong>
+                                </li>
+                                <li>
+                                    <strong>@user1 desposit xyz </strong>
+                                </li>
+                                <li>
+                                    <strong>@user1 desposit xyz </strong>
+                                </li>
+                                <li>
+                                    <strong>@user1 desposit xyz </strong>
+                                </li>
+                                <li>
+                                    <strong>@user1 desposit xyz </strong>
+                                </li>
+                                <li>
+                                    <strong>@user1 desposit xyz </strong>
+                                </li>
+                            </ul>
+
                         </div>
-                        <!-- <a href="dashboard-desposite-confirm.html" class="btn-action style-5 btn_confirm btn_deposit_confirm" >Confirm</a> -->
-                         <button type="submit" class="btn-action style-5 btn_confirm btn_deposit_confirm" >Confirm</button>
-                    </form>
-
-
-
-                    <div class="refer_members latest_buy text-start">
-                        <h6>Latest Deposit</h6>
-                        <ul>
-                            <li>
-                                <strong>@user1 desposit xyz </strong>
-                            </li>
-                            <li>
-                                <strong>@user1 desposit xyz </strong>
-                            </li>
-                            <li>
-                                <strong>@user1 desposit xyz </strong>
-                            </li>
-                            <li>
-                                <strong>@user1 desposit xyz </strong>
-                            </li>
-                            <li>
-                                <strong>@user1 desposit xyz </strong>
-                            </li>
-                            <li>
-                                <strong>@user1 desposit xyz </strong>
-                            </li>
-                            <li>
-                                <strong>@user1 desposit xyz </strong>
-                            </li>
-                            <li>
-                                <strong>@user1 desposit xyz </strong>
-                            </li>
-                        </ul>
-
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-        
-
 
     </div>
 </template>
@@ -264,85 +272,110 @@ const userStore = useUserStore();
 const router = useRouter()
 const isLoggedIn = computed(() => userStore.isLoggedIn);
 definePageMeta({
-  middleware: "is-logged-out",
+    middleware: "is-logged-out",
 });
-
 
 const deposit_amount = ref("");
 const errors = ref({});
+const minimum_amt = 20;
+const show_messages = ref("");
+const loading = ref(false);
+
+const formatDateTime = (dateTimeString) => {
+    const date = new Date(dateTimeString);
+    const formattedDateTime = date.toISOString().slice(0, 19).replace('T', ' ');
+    return formattedDateTime;
+};
 
 const depositSubmit = () => {
     const dpAmount = deposit_amount.value;
-    if(dpAmount == ""){
+
+    if (dpAmount == "") {
         error_noti();
-     return false; 
-    }else{
-    localStorage.setItem('depositAmount', dpAmount)
-    console.log(`Deposit amount ${dpAmount} has been saved to local storage.`)
-    router.push('/dashboard/deposit/deposit-confirm')
+        return false;
+    } else {
+
+        if (dpAmount >= minimum_amt) {
+            show_messages.value = "";
+            localStorage.setItem('depositAmount', dpAmount)
+            console.log(`Deposit amount ${dpAmount} has been saved to local storage.`)
+            router.push('/dashboard/deposit/deposit-confirm')
+        } else {
+            show_messages.value = `Deposit minimum amount is ${minimum_amt}`;
+            deposit_amount.value = "";
+
+        }
     }
-   
-
 }
-// const depositSubmit = () => {
-//   const formData = new FormData();
-//   formData.append("deposit_amount", deposit_amount.value);
-//   const headers = {
-//     "Content-Type": "multipart/form-data",
-//   };
-//   axios
-//     .post("/deposit/depositRequest", formData, { headers })
-//     .then((res) => {
-//       document.getElementById("formrest").reset();
-//       success_noti();
-//       router.push("/dashboard/wallet");
-//     })
-//     .catch((error) => {
-//       if (error.response && error.response.status === 422) {
-//         errors.value = error.response.data.errors;
-//       } else {
-//         // Handle other types of errors here
-//         console.error("An error occurred:", error);
-//       }
-//     });
-// };
 
-
-const error_noti = () => {
-  const Toast = swal.mixin({
-    toast: true,
-    position: "top-end",
-    showConfirmButton: false,
-    timer: 2200,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.onmouseenter = swal.stopTimer;
-      toast.onmouseleave = swal.resumeTimer;
-    },
-  });
-  Toast.fire({
-    icon: "error",
-    title: "Please input amount.",
-  });
+const isNumber = ($event) => {
+    let keyCode = $event.keyCode ? $event.keyCode : $event.which;
+    if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+        // 46 is dot
+        $event.preventDefault();
+    }
 };
 
- 
+const error_noti = () => {
+    const Toast = swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 2200,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = swal.stopTimer;
+            toast.onmouseleave = swal.resumeTimer;
+        },
+    });
+    Toast.fire({
+        icon: "error",
+        title: "Please input amount.",
+    });
+};
+
+const depsoit_trxId = ref('');
+const depsoit_frmDate = ref('');
+const depsoit_toDate = ref('');
+const depositData = ref([]);
+
+const fetchDepositData = async () => {
+    try {
+        loading.value = true;
+        const response = await axios.get("/deposit/getDepositfetchdata", {
+            params: {
+                trxId: depsoit_trxId.value,
+                frmDate: depsoit_frmDate.value,
+                toDate: depsoit_toDate.value
+            }
+        });
+        //console.log("Response data:", response.data.levels);
+        depositData.value = response.data.depositData;
+
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    } finally {
+        loading.value = false;
+    }
+};
+
 onMounted(() => {
-  const flattabs = () => {
-    $('.flat-tabs').each(function() {
-      $(this).find('.content-tab').children().hide()
-      $(this).find('.content-tab').children().first().show()
-      $(this).find('.menu-tab').children('li').on('click', function() {
-        const liActive = $(this).index()
-        const contentActive = $(this).siblings().removeClass('active').parents('.flat-tabs').find('.content-tab').children().eq(liActive)
-        contentActive.addClass('active').fadeIn('slow')
-        contentActive.siblings().removeClass('active')
-        $(this).addClass('active').parents('.flat-tabs').find('.content-tab').children().eq(liActive).siblings().hide()
-      })
-    })
-  }
-  
-  flattabs()
+    fetchDepositData();
+    const flattabs = () => {
+        $('.flat-tabs').each(function () {
+            $(this).find('.content-tab').children().hide()
+            $(this).find('.content-tab').children().first().show()
+            $(this).find('.menu-tab').children('li').on('click', function () {
+                const liActive = $(this).index()
+                const contentActive = $(this).siblings().removeClass('active').parents('.flat-tabs').find('.content-tab').children().eq(liActive)
+                contentActive.addClass('active').fadeIn('slow')
+                contentActive.siblings().removeClass('active')
+                $(this).addClass('active').parents('.flat-tabs').find('.content-tab').children().eq(liActive).siblings().hide()
+            })
+        })
+    }
+
+    flattabs()
 })
 
 </script>

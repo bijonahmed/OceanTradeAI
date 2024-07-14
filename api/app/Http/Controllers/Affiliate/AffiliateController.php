@@ -130,8 +130,6 @@ class AffiliateController extends Controller
         ]);
     }
 
-
-
     public function getLevelthree(Request $request)
     {
         $userId           = $this->userid;
@@ -145,21 +143,19 @@ class AffiliateController extends Controller
         $checkL2          = User::whereIn('ref_id', $level1_ids)->select('id', 'name', 'email', 'created_at', 'ref_id')->get();
         $level2_ids       = $checkL2->pluck('id')->toArray();
 
-
         $checkL3          = User::whereIn('ref_id', $level2_ids)->select('id', 'name', 'email', 'created_at', 'ref_id')->get();
         $level3_ids       = $checkL3->pluck('id')->toArray();
 
-
         $combinedUsers = User::select('id', 'ocn_id', 'ocn_address', 'name', 'email', 'created_at', 'ref_id')
-                    ->where('ref_id', $userId)
-                    ->orWhereIn('ref_id', $level1_ids)
-                    ->orWhereIn('ref_id', $level2_ids)
-                    ->get();
+            ->where('ref_id', $userId)
+            ->orWhereIn('ref_id', $level1_ids)
+            ->orWhereIn('ref_id', $level2_ids)
+            ->get();
 
         $query            = User::select('id', 'ocn_id', 'ocn_address', 'name', 'email', 'created_at', 'ref_id')
-                        ->where('ref_id', $userId)
-                        ->orWhereIn('ref_id', $level1_ids)
-                        ->orWhereIn('ref_id', $level2_ids);
+            ->where('ref_id', $userId)
+            ->orWhereIn('ref_id', $level1_ids)
+            ->orWhereIn('ref_id', $level2_ids);
 
         if ($email) {
             $query->where('email', 'like', '%' . $email . '%');

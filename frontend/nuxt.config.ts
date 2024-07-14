@@ -43,6 +43,7 @@ export default defineNuxtConfig({
     "~/plugins/navMenu.js",
     "~/plugins/bootstrap.js",
     "~/plugins/echo.client.js",
+    "~/plugins/v-paste.js",
     // Add other plugins as needed
   ],
   modules: [

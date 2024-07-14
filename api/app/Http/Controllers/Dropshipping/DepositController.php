@@ -409,9 +409,11 @@ class DepositController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'deposit_amount'  => 'required|numeric',
-               // 'payment_method' => 'required',
-               // 'trxId' => 'required',
+                'crypto_wallet_address'  => 'required',
+                'network'                => 'required',
+                'trxId'                  => 'required',
+                'deposit_amount'         => 'required',
+                'frm_wallet_address'     => 'required',
             ]);
             if ($validator->fails()) {
                 return response()->json(['errors' => $validator->errors()], 422);
@@ -424,13 +426,16 @@ class DepositController extends Controller
                 return response()->json(['errors' => ['deposit_amount' => ['Your deposit amount is low']]], 422);
             }
 
-            $uniqueID = 'D.' . $this->generateUnique4DigitNumber();
+            $uniqueID = 'DEPOSIT.' . $this->generateUnique4DigitNumber();
             $data = array(
                 'depositID'      => $uniqueID,
                 'depscription'   => $uniqueID,
                 'deposit_amount' => $request->deposit_amount,
-                'payment_method' => $request->payment_method,
+                'payment_method' => $request->network,
                 'trxId'          => $request->trxId,
+                'to_crypto_wallet_address'   => $request->crypto_wallet_address,
+                'frm_wallet_address'         => $request->frm_wallet_address,
+                
                 'status'         => 0,
                 'user_id'        => $this->userid
             );
@@ -621,6 +626,45 @@ class DepositController extends Controller
             'total_records' => $paginator->total(),
         ], 200);
     }
+
+
+    public function getDepositfetchdata(Request $request){
+
+        $userId           = $this->userid;
+        $frmDate          = $request->frmDate;
+        $toDate           = $request->toDate;
+        $trxId            = $request->trxId;
+
+        $query = Deposit::where('user_id', $userId)->select('id', 'trxId', 'created_at', 'deposit_amount', 'status');
+
+        if ($trxId) {
+        $query->where('trxId', 'like', '%' . $trxId . '%');
+           // $query->where('trxId', $trxId);
+        }
+
+        if ($frmDate && $toDate) {
+            $query->whereBetween('created_at', [$frmDate, $toDate]);
+        } elseif ($frmDate) {
+            $query->where('created_at', '>=', $frmDate);
+        } elseif ($toDate) {
+            $query->where('created_at', '<=', $toDate);
+        }
+
+        $data = $query->get();
+        return response()->json([
+            'depositData'  => $data,
+        ]);
+
+        
+    }
+
+
+
+
+
+
+
+
 
     public function getDepositList(Request $request)
     {

@@ -176,7 +176,7 @@ const menuItems = ref([
     open: false,
     route: null,
     children: [
-      // { label: "Withdrawal Address", icon: "fa-circle", route: "/walletmanagement/withdrawal-address", },
+      { label: "All User with Address", icon: "fa-circle", route: "/walletmanagement/withdrawal-address", },
       // { label: 'Wallet', icon: 'fa-circle', route: '/walletmanagement/wallet' },
       // { label: 'Transection report', icon: 'fa-circle', route: '/walletmanagement/transection' },
       // { label: 'Recharge report', icon: 'fa-circle', route: '/walletmanagement/recharge-report' },

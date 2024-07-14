@@ -10,22 +10,14 @@ use App\Models\AttributeValues;
 use AuthorizesRequests;
 use DB;
 
-class Deposit extends Authenticatable
+class UserPaymentAddress extends Authenticatable
 {
   use HasApiTokens, HasFactory, Notifiable;
-  public $table = "deposit";
+  public $table = "add_user_payment_address";
 
   protected $fillable = [
-    'depositID',
-    'trxId',
-    'depscription',
     'user_id',
-    'deposit_amount',
-    'receivable_amount',
-    'payment_method',
-    'approved_by',
-    'to_crypto_wallet_address',
-    'frm_wallet_address',
-    'status',
+    'name',
+    'wallet_address'
   ];
 }

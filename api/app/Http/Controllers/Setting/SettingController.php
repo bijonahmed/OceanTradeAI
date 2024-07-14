@@ -36,31 +36,31 @@ class SettingController extends Controller
     }
 
 
-    public function updateUserwalletAddress(Request $request){
+    public function updateUserwalletAddress(Request $request)
+    {
 
 
-        $id  = $request->id; 
-        
+        $id  = $request->id;
 
-        $row = UserWalletAddress::where('id',$id)->first();
+
+        $row = UserWalletAddress::where('id', $id)->first();
         if (isset($row->global_user_wall_add_id)) {
-            GlobalWalletAddress::where('id', $row->global_user_wall_add_id)->update(['lock_unlock' => 0]); 
+            GlobalWalletAddress::where('id', $row->global_user_wall_add_id)->update(['lock_unlock' => 0]);
         }
 
         if (isset($row->global_user_wall_add_id)) {
             UserWalletAddress::where('global_user_wall_add_id', $row->global_user_wall_add_id)->delete();
         }
-        
+
         $response = [
             'message' => 'Successfully unlock your wallet Address',
         ];
         return response()->json($response);
-
-
     }
 
 
-    public function getUsersRealTimeWalletAddress(Request $request){
+    public function getUsersRealTimeWalletAddress(Request $request)
+    {
 
         $page     = $request->input('page', 1);
         $pageSize = $request->input('pageSize', 20);
@@ -71,8 +71,8 @@ class SettingController extends Controller
         $lock         = (int)$request->selectedFilterLock;
         //dd($status);
         $query = UserWalletAddress::select('user_wallet_address.*')
-                ->select('users.email','user_wallet_address.name as wallet_address','user_wallet_address.created_at','user_wallet_address.id')
-                ->join('users', 'users.id', '=', 'user_wallet_address.user_id');
+            ->select('users.email', 'user_wallet_address.name as wallet_address', 'user_wallet_address.created_at', 'user_wallet_address.id')
+            ->join('users', 'users.id', '=', 'user_wallet_address.user_id');
 
         if ($searchQuery !== null) {
             $query->where('user_wallet_address.name', 'like', '%' . $searchQuery . '%');
@@ -85,7 +85,7 @@ class SettingController extends Controller
                 'email'                     => $item->email,
                 'wallet_address'            => $item->wallet_address,
                 'created_at'                => date("Y-M-d", strtotime($item->created_at)),
-                
+
             ];
         });
 
@@ -96,12 +96,10 @@ class SettingController extends Controller
             'total_pages' => $paginator->lastPage(),
             'total_records' => $paginator->total(),
         ], 200);
-
-
-
     }
 
-    public function getGlobalWalletAddress(Request $request){
+    public function getGlobalWalletAddress(Request $request)
+    {
 
 
         $page     = $request->input('page', 1);
@@ -121,14 +119,14 @@ class SettingController extends Controller
         if (!empty($status)) {
             $query->where('global_wallet_address.status', $status);
         } else {
-            $query->whereIn('global_wallet_address.status',[0,1]);
+            $query->whereIn('global_wallet_address.status', [0, 1]);
         }
 
 
         if (!empty($lock)) {
             $query->where('global_wallet_address.lock_unlock', $lock);
         } else {
-            $query->whereIn('global_wallet_address.lock_unlock',[0,1]);
+            $query->whereIn('global_wallet_address.lock_unlock', [0, 1]);
         }
 
         $paginator = $query->paginate($pageSize, ['*'], 'page', $page);
@@ -150,8 +148,6 @@ class SettingController extends Controller
             'total_pages' => $paginator->lastPage(),
             'total_records' => $paginator->total(),
         ], 200);
-
-
     }
 
 
@@ -758,7 +754,7 @@ class SettingController extends Controller
             return response()->json($response, 200);
         } else {
             $response = [
-                'data' => "Not available wallet address. Please contact system admin.",
+                'data' => !empty($chkPoint) ? $chkPoint->name : "",
                 'message' => 'success'
             ];
             return response()->json($response, 200);
