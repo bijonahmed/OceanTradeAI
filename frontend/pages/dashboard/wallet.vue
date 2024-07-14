@@ -12,11 +12,11 @@
                         <div class="col-md-6">
                             <div class="wallet_container">
                                 <div class="wallet_box">
-                                    <h4> <img src="/assets/images/gold_coin.png" alt="" class="img-fluid"> 23,343</h4>
+                                    <h4> <img src="/assets/images/gold_coin.png" alt="" class="img-fluid"> 0.00</h4>
                                     <p>OCN Balance</p>
                                 </div>
                                 <div class="wallet_box">
-                                    <h4><img src="/assets/images/usdt.png" alt="" class="img-fluid"> 23,343</h4>
+                                    <h4><img src="/assets/images/usdt.png" alt="" class="img-fluid">{{ usdtdepositAmount }}</h4>
                                     <p>USDT Balance</p>
                                 </div>
                             </div>
@@ -334,7 +334,7 @@ const withdrawal_frmDate = ref('');
 const withdrawal_toDate = ref('');
 
 const withdrwalData = ref([]);
-
+const usdtdepositAmount = ref(0);
 
 const fetchDepositData = async () => {
     try {
@@ -348,6 +348,7 @@ const fetchDepositData = async () => {
         });
         //console.log("Response data:", response.data.levels);
         depositData.value = response.data.depositData;
+        usdtdepositAmount.value = response.data.depositAmount;
 
     } catch (error) {
         console.error("Error fetching data:", error);

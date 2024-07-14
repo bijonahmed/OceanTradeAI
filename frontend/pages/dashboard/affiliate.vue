@@ -208,6 +208,8 @@ const copyAddressToClipboard = () => {
     textarea.select();
     document.execCommand('copy');
     document.body.removeChild(textarea);
+
+    
     const Toast = Swal.mixin({
         toast: true,
         position: "top-end",

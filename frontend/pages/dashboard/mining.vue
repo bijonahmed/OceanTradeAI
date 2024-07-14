@@ -66,109 +66,18 @@
                                     </div>
                                     <div class="col-xl-12 col-md-12">
                                         <div class="banner-top__sale">
-                                            <div class=" mechine_container">
-                                                <div class="mechine">
-                                                    <h4>Dolphin Digger</h4>
+                                            <div class="mechine_container">
+                                                <div class="mechine" v-for="v in categoryData" :key="v.id">
+                                                    <h4>{{ v.name }}</h4>
                                                     <div class="img_machine">
                                                         <img src="/assets/images/1.png" alt="ICOLand">
                                                         <img src="/assets/images/mining.gif" alt=""
                                                             class="machine_ovelay">
                                                     </div>
-                                                    <nuxt-link to="/dashboard/pricing"
-                                                        class="btn-action disabled style-5 btn_boost">Mine</nuxt-link>
-                                                    <nuxt-link to="/dashboard/pricing"
-                                                        class="btn-action style-5 btn_boost">Buy</nuxt-link>
+                                                    <nuxt-link to="#" class="btn-action disabled style-5 btn_boost">Mine</nuxt-link>
+                                                    <nuxt-link :to="`/dashboard/miningcategory/${v.slug}`" class="btn-action style-5 btn_boost">Buy</nuxt-link>
                                                 </div>
-                                                <div class="mechine">
-                                                    <h4>Shark Driller</h4>
-                                                    <div class="img_machine active">
-                                                        <img src="/assets/images/2.png" alt="ICOLand">
-                                                        <img src="/assets/images/mining.gif" alt=""
-                                                            class="machine_ovelay">
-                                                    </div>
-                                                    <span class="sm_timer">
-                                                        <strong>
-                                                            <div class="t_box">
-                                                                10
-                                                            </div>
-                                                            <p>Hour</p>
-                                                        </strong>
-                                                        <strong>
-                                                            <div class="t_box">
-                                                                10
-                                                            </div>
-                                                            <p>Minute</p>
-                                                        </strong>
-                                                        <strong>
-                                                            <div class="t_box">
-                                                                10
-                                                            </div>
-                                                            <p>Second</p>
-                                                        </strong>
-                                                    </span>
-                                                    <button class="btn-action style-5 btn_boost" data-bs-toggle="modal"
-                                                        data-bs-target="#boostModal">Boost</button>
-                                                </div>
-                                                <div class="mechine">
-                                                    <h4>Orca Drillmaster</h4>
-                                                    <div class="img_machine active">
-                                                        <img src="/assets/images/3.png" alt="ICOLand">
-                                                        <img src="/assets/images/mining.gif" alt=""
-                                                            class="machine_ovelay">
-                                                    </div>
-                                                    <span class="sm_timer">
-                                                        <strong>
-                                                            <div class="t_box">
-                                                                10
-                                                            </div>
-                                                            <p>Hour</p>
-                                                        </strong>
-                                                        <strong>
-                                                            <div class="t_box">
-                                                                10
-                                                            </div>
-                                                            <p>Minute</p>
-                                                        </strong>
-                                                        <strong>
-                                                            <div class="t_box">
-                                                                10
-                                                            </div>
-                                                            <p>Second</p>
-                                                        </strong>
-                                                    </span>
-                                                    <button class="btn-action style-5 btn_boost" data-bs-toggle="modal"
-                                                        data-bs-target="#boostModal">Boost</button>
-                                                </div>
-                                                <div class="mechine">
-                                                    <h4>Whale Excavator</h4>
-                                                    <div class="img_machine active">
-                                                        <img src="/assets/images/4.png" alt="ICOLand">
-                                                        <img src="/assets/images/mining.gif" alt=""
-                                                            class="machine_ovelay">
-                                                    </div>
-                                                    <span class="sm_timer">
-                                                        <strong>
-                                                            <div class="t_box">
-                                                                10
-                                                            </div>
-                                                            <p>Hour</p>
-                                                        </strong>
-                                                        <strong>
-                                                            <div class="t_box">
-                                                                10
-                                                            </div>
-                                                            <p>Minute</p>
-                                                        </strong>
-                                                        <strong>
-                                                            <div class="t_box">
-                                                                10
-                                                            </div>
-                                                            <p>Second</p>
-                                                        </strong>
-                                                    </span>
-                                                    <button class="btn-action style-5 btn_boost" data-bs-toggle="modal"
-                                                        data-bs-target="#boostModal">Boost</button>
-                                                </div>
+                                                
                                             </div>
 
                                             <div class="sale-content">
@@ -429,12 +338,49 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import DashboardSidebar from "~/layouts/DashboardSidebar.vue";
 import DashboardHeader from "~/layouts/DashboardHeader.vue";
-const loading = ref(true);
+import { useRouter } from 'vue-router';
+import Swal from "sweetalert2";
+const router = useRouter();
+const loading = ref(false);
+definePageMeta({
+    middleware: 'is-logged-out',
+})
+
+const categoryData = ref([]);
+ 
+
+const fetchData = async () => {
+    try {
+        loading.value = true;
+        const response = await axios.get("/category/getMiningMainCategorys");
+        console.log("Response data:", response.data);
+        categoryData.value = response.data.data;
+    
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    } finally {
+        loading.value = false;
+    }
+};
+
+
+
+
+
 onMounted(() => {
+    fetchData();
   setTimeout(() => {
     loading.value = false;
   }, 2000); // 2 seconds
 });
+
+
+
+
+
+
+
+
 
 
 </script>

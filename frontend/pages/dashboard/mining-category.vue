@@ -1,13 +1,16 @@
 <template>
     <div class="dashboard show">
-        <title>Shark Driller</title>
+        <title>Pricing</title>
+
+
+
         <DashboardSidebar />
         <div class="dashboard_main_content">
             <div class="dashboard__content">
-                <DashboardHeader />
-                <div class="loading-indicator" v-if="loading" style="text-align: center">
-                    <Loader />
-                </div>
+              <DashboardHeader/>
+              <div class="loading-indicator" v-if="loading" style="text-align: center">
+        <Loader />
+      </div>
                 <div class="dashboard__main">
 
                     <div class="section-faq style-5 mb-0">
@@ -15,10 +18,10 @@
                             <div class="flat-tabs mt-0">
 
                                 <ul class="menu-tab">
-                                    <li>
+                                    <li class="active">
                                         <h5><nuxt-link to="/dashboard/pricing">Dolphin Digger</nuxt-link></h5>
                                     </li>
-                                    <li class="active">
+                                    <li>
                                         <h5><nuxt-link to="/dashboard/shark-driller">Shark Driller</nuxt-link></h5>
                                     </li>
                                     <li>
@@ -34,8 +37,8 @@
 
                     <div class="pricing_section">
                         <div class="pricing_box">
-                            <img src="assets/images/2.png" alt="" class="img-fluid">
-                            <h1>Shark Driller</h1>
+                            <img src="assets/images/1.png" alt="" class="img-fluid">
+                            <h1>Dolphin Digger</h1>
                             <h4 class="price_">30 days</h4>
                             <h4>$10.00</h4>
                             <ul class="options">
@@ -44,11 +47,12 @@
                                 <li>max mining 1 hour</li>
                                 <li>Live Support</li>
                             </ul>
-                            <button class="btn-action-outline style-5">purchase</button>
+                            <button class="btn-action-outline style-5" data-bs-toggle="modal"
+                                data-bs-target="#boostModal">purchase</button>
                         </div>
                         <div class="pricing_box">
-                            <img src="assets/images/2.png" alt="" class="img-fluid">
-                            <h1>Shark Driller</h1>
+                            <img src="assets/images/1.png" alt="" class="img-fluid">
+                            <h1>Dolphin Digger</h1>
                             <h4 class="price_">60 days</h4>
                             <h4>$18.00</h4>
                             <ul class="options">
@@ -57,11 +61,12 @@
                                 <li>max mining 1 hour</li>
                                 <li>Live Support</li>
                             </ul>
-                            <button class="btn-action-outline style-5">purchase</button>
+                            <button class="btn-action-outline style-5" data-bs-toggle="modal"
+                                data-bs-target="#boostModal">purchase</button>
                         </div>
                         <div class="pricing_box">
-                            <img src="assets/images/2.png" alt="" class="img-fluid">
-                            <h1>Shark Driller</h1>
+                            <img src="assets/images/1.png" alt="" class="img-fluid">
+                            <h1>Dolphin Digger</h1>
                             <h4 class="price_">90 days</h4>
                             <h4>$25.00</h4>
                             <ul class="options">
@@ -70,11 +75,12 @@
                                 <li>max mining 1 hour</li>
                                 <li>Live Support</li>
                             </ul>
-                            <button class="btn-action-outline style-5">purchase</button>
+                            <button class="btn-action-outline style-5" data-bs-toggle="modal"
+                                data-bs-target="#boostModal">purchase</button>
                         </div>
                         <div class="pricing_box">
-                            <img src="assets/images/2.png" alt="" class="img-fluid">
-                            <h1>Shark Driller</h1>
+                            <img src="assets/images/1.png" alt="" class="img-fluid">
+                            <h1>Dolphin Digger</h1>
                             <h4 class="price_">120 days</h4>
                             <h4>$32.00</h4>
                             <ul class="options">
@@ -118,6 +124,8 @@
             </div>
         </div>
 
+
+
     </div>
 </template>
 
@@ -128,8 +136,8 @@ import DashboardSidebar from "~/layouts/DashboardSidebar.vue";
 import DashboardHeader from "~/layouts/DashboardHeader.vue";
 const loading = ref(true);
 onMounted(() => {
-    setTimeout(() => {
-        loading.value = false;
-    }, 1000); // 1 seconds
+  setTimeout(() => {
+    loading.value = false;
+  }, 1000); // 1 seconds
 });
 </script>

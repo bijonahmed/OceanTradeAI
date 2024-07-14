@@ -608,9 +608,8 @@ class DepositController extends Controller
         ], 200);
     }
 
-
-
-    public function getWithdrwalfetchdata(Request $request){
+    public function getWithdrwalfetchdata(Request $request)
+    {
 
         $userId           = $this->userid;
         $frmDate          = $request->frmDate;
@@ -632,17 +631,10 @@ class DepositController extends Controller
 
         $data = $query->get();
 
-
         return response()->json([
             'withdrwalData'        => $data,
         ]);
-
-
-
-
     }
-
-
 
     public function getDepositfetchdata(Request $request)
     {
@@ -652,7 +644,7 @@ class DepositController extends Controller
         $toDate           = $request->toDate;
         $trxId            = $request->trxId;
 
-        $query = Deposit::where('user_id', $userId)->select('id', 'trxId', 'created_at', 'deposit_amount','status');
+        $query = Deposit::where('user_id', $userId)->select('id', 'trxId', 'created_at', 'deposit_amount', 'status');
 
         if ($trxId) {
             $query->where('trxId', 'like', '%' . $trxId . '%');
@@ -668,7 +660,8 @@ class DepositController extends Controller
 
         $data = $query->get();
 
-        $depositAmount = Deposit::where('user_id', $userId)->select('deposit_amount')->where('status', 1)->sum('deposit_amount');
+        $response      = app('App\Http\Controllers\Balance\BalanceController')->getBalance();
+        $depositAmount = $response instanceof JsonResponse ? $response->getData(true)['usdt_amount'] : 0;
         $maxWithdraw   = Setting::find(1);
         $walletAddress = UserPaymentAddress::where('user_id', $userId)->first();
 
@@ -795,7 +788,6 @@ class DepositController extends Controller
                 ->join('users', 'withdraw.user_id', '=', 'users.id')
                 ->first();
 
-      
             $wallet_address         = !empty($user->wallet_address) ? $user->wallet_address : "";
             $data['datarow']        = $user;
             $data['created_at']     = !empty($user->created_at) ? date("d-m-Y H:i:s", strtotime($user->created_at)) : "";

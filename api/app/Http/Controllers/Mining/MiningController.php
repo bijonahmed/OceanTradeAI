@@ -31,6 +31,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Http\JsonResponse;
 use DB;
 
 class MiningController extends Controller
@@ -43,6 +44,163 @@ class MiningController extends Controller
         if (!empty($id)) {
             $user = User::find($id->id);
             $this->userid = $user->id;
+        }
+    }
+
+    public function buyForMe(Request $request){
+
+        $response          = app('App\Http\Controllers\Balance\BalanceController')->getBalance();
+        $usdtdepositAmount = $response instanceof JsonResponse ? $response->getData(true)['usdtamount'] : 0;
+
+        $durationId       = $request->durationId; 
+        $row_duration     = MiningCategoryDuration::where('id',$durationId)->first();
+        $prices           = !empty($row_duration->prices) ? $row_duration->prices : 0; 
+
+        if( $prices > $usdtdepositAmount){
+            return response()->json(['invalid_amount' => "Sorry, invalid request. Your balance is now $usdtdepositAmount." ], 422);
+        }
+
+
+       //Start Logic 
+       $startDate                    = Carbon::today(); // Today's date
+       $totalDays                    = (int)$row_duration->duration;
+       $months                       = intdiv($totalDays, 30);
+       $days                         = $totalDays % 30;
+       // Add the months and then the days
+       $endDate                      = $startDate->copy()->addMonthsNoOverflow($months)->addDays($days);
+       $customTimeZone = 'Asia/Dhaka';
+       $currentTime    = Carbon::now($customTimeZone);
+       //$endDate        = Carbon::now($customTimeZone);
+       $currentTime    = $currentTime->format('Y-m-d');
+       $sdate          = $startDate->format('Y-m-d');
+       $edate          = $endDate->format('Y-m-d');
+
+       //echo "Start Date: $sdate------END Date: $edate-----Current Date: $currentTime";
+       // Check if there's any overlapping record
+       $existingMining = MiningServicesBuyHistory::where('user_id', $this->userid)
+           ->where('mining_category_id', $row_duration->mining_category_id)
+           //->where('mining_category_duration_id', $request->selected_duration_id)
+           ->where('start_date', '<=', $edate)
+           ->where('end_date', '>=', $sdate)
+           ->where('end_date', '>=', $currentTime)
+           ->first();
+       // If there's an overlapping record, return a message
+       if ($existingMining) {
+           $res['status']     = 0;
+           $res['msg']        = "Your mining matchine still now running";
+           $res['notify']     = "Expire Date: {$edate}";
+           return response()->json($res, 200);
+       } else {
+           $data['user_id']                        = $this->userid;
+           $data['mining_category_id']             = $row_duration->mining_category_id;
+           $data['mining_category_duration_id']    = $row_duration->id;
+           $data['duration']                       = $row_duration->duration;
+           $data['service_price']                  = $row_duration->prices;
+           $data['start_date']                     = $startDate->format('Y-m-d');
+           $data['end_date']                       = $endDate->format('Y-m-d');
+
+           $duration  = $row_duration->duration;
+           $last_Id   = MiningServicesBuyHistory::insertGetId($data);
+
+           //MiningServicesBuyHistory::create($data);
+           $miningCategoryRow   = MiningCategory::where('id', $row_duration->mining_category_id)->first();
+           $m_cate_row          = !empty($miningCategoryRow->name) ? $miningCategoryRow->name : "";
+
+           $tran['user_id']     = $this->userid;
+           $tran['type']        = 3; //Mining Machine purchage 
+           $tran['last_Id']     = $last_Id;
+           $tran['amount']      = $row_duration->prices;
+           $tran['description'] = "Mining Machine : [$m_cate_row], Duration : {$duration}";
+           TransactionHistory::insert($tran);
+
+           $res['status']     = 1;
+           $res['msg']        = "Mining machine successfully purchased";
+           $res['notify']     = "Start Date : {$startDate}--End Date: {$endDate}--Days: {$totalDays}";
+           return response()->json($res, 200);
+
+       }
+
+ 
+
+    }
+
+
+    
+    public function buyMiningDuration(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'mining_category_id'    => 'required',
+            'selected_duration_id'  => 'required',
+            'selectedDuration'      => 'required',
+            'selectedPrice'         => 'required',
+
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $startDate                    = Carbon::today(); // Today's date
+        $totalDays                    = (int)$request->selectedDuration;
+        $months                       = intdiv($totalDays, 30);
+        $days                         = $totalDays % 30;
+        // Add the months and then the days
+        $endDate                      = $startDate->copy()->addMonthsNoOverflow($months)->addDays($days);
+        $customTimeZone = 'Asia/Dhaka';
+        $currentTime    = Carbon::now($customTimeZone);
+        //$endDate        = Carbon::now($customTimeZone);
+        $currentTime    = $currentTime->format('Y-m-d');
+        $sdate          = $startDate->format('Y-m-d');
+        $edate          = $endDate->format('Y-m-d');
+
+        $sendRecived_usd        = Deposit::where('user_id', $this->userid)->where('status', 1)->sum('deposit_amount');
+
+        if ($request->selectedPrice > $sendRecived_usd) {
+            return response()->json(['errors' => ['error_amount' => ['Please make deposit. Your Deposit balance low']]], 422);
+        }
+
+        //echo "Start Date: $sdate------END Date: $edate-----Current Date: $currentTime";
+        // Check if there's any overlapping record
+        $existingMining = MiningServicesBuyHistory::where('user_id', $this->userid)
+            ->where('mining_category_id', $request->mining_category_id)
+            ->where('mining_category_duration_id', $request->selected_duration_id)
+            ->where('start_date', '<=', $edate)
+            ->where('end_date', '>=', $sdate)
+            ->where('end_date', '>=', $currentTime)
+            ->first();
+        // If there's an overlapping record, return a message
+        if ($existingMining) {
+            $res['status']     = 0;
+            $res['msg']        = "Your mining matchine still now running";
+            $res['notify']     = "Expire Date: {$edate}";
+            return response()->json($res, 200);
+        } else {
+            $data['user_id']                        = $this->userid;
+            $data['mining_category_id']             = $request->mining_category_id;
+            $data['mining_category_duration_id']    = $request->selected_duration_id;
+            $data['duration']                       = $request->selectedDuration;
+            $data['service_price']                  = $request->selectedPrice;
+            $data['start_date']                     = $startDate->format('Y-m-d');
+            $data['end_date']                       = $endDate->format('Y-m-d');
+
+            $duration  = $request->selectedDuration;
+            $last_Id   = MiningServicesBuyHistory::insertGetId($data);
+
+            //MiningServicesBuyHistory::create($data);
+            $miningCategoryRow   = MiningCategory::where('id', $request->mining_category_id)->first();
+            $m_cate_row          = !empty($miningCategoryRow->name) ? $miningCategoryRow->name : "";
+
+            $tran['user_id']     = $this->userid;
+            $tran['type']        = 3; //Mining Machine purchage 
+            $tran['last_Id']     = $last_Id;
+            $tran['amount']      = $request->selectedPrice;
+            $tran['description'] = "Mining Machine : [$m_cate_row], Duration : {$duration}";
+            TransactionHistory::insert($tran);
+
+            $res['status']     = 1;
+            $res['msg']        = "Mining machine successfully purchased";
+            $res['notify']     = "Start Date : {$startDate}--End Date: {$endDate}--Days: {$days}";
+            return response()->json($res, 200);
         }
     }
 
@@ -237,84 +395,7 @@ class MiningController extends Controller
         return response()->json($data);
     }
 
-    public function buyMiningDuration(Request $request)
-    {
-
-        $validator = Validator::make($request->all(), [
-            'mining_category_id'    => 'required',
-            'selected_duration_id'  => 'required',
-            'selectedDuration'      => 'required',
-            'selectedPrice'         => 'required',
-
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        $startDate                    = Carbon::today(); // Today's date
-        $totalDays                    = (int)$request->selectedDuration;
-        $months                       = intdiv($totalDays, 30);
-        $days                         = $totalDays % 30;
-        // Add the months and then the days
-        $endDate                      = $startDate->copy()->addMonthsNoOverflow($months)->addDays($days);
-        $customTimeZone = 'Asia/Dhaka';
-        $currentTime    = Carbon::now($customTimeZone);
-        //$endDate        = Carbon::now($customTimeZone);
-        $currentTime    = $currentTime->format('Y-m-d');
-        $sdate          = $startDate->format('Y-m-d');
-        $edate          = $endDate->format('Y-m-d');
-
-        $sendRecived_usd        = Deposit::where('user_id', $this->userid)->where('status', 1)->sum('deposit_amount');
-
-        if ($request->selectedPrice > $sendRecived_usd) {
-            return response()->json(['errors' => ['error_amount' => ['Please make deposit. Your Deposit balance low']]], 422);
-        }
-
-        //echo "Start Date: $sdate------END Date: $edate-----Current Date: $currentTime";
-        // Check if there's any overlapping record
-        $existingMining = MiningServicesBuyHistory::where('user_id', $this->userid)
-            ->where('mining_category_id', $request->mining_category_id)
-            ->where('mining_category_duration_id', $request->selected_duration_id)
-            ->where('start_date', '<=', $edate)
-            ->where('end_date', '>=', $sdate)
-            ->where('end_date', '>=', $currentTime)
-            ->first();
-        // If there's an overlapping record, return a message
-        if ($existingMining) {
-            $res['status']     = 0;
-            $res['msg']        = "Your mining matchine still now running";
-            $res['notify']     = "Expire Date: {$edate}";
-            return response()->json($res, 200);
-        } else {
-            $data['user_id']                        = $this->userid;
-            $data['mining_category_id']             = $request->mining_category_id;
-            $data['mining_category_duration_id']    = $request->selected_duration_id;
-            $data['duration']                       = $request->selectedDuration;
-            $data['service_price']                  = $request->selectedPrice;
-            $data['start_date']                     = $startDate->format('Y-m-d');
-            $data['end_date']                       = $endDate->format('Y-m-d');
-
-            $duration  = $request->selectedDuration;
-            $last_Id   = MiningServicesBuyHistory::insertGetId($data);
-
-            //MiningServicesBuyHistory::create($data);
-            $miningCategoryRow   = MiningCategory::where('id', $request->mining_category_id)->first();
-            $m_cate_row          = !empty($miningCategoryRow->name) ? $miningCategoryRow->name : "";
-
-            $tran['user_id']     = $this->userid;
-            $tran['type']        = 3; //Mining Machine purchage 
-            $tran['last_Id']     = $last_Id;
-            $tran['amount']      = $request->selectedPrice;
-            $tran['description'] = "Mining Machine : [$m_cate_row], Duration : {$duration}";
-            TransactionHistory::insert($tran);
-
-            $res['status']     = 1;
-            $res['msg']        = "Mining machine successfully purchased";
-            $res['notify']     = "Start Date : {$startDate}--End Date: {$endDate}--Days: {$days}";
-            return response()->json($res, 200);
-        }
-    }
-
+  
     public function miningProcess(Request $request)
     {
 

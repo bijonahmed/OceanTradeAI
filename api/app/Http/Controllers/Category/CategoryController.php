@@ -14,6 +14,7 @@ use App\Models\AttributeValues;
 use App\Models\Attribute;
 use App\Models\GlobalWalletAddress;
 use App\Models\MiningCategory;
+use App\Models\MiningCategoryDuration;
 use App\Models\MiningHistory;
 use App\Models\Mystore;
 use App\Models\PostCategory;
@@ -339,8 +340,6 @@ class CategoryController extends Controller
         return response()->json($attribute);
     }
 
-   
-
     public function postCategorysearch()
     {
         $data = PostCategory::where('status', 1)->get();
@@ -446,43 +445,31 @@ class CategoryController extends Controller
         ];
         return response()->json($response, 200);
     }
-    public function attributeValRows($product_id, $request_product_attribute_id)
+
+
+
+    public function getSlugrow(Request $request){
+
+      $row         = MiningCategory::where('slug',$request->slug)->first();
+      $response    = MiningCategoryDuration::join('mining_categogy', 'mining_categogy_duration.mining_category_id', '=', 'mining_categogy.id')
+                    ->where('mining_categogy_duration.mining_category_id', $row->id)
+                    ->select('mining_categogy_duration.*', 'mining_categogy.name as mining_cat_name') // Adjust the selected columns as needed
+                    ->get();
+
+      $response = [
+        'data' => $response,
+        'message' => 'success'
+    ];
+    return response()->json($response, 200);
+
+    }
+
+    public function getMiningMainCategorys()
     {
 
-        //when click save attrbu and value
-        //$request_product_attribute_id = $request->product_attribute_id;
-        //$product_id = $request->product_id;
-        //dd($request->all());
-        $dataArr = AttributeValues::where('attributes_id', $request_product_attribute_id)->select('id', 'attributes_id', 'name')->get();
-        $chkPost = ProductAttributes::where('product_id', $product_id)->where('attributes_id', $request_product_attribute_id)->first();
-        if (empty($chkPost)) {
-            $data = array(
-                'product_id'                 => $product_id,
-                'attributes_id'              => $request_product_attribute_id,
-            );
-            $product_attribute_id = ProductAttributes::insertGetId($data);
-        } else {
-            $product_attribute_id = $chkPost->id;
-        }
-
-        // dd($dataArr);
-        $ar = [];
-        foreach ($dataArr as $v) {
-            $pro_id               = (int)$product_id;
-            $attributes_id        = (int)$v->attributes_id;
-            $product_attribute_id = empty($chkPost) ? $product_attribute_id : $chkPost->id; //(int)$product_attribute_id;
-            $product_att_value_id = (int)$v->id;
-            ProductAttributeValue::where('product_id', $pro_id)->where('attribute_id', $attributes_id)->where('product_attribute_id', $product_attribute_id)->where('product_att_value_id', $product_att_value_id)->delete();
-            $ar = array(
-                'product_id'         => $pro_id,
-                'attribute_id'         => $attributes_id,
-                'product_attribute_id' => $product_attribute_id,
-                'product_att_value_id' => $product_att_value_id,
-            );
-            ProductAttributeValue::insert($ar);
-        }
-
+        $data = MiningCategory::where('status',1)->get();
         $response = [
+            'data' => $data,
             'message' => 'success'
         ];
         return response()->json($response, 200);
