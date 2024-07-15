@@ -21,7 +21,7 @@
 </template>
 <script setup>
 import { storeToRefs } from 'pinia';
-import { useStartStore } from '~/stores/start';
+import { useStartStore } from '~/stores/miningcategorythree';
 const startStore = useStartStore()
 
 import { ref, onMounted } from "vue";

@@ -16,6 +16,7 @@ use App\Models\GlobalWalletAddress;
 use App\Models\MiningCategory;
 use App\Models\MiningCategoryDuration;
 use App\Models\MiningHistory;
+use App\Models\MiningServicesBuyHistory;
 use App\Models\Mystore;
 use App\Models\PostCategory;
 use App\Models\SubAttribute;
@@ -467,7 +468,33 @@ class CategoryController extends Controller
     public function getMiningMainCategorys()
     {
 
-        $data = MiningCategory::where('status',1)->get();
+       // $data = MiningCategory::where('status',1)->get();
+
+        $categoryData = MiningCategory::where('status', 1)->get();
+
+        foreach ($categoryData as $v) {
+            $active_matching = MiningServicesBuyHistory ::where('user_id', $this->userid)
+                ->where('mining_category_id', $v->id)->orderBy('created_at', 'desc')->first();
+
+            $enddate = null; // Default value if no active matching is found
+            $today_date = date("Y-m-d");
+            if ($active_matching && $active_matching->end_date >= $today_date) {
+                $enddate = $active_matching->end_date;
+            }
+
+            $data[] = [
+                'id'                        => $v->id,
+                'name'                      => $v->name,
+                'slug'                      => $v->slug,
+                'offer_description'         => $v->offer_description,
+                'mining_category_id'        => $v->mining_category_id,
+                'duration_in_hour'          => $v->duration_in_hour,
+                'minute'                    => $v->minute,
+                'second'                    => $v->second,
+                'minining_amount_per_secnd' => $v->minining_amount_per_secnd,
+                'enddate'                   => $enddate,
+            ];
+        }
         $response = [
             'data' => $data,
             'message' => 'success'

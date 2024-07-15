@@ -58,10 +58,20 @@ class BalanceController extends Controller
     public function getBalance()
     {
         //For Users
+
+        
         $setting                       = Setting::find(1)->first();
-        $active_matching               = MiningServicesBuyHistory::where('user_id', $this->userid)->first();
         $today_date                    = date("Y-m-d");
-        $service_price                 = $active_matching && $active_matching->end_date >= $today_date ? (!empty($active_matching->service_price) ? $active_matching->service_price : 0) : 0;
+        $active_matching               = MiningServicesBuyHistory::where('user_id', $this->userid)->get();
+
+        $s_price = 0;
+        foreach ($active_matching as $matching) {
+            if ($matching->end_date >= $today_date) {
+                $s_price += !empty($matching->service_price) ? $matching->service_price : 0;
+            }
+        }
+        $service_price                 = $s_price;
+       
         $row                           = User::find($this->userid);
         $deposit                       = Deposit::where('user_id', $this->userid)->where('status', 1)->sum('deposit_amount');
         $usdt_balance                  = $deposit - $service_price;

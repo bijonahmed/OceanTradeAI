@@ -24,7 +24,9 @@ class StartCommand extends Command
         //php artisan schedule:run  working
         $userid = Cache::get('current_userid');
         $mining_category_id = Cache::get('current_mining_category_id');
-        \Log::info('StartCommand is executed with UserID: (' . $userid . ') and mining category id: (' . $mining_category_id . ')');
+        $timeWithSeconds = date('H:i:s');
+       
+        
         $miningHistoryRecords = MiningHistory::orderBy('id', 'DESC')
             ->where('mining_category_id', $mining_category_id)
             ->get();
@@ -66,7 +68,6 @@ class StartCommand extends Command
                     echo "Current time is not small for record ID: {$record->id}<br>";
                 }
             }
-
             // Update all users' balances
             foreach ($userAssets as $userId => $totalAssets) {
                 $user = User::find($userId);
@@ -83,7 +84,7 @@ class StartCommand extends Command
 
                     // Insert data into MiningGraph
                     MiningGraph::insert($data);
-
+                    \Log::info('Updated User ID: (' . $userId . '). mining category id: (' . $mining_category_id . ')  with total assets: ' . number_format($totalAssets, 8) . ' at ' . $timeWithSeconds);
                     echo "Updated User ID: $userId with new balance: {$user->mining_amount}<br>";
                 } else {
                     echo "User not found for ID: $userId<br>";
@@ -95,5 +96,7 @@ class StartCommand extends Command
             // $data['messages'] = "No mining history records found!"; 
             // return response()->json($data, 200);
         }
+
+      //  \Log::info('StartCommand is executed with UserID: (' . $userid . ') and mining category id: (' . $mining_category_id . ') at ' . $timeWithSeconds);
     }
 }

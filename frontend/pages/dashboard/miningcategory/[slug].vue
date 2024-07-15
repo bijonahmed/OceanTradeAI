@@ -211,23 +211,13 @@ const buyForMe = async () => {
 };
 
 const error_msg = (invalidAmountMessage)=>{
-
-    const Toast = Swal.mixin({
-        toast: true,
-        position: "top-end",
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-        }
-    });
-
-    Toast.fire({
-        icon: "error",
-        title: invalidAmountMessage
-    });
+Swal.fire({
+  icon: "error",
+  title: "Oops...",
+  text: invalidAmountMessage,
+  footer: '<a href="#">Why do I have this issue?</a>'
+});
+ 
 }
 
 
@@ -288,3 +278,21 @@ onMounted(() => {
     }, 1000); // 1 seconds
 });
 </script>
+
+<style scoped>
+.swal2-container{
+  display: none;
+  position: relative;
+  box-sizing: border-box;
+  grid-template-columns: minmax(0, 100%);
+  width: 32em;
+  max-width: 100%;
+  padding: 0 0 1.25em;
+  border: none;
+  border-radius: 5px;
+  background: #1d1134;
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.8rem;
+}
+</style>

@@ -52,9 +52,10 @@ class MiningController extends Controller
         $response          = app('App\Http\Controllers\Balance\BalanceController')->getBalance();
         $usdtdepositAmount = $response instanceof JsonResponse ? $response->getData(true)['usdtamount'] : 0;
 
-        $durationId       = $request->durationId; 
-        $row_duration     = MiningCategoryDuration::where('id',$durationId)->first();
-        $prices           = !empty($row_duration->prices) ? $row_duration->prices : 0; 
+
+        $durationId        = $request->durationId; 
+        $row_duration      = MiningCategoryDuration::where('id',$durationId)->first();
+        $prices            = !empty($row_duration->prices) ? $row_duration->prices : 0; 
 
         if( $prices > $usdtdepositAmount){
             return response()->json(['invalid_amount' => "Sorry, invalid request. Your balance is now $usdtdepositAmount." ], 422);
@@ -88,7 +89,7 @@ class MiningController extends Controller
        if ($existingMining) {
            $res['status']     = 0;
            $res['msg']        = "Your mining matchine still now running";
-           $res['notify']     = "Expire Date: {$edate}";
+           $res['notify']     = "You already have an active mining package. Please wait until your current session ends before purchasing a new package for the same machine. However, you can still purchase packages for other mining machines. Thank you for your understanding.";//"Expire Date: {$edate}";
            return response()->json($res, 200);
        } else {
            $data['user_id']                        = $this->userid;
@@ -115,7 +116,7 @@ class MiningController extends Controller
 
            $res['status']     = 1;
            $res['msg']        = "Mining machine successfully purchased";
-           $res['notify']     = "Start Date : {$startDate}--End Date: {$endDate}--Days: {$totalDays}";
+           $res['notify']     = "Mining machine successfully purchased";//"Start Date : {$startDate}--End Date: {$endDate}--Days: {$totalDays}";
            return response()->json($res, 200);
 
        }
@@ -481,12 +482,10 @@ class MiningController extends Controller
     public function miningProcessState(Request $request)
     {
 
-        $customTimeZone = 'Asia/Dhaka';
-        $currentTime    = Carbon::now($customTimeZone);
-
-        $mining_category_id = (int)$request->mining_category_id;
-        $row                = MiningHistory::orderBy('id', 'DESC')->where('user_id', $this->userid)->where('mining_category_id', $mining_category_id)->first();
-
+        $customTimeZone      = 'Asia/Dhaka';
+        $currentTime         = Carbon::now($customTimeZone);
+        $mining_category_id  = (int)$request->mining_category_id;
+        $row                 = MiningHistory::orderBy('id', 'DESC')->where('user_id', $this->userid)->where('mining_category_id', $mining_category_id)->first();
         $data['start_time']  = !empty($row->start_time) ? $row->start_time : "";
         $data['end_time']    = !empty($row->end_time) ? $row->end_time : "";
         $data['server_time'] = $currentTime->format('Y-m-d H:i:s');

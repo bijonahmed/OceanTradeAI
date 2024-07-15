@@ -303,7 +303,7 @@ Route::middleware(['auth:api', CheckUserStatus::class])->group(function () {
         Route::get('checkMiningInfo', [MiningController::class, 'checkMiningInfo']);
         Route::get('getMiningDuration', [MiningController::class, 'getMiningDuration']);
         Route::get('getMiningCategory', [MiningController::class, 'getMiningCategory']);
-        Route::post('miningProcess', [MiningController::class, 'miningProcess']);
+        Route::get('miningProcess', [MiningController::class, 'miningProcess']);
         Route::post('buyMiningDuration', [MiningController::class, 'buyMiningDuration']);
         Route::get('buyForMe', [MiningController::class, 'buyForMe']);
         Route::get('checkMiningProcess', [MiningController::class, 'checkMiningProcess']);

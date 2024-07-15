@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia'
 import axios from "axios";
 
-export const useStartStore = defineStore('platinum', {
+export const useMiningcategoryfourStore = defineStore('useMiningcategoryfour', {
   state: () => ({
     mining_category_id:'',
     start_time: '',
     end_time: '',
-    server_time:''
+    server_time: '',
   }),
   actions: {
     setData(mining_category_id) {

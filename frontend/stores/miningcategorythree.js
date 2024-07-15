@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import axios from "axios";
 
-export const useStartStore = defineStore('start', {
+export const useMiningcategorythreeStore = defineStore('useMiningcategorythree', {
   state: () => ({
     mining_category_id:'',
     start_time: '',
@@ -16,7 +16,7 @@ export const useStartStore = defineStore('start', {
     async getSoreData() {
        const res = await axios.get("/mining/miningProcessState", {
                 params: {
-                mining_category_id: 1
+                mining_category_id: 3
                 }
        })
         this.$state.start_time = res.data.start_time;
