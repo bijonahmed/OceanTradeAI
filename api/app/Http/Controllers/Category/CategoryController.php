@@ -12,6 +12,7 @@ use App\Models\Categorys;
 use App\Category;
 use App\Models\AttributeValues;
 use App\Models\Attribute;
+use App\Models\BoostMiningSetting;
 use App\Models\GlobalWalletAddress;
 use App\Models\MiningCategory;
 use App\Models\MiningCategoryDuration;
@@ -23,6 +24,7 @@ use App\Models\SubAttribute;
 use App\Models\ProductAttributes;
 use App\Models\ProductAttributeValue;
 use App\Models\Product;
+use App\Models\UserMiningHistory;
 use Illuminate\Support\Str;
 use App\Rules\MatchOldPassword;
 use Carbon\Carbon;
@@ -447,33 +449,79 @@ class CategoryController extends Controller
         return response()->json($response, 200);
     }
 
+    public function getSlugrow(Request $request)
+    {
 
+        $row         = MiningCategory::where('slug', $request->slug)->first();
+        $response    = MiningCategoryDuration::join('mining_categogy', 'mining_categogy_duration.mining_category_id', '=', 'mining_categogy.id')
+            ->where('mining_categogy_duration.mining_category_id', $row->id)
+            ->select('mining_categogy_duration.*', 'mining_categogy.name as mining_cat_name') // Adjust the selected columns as needed
+            ->get();
 
-    public function getSlugrow(Request $request){
+        $response = [
+            'data' => $response,
+            'message' => 'success'
+        ];
+        return response()->json($response, 200);
+    }
 
-      $row         = MiningCategory::where('slug',$request->slug)->first();
-      $response    = MiningCategoryDuration::join('mining_categogy', 'mining_categogy_duration.mining_category_id', '=', 'mining_categogy.id')
-                    ->where('mining_categogy_duration.mining_category_id', $row->id)
-                    ->select('mining_categogy_duration.*', 'mining_categogy.name as mining_cat_name') // Adjust the selected columns as needed
-                    ->get();
+    public function getBoostSlugrow(Request $request)
+    {
 
-      $response = [
-        'data' => $response,
-        'message' => 'success'
-    ];
-    return response()->json($response, 200);
+        $row                 = MiningCategory::where('slug', $request->slug)->first();
+        $minig_category_id   = $row->id;
 
+        $check               = MiningServicesBuyHistory::where('mining_category_id', $minig_category_id)->where('user_id', $this->userid)->first();
+        $minig_category_id   = $row->id;
+        // Fetch user mining history and extract boost_mining_id values
+        $checkUserMin        = UserMiningHistory::where('mining_category_id', $minig_category_id)
+            ->where('user_id', $this->userid)
+            ->pluck('boost_mining_id')
+            ->toArray();
+
+        // Fetch boost mining settings and filter out the ones with matching IDs from $checkUserMin
+        $boostMinSetting = BoostMiningSetting::where('mining_categogy_id', $minig_category_id)
+            ->where('status', 1)
+            ->whereNotIn('id', $checkUserMin)
+            ->orderBy('id') // Optional: Order by id or other column if needed
+            ->first();
+
+        // Output the filtered boost mining setting
+        /*
+        if ($boostMinSetting) {
+            echo "ID: " . $boostMinSetting->id . ", Name: " . $boostMinSetting->name;
+        } else {
+            echo "No matching BoostMiningSetting found.";
+        }
+        */
+        if (!empty($check)) {
+            $sdata['name']               = $row->name;
+            $sdata['mstatus']            = 1;
+            $sdata['boostMinSetting']    = !empty($boostMinSetting) ? $boostMinSetting : "Max";
+            // Insert Boost Mining Level 
+            $mdata['user_id']            = $this->userid;
+            $mdata['boost_mining_id']    = 1;
+        } else {
+            $sdata['name']             = "";
+            $sdata['mstatus']          = 0;
+        }
+
+        $response = [
+            'data' => $sdata,
+            'message' => 'success'
+        ];
+        return response()->json($response, 200);
     }
 
     public function getMiningMainCategorys()
     {
 
-       // $data = MiningCategory::where('status',1)->get();
+        // $data = MiningCategory::where('status',1)->get();
 
         $categoryData = MiningCategory::where('status', 1)->get();
 
         foreach ($categoryData as $v) {
-            $active_matching = MiningServicesBuyHistory ::where('user_id', $this->userid)
+            $active_matching = MiningServicesBuyHistory::where('user_id', $this->userid)
                 ->where('mining_category_id', $v->id)->orderBy('created_at', 'desc')->first();
 
             $enddate = null; // Default value if no active matching is found

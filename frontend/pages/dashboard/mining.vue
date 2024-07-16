@@ -91,7 +91,6 @@
                                                
                                                 <span v-else>
                                                     <span v-if="v.id == 1">
-
                                                         <center>  <CountdownTimerCat1 :id="v.id"/></center>
                                                     </span>
                                                     <span v-if="v.id == 2">
@@ -105,7 +104,7 @@
                                                        
                                                         <center><CountdownTimerCat4 :id="v.id"/></center>
                                                     </span>
-                                                    <nuxt-link to="#"  class="btn-action style-5 btn_boost">Boost</nuxt-link>
+                                                    <nuxt-link :to="`/dashboard/boost/${v.slug}`"  class="btn-action style-5 btn_boost">Boost</nuxt-link>
                                                 </span>
 
                                             </div>

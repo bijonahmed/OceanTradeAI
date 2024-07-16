@@ -9,6 +9,7 @@
                 <div class="loading-indicator" v-if="loading" style="text-align: center">
                     <Loader />
                 </div>
+
                 <div class="dashboard__main">
                     <div class="section-faq style-5 mb-0">
                         <div class="faq__content">
@@ -36,7 +37,7 @@
                                 <li>Live Support</li>
                             </ul>
                             <button class="btn-action-outline style-5" data-bs-toggle="modal"
-                                data-bs-target="#boostModal" @click="setData(v);getusdtBalance()">purchase</button>
+                                data-bs-target="#boostModal" @click="setData(v); getusdtBalance()">purchase</button>
                         </div>
 
                     </div>
@@ -45,10 +46,9 @@
         </div>
     </div>
 
-
     <!-- Start Modal  -->
- <!-- ================== purchase modal ================  -->
- <div class="modal fade" id="boostModal" tabindex="-1" aria-labelledby="boostModalLabel" aria-hidden="true">
+    <!-- ================== purchase modal ================  -->
+    <div class="modal fade" id="boostModal" tabindex="-1" aria-labelledby="boostModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content rounded-0">
                 <div class="modal-header py-0">
@@ -68,7 +68,8 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-center align-items-center buy_btns">
-                        <button class="btn-action style-5 btn_boost"  data-bs-dismiss="modal" aria-label="Close" @click="buyForMe">Buy for me</button>
+                        <button class="btn-action style-5 btn_boost" data-bs-dismiss="modal" aria-label="Close"
+                            @click="buyForMe">Buy for me</button>
                         <button class="btn-action style-5 btn_boost" data-bs-toggle="offcanvas"
                             data-bs-target="#bot_confirm" aria-controls="bot_confirm">Buy for Friend</button>
                     </div>
@@ -94,50 +95,36 @@
                                 <h4 class="mb-1">Select friend </h4>
                                 <small class="text-danger">Only for level 1</small>
                             </div>
-                            <button class="btn-action style-5 btn_confirm" data-bs-dismiss="modal" aria-label="Close">Confirm</button>
+                            <button class="btn-action style-5 btn_confirm" data-bs-dismiss="modal" aria-label="Close"
+                                @click="buyfriendConfirm">Confirm</button>
                         </div>
                         <div class="input_form mb-2 m-0">
-                            <input type="text" placeholder="Search by user name" class="form-control">
+                            <input type="text" placeholder="Search by user email" class="form-control" v-model="email"
+                                @keyup="getLevelOne">
                         </div>
                     </div>
 
                     <div class="select_member">
-
                         <ul>
                             <li>
                                 <div class="list_title">
-                                    <strong>Name </strong>
+                                    <strong>Email </strong>
                                     <strong>Reg. Date</strong>
                                 </div>
                             </li>
-                            <li>
+                            <li v-for="v in leveldata" :key="v.id">
                                 <input type="radio" name="friend" id="fSelect">
-                                <label for="fSelect">
+                                <label for="fSelect" @click="buyfriend(v)">
                                     <div class="member_left">
                                         <div class="member_desc">
                                             <div>
-                                                <p>abc@mail.com</p>
-                                                <span>MID 234234234</span>
+                                                <p>{{ v.email }}</p>
+                                                <span>ID:{{ v.ocn_id }}</span>
                                                 <span>Leve 1</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <strong class="text-end"><span> 07/05/2024 <br> 12:06:00 </span></strong>
-                                </label>
-                            </li>
-                            <li>
-                                <input type="radio" name="friend" id="fSelect1">
-                                <label for="fSelect1">
-                                    <div class="member_left">
-                                        <div class="member_desc">
-                                            <div>
-                                                <p>abc@mail.com</p>
-                                                <span>MID 234234234</span>
-                                                <span>Leve 1</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <strong class="text-end"><span> 07/05/2024 <br> 12:06:00 </span></strong>
+                                    <strong class="text-end"><span> {{ formatDateTime(v.created_at) }} </span></strong>
                                 </label>
                             </li>
 
@@ -161,25 +148,63 @@ definePageMeta({
     middleware: 'is-logged-out',
 })
 
-
 const loading = ref(true);
 const router = useRoute();
 
 const catData = ref([]);
 const categoryData = ref([]);
+const leveldata = ref([]);
 const slugvalue = ref('');
 const usdtBalance = ref('');
 const durationId = ref('');
 const selectedPrices = ref('');
- 
+const email = ref('');
+const userid = ref('');
 
 const setData = (v) => {
     durationId.value = v.id;
     selectedPrices.value = v.prices;
 }
 
+const formatDateTime = (dateTimeString) => {
+    const date = new Date(dateTimeString);
+    const formattedDateTime = date.toISOString().slice(0, 19).replace('T', ' ');
+    return formattedDateTime;
+};
+
+
+const buyfriend = (user) => {
+    email.value = user.email;
+    userid.value = user.id;
+}
+
+const buyfriendConfirm = async () => {
+
+    const response = await axios.get('/mining/buyForFriend', {
+        params: {
+            userid: userid.value,
+            durationId: durationId.value,
+            selectedPrices: selectedPrices.value
+        }
+    });
+    if (response.data.status == 0) {
+            console.log('Expire:', response.data.notify);
+            error_msg(response.data.notify);
+    }
+
+    if (response.data.status == 1) {
+        console.log('Success:', response.data.notify);
+        success_msg(response.data.notify)
+        router.push('/dashboard/success')
+    }
+
+   
+
+}
+
+
 const buyForMe = async () => {
- 
+
     try {
         const response = await axios.get('/mining/buyForMe', {
             params: {
@@ -188,62 +213,75 @@ const buyForMe = async () => {
             }
         });
 
-        if(response.data.status == 0){
+        if (response.data.status == 0) {
             console.log('Expire:', response.data.notify);
             error_msg(response.data.notify);
         }
 
-        if(response.data.status == 1){
+        if (response.data.status == 1) {
             console.log('Success:', response.data.notify);
             success_msg(response.data.notify)
-      }
- 
+        }
 
     } catch (error) {
         if (error.response && error.response.status === 422) {
-          const invalidAmountMessage = error.response.data.invalid_amount;
-          error_msg(invalidAmountMessage);
-          //console.log("======", error.response.data.invalid_amount);
+            const invalidAmountMessage = error.response.data.invalid_amount;
+            error_msg(invalidAmountMessage);
+            //console.log("======", error.response.data.invalid_amount);
         } else {
-          console.error('An error occurred:', error);
+            console.error('An error occurred:', error);
         }
     }
 };
 
-const error_msg = (invalidAmountMessage)=>{
-Swal.fire({
-  icon: "error",
-  title: "Oops...",
-  text: invalidAmountMessage,
-  footer: '<a href="#">Why do I have this issue?</a>'
-});
- 
+const error_msg = (invalidAmountMessage) => {
+    Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: invalidAmountMessage,
+        footer: '<a href="#">Why do I have this issue?</a>'
+    });
+
 }
 
+const success_msg = (successmsg) => {
 
-const success_msg = (successmsg)=>{
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
 
-const Toast = Swal.mixin({
-    toast: true,
-    position: "top-end",
-    showConfirmButton: false,
-    timer: 2000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-        toast.onmouseenter = Swal.stopTimer;
-        toast.onmouseleave = Swal.resumeTimer;
-    }
-});
-
-Toast.fire({
-    icon: "success",
-    title: successmsg
-});
+    Toast.fire({
+        icon: "success",
+        title: successmsg
+    });
 }
 const fetchData = async () => {
     try {
         const response = await axios.get("/category/getMiningMainCategorys");
         categoryData.value = response.data.data;
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+};
+
+const getLevelOne = async () => {
+    try {
+        const response = await axios.get('/affiliate/getLevelOneDetails', {
+            params: {
+                email: email.value,
+                selectedPrices: selectedPrices.value,
+            }
+        });
+
+        leveldata.value = response.data.level_data;
     } catch (error) {
         console.error("Error fetching data:", error);
     }
@@ -270,6 +308,7 @@ const getParmaSlug = async () => {
 }
 
 onMounted(() => {
+    getLevelOne();
     getParmaSlug();
     fetchData();
     getusdtBalance();
@@ -278,21 +317,3 @@ onMounted(() => {
     }, 1000); // 1 seconds
 });
 </script>
-
-<style scoped>
-.swal2-container{
-  display: none;
-  position: relative;
-  box-sizing: border-box;
-  grid-template-columns: minmax(0, 100%);
-  width: 32em;
-  max-width: 100%;
-  padding: 0 0 1.25em;
-  border: none;
-  border-radius: 5px;
-  background: #1d1134;
-  color: #fff;
-  font-family: inherit;
-  font-size: 0.8rem;
-}
-</style>

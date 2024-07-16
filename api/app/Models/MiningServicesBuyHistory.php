@@ -13,6 +13,7 @@ class MiningServicesBuyHistory extends Authenticatable
     public $table = "mining_service_buy_history";
     protected $fillable = [
         'user_id',
+        'purchase_by',
         'mining_category_id',
         'mining_category_duration_id',
         'duration',

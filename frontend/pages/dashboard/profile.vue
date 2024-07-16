@@ -146,8 +146,7 @@ const update = () => {
   const headers = {
     "Content-Type": "multipart/form-data",
   };
-  axios
-    .post("/auth/updateprofile", formData, { headers })
+  axios.post("/auth/updateprofile", formData, { headers })
     .then((res) => {
       document.getElementById("formrest").reset();
       success_noti();

@@ -74,8 +74,6 @@ Route::middleware(['auth:api', CheckUserStatus::class])->group(function () {
         Route::get('getLevelthree', [AffiliateController::class, 'getLevelthree']);
     });
 
-  
-
     Route::group([
         'prefix' => 'customer'
     ], function () {
@@ -179,6 +177,7 @@ Route::middleware(['auth:api', CheckUserStatus::class])->group(function () {
         'prefix' => 'category'
     ], function () {
         Route::get('getSlugrow', [CategoryController::class, 'getSlugrow']);
+        Route::get('getBoostSlugrow', [CategoryController::class, 'getBoostSlugrow']);
         Route::get('getMiningMainCategorys', [CategoryController::class, 'getMiningMainCategorys']);
         Route::post('addglobalwalletAddress', [CategoryController::class, 'addglobalwalletAddress']);
         Route::post('editglobalwalletAddress', [CategoryController::class, 'editglobalwalletAddress']);
@@ -208,7 +207,6 @@ Route::middleware(['auth:api', CheckUserStatus::class])->group(function () {
         Route::get('getCategoryUnderSubCat', [CategoryController::class, 'getCategoryUnderSubCat']);
     });
 
-   
     Route::group([
         'middleware' => 'api',
         'prefix' => 'report'
@@ -247,8 +245,6 @@ Route::middleware(['auth:api', CheckUserStatus::class])->group(function () {
         Route::get('getVarientHistory', [ProductController::class, 'getVarientHistory']);
         Route::get('removeProducts/{id}', [ProductController::class, 'removeProducts']);
     });
-
-
 
     Route::group([
         'prefix' => 'deposit'
@@ -299,6 +295,7 @@ Route::middleware(['auth:api', CheckUserStatus::class])->group(function () {
     ], function () {
         Route::get('minningDurationrow/{id}', [MiningController::class, 'minningDurationrow']);
         Route::post('inserMiningDuration', [MiningController::class, 'inserMiningDuration']);
+        Route::get('insertBoostMiningCatWise', [MiningController::class, 'insertBoostMiningCatWise']);
         Route::get('allMiningDuration', [MiningController::class, 'allMiningDuration']);
         Route::get('checkMiningInfo', [MiningController::class, 'checkMiningInfo']);
         Route::get('getMiningDuration', [MiningController::class, 'getMiningDuration']);
@@ -306,8 +303,10 @@ Route::middleware(['auth:api', CheckUserStatus::class])->group(function () {
         Route::get('miningProcess', [MiningController::class, 'miningProcess']);
         Route::post('buyMiningDuration', [MiningController::class, 'buyMiningDuration']);
         Route::get('buyForMe', [MiningController::class, 'buyForMe']);
+        Route::get('buyForFriend', [MiningController::class, 'buyForFriend']);
         Route::get('checkMiningProcess', [MiningController::class, 'checkMiningProcess']);
         Route::get('miningProcessState', [MiningController::class, 'miningProcessState']);
+        Route::get('getusdtBalance', [MiningController::class, 'getusdtBalance']);
     });
 
     Route::group([
@@ -425,35 +424,33 @@ Route::middleware(['auth:api', CheckUserStatus::class])->group(function () {
         Route::get('leaveApprovalRequestRow/{id}', [LeaveController::class, 'leaveApprovalRequestRow']);
     });
 
-    
-
-        //     Route::group([
-        //     'prefix' => 'order'
-        // ], function () {
-        //     Route::post('bulkOrderStatus', [OrderController::class, 'bulkOrderStatus']);
-        //     Route::post('bulkOrderSend', [OrderController::class, 'bulkOrderSend']);
-        //     Route::post('updatOrderSchedularStatus', [OrderController::class, 'updatOrderSchedularStatus']);
-        //     Route::get('checkOrderPrice', [OrderController::class, 'checkOrderPrice']);
-        //     Route::get('checkOrderData', [OrderController::class, 'checkOrderData']);
-        //     Route::get('orderCancel', [OrderController::class, 'orderCancel']);
-        //     Route::get('orderInfo', [OrderController::class, 'orderInfo']);
-        //     Route::get('transferOrder', [OrderController::class, 'transferOrder']);
-        //     Route::get('cancelOrderRequest', [OrderController::class, 'cancelOrderRequest']);
-        //     Route::post('sendManualOrderAdmin', [OrderController::class, 'sendManualOrderAdmin']);
-        //     Route::post('sendConfirmOrders', [OrderController::class, 'sendConfirmOrders']);
-        //     Route::post('updateOrder', [OrderController::class, 'updateOrder']);
-        //     Route::get('getOrderStatus', [OrderController::class, 'getOrderStatus']);
-        //     Route::get('getOrderStatusSchedular', [OrderController::class, 'getOrderStatusSchedular']);
-        //     Route::get('filterOrderList', [OrderController::class, 'filterOrderList']);
-        //     Route::get('orderTobePaid', [OrderController::class, 'orderTobePaid']);
-        //     Route::get('tobeConfirmed', [OrderController::class, 'tobeConfirmed']);
-        //     Route::get('tobeRecived', [OrderController::class, 'tobeRecived']);
-        //     Route::get('platformProcced', [OrderController::class, 'platformProcced']);
-        //     Route::get('tobeShipped', [OrderController::class, 'tobeShipped']);
-        //     Route::get('completeOrder', [OrderController::class, 'completeOrder']);
-        //     Route::post('assignOrder', [OrderController::class, 'assignOrder']);
-        // });
-        /*
+    //     Route::group([
+    //     'prefix' => 'order'
+    // ], function () {
+    //     Route::post('bulkOrderStatus', [OrderController::class, 'bulkOrderStatus']);
+    //     Route::post('bulkOrderSend', [OrderController::class, 'bulkOrderSend']);
+    //     Route::post('updatOrderSchedularStatus', [OrderController::class, 'updatOrderSchedularStatus']);
+    //     Route::get('checkOrderPrice', [OrderController::class, 'checkOrderPrice']);
+    //     Route::get('checkOrderData', [OrderController::class, 'checkOrderData']);
+    //     Route::get('orderCancel', [OrderController::class, 'orderCancel']);
+    //     Route::get('orderInfo', [OrderController::class, 'orderInfo']);
+    //     Route::get('transferOrder', [OrderController::class, 'transferOrder']);
+    //     Route::get('cancelOrderRequest', [OrderController::class, 'cancelOrderRequest']);
+    //     Route::post('sendManualOrderAdmin', [OrderController::class, 'sendManualOrderAdmin']);
+    //     Route::post('sendConfirmOrders', [OrderController::class, 'sendConfirmOrders']);
+    //     Route::post('updateOrder', [OrderController::class, 'updateOrder']);
+    //     Route::get('getOrderStatus', [OrderController::class, 'getOrderStatus']);
+    //     Route::get('getOrderStatusSchedular', [OrderController::class, 'getOrderStatusSchedular']);
+    //     Route::get('filterOrderList', [OrderController::class, 'filterOrderList']);
+    //     Route::get('orderTobePaid', [OrderController::class, 'orderTobePaid']);
+    //     Route::get('tobeConfirmed', [OrderController::class, 'tobeConfirmed']);
+    //     Route::get('tobeRecived', [OrderController::class, 'tobeRecived']);
+    //     Route::get('platformProcced', [OrderController::class, 'platformProcced']);
+    //     Route::get('tobeShipped', [OrderController::class, 'tobeShipped']);
+    //     Route::get('completeOrder', [OrderController::class, 'completeOrder']);
+    //     Route::post('assignOrder', [OrderController::class, 'assignOrder']);
+    // });
+    /*
         Route::group([
         'middleware' => 'api',
         'prefix' => 'store'
@@ -478,52 +475,52 @@ Route::middleware(['auth:api', CheckUserStatus::class])->group(function () {
 
         */
 
-        // Route::group([
-        //     'middleware' => 'api',
-        //     'prefix' => 'dropshippingpro'
-        // ], function () {
+    // Route::group([
+    //     'middleware' => 'api',
+    //     'prefix' => 'dropshippingpro'
+    // ], function () {
 
-        //     Route::get('checkActiveStoreInfo', [DropShiProductController::class, 'checkActiveStoreInfo']);
-        //     Route::post('save', [DropShiProductController::class, 'save']);
-        //     Route::post('product-update', [DropShiProductController::class, 'productUpdate']);
-        //     Route::post('insertVarientGroup', [DropShiProductController::class, 'insertVarientGroup']);
-        //     Route::get('getProductList', [DropShiProductController::class, 'getProductList']);
-        //     Route::get('insertProductAttrAndValues', [DropShiProductController::class, 'insertProductAttrAndValues']);
-        //     Route::get('insertProductVarient', [DropShiProductController::class, 'insertProductVarient']);
-        //     Route::get('deleteValrient', [DropShiProductController::class, 'deleteValrient']);
-        //     Route::get('getAttrHistory/{id}', [DropShiProductController::class, 'getAttrHistory']);
-        //     Route::get('productrow/{id}', [DropShiProductController::class, 'productrow']);
-        //     Route::get('additionaIMagesDelete', [DropShiProductController::class, 'additionaIMagesDelete']);
-        //     Route::get('deleteCategory', [DropShiProductController::class, 'deleteCategory']);
-        //     Route::get('getVarientHistory', [DropShiProductController::class, 'getVarientHistory']);
-        //     Route::get('removeProducts/{id}', [DropShiProductController::class, 'removeProducts']);
-        // });
+    //     Route::get('checkActiveStoreInfo', [DropShiProductController::class, 'checkActiveStoreInfo']);
+    //     Route::post('save', [DropShiProductController::class, 'save']);
+    //     Route::post('product-update', [DropShiProductController::class, 'productUpdate']);
+    //     Route::post('insertVarientGroup', [DropShiProductController::class, 'insertVarientGroup']);
+    //     Route::get('getProductList', [DropShiProductController::class, 'getProductList']);
+    //     Route::get('insertProductAttrAndValues', [DropShiProductController::class, 'insertProductAttrAndValues']);
+    //     Route::get('insertProductVarient', [DropShiProductController::class, 'insertProductVarient']);
+    //     Route::get('deleteValrient', [DropShiProductController::class, 'deleteValrient']);
+    //     Route::get('getAttrHistory/{id}', [DropShiProductController::class, 'getAttrHistory']);
+    //     Route::get('productrow/{id}', [DropShiProductController::class, 'productrow']);
+    //     Route::get('additionaIMagesDelete', [DropShiProductController::class, 'additionaIMagesDelete']);
+    //     Route::get('deleteCategory', [DropShiProductController::class, 'deleteCategory']);
+    //     Route::get('getVarientHistory', [DropShiProductController::class, 'getVarientHistory']);
+    //     Route::get('removeProducts/{id}', [DropShiProductController::class, 'removeProducts']);
+    // });
 
-        // Route::group([
-        //     'prefix' => 'dropUser'
-        // ], function () {
-        //     Route::get('filterUsersProducts', [DropUserController::class, 'filterUsersProducts']);
-        //     Route::get('filterOrders', [DropUserController::class, 'filterOrders']);
+    // Route::group([
+    //     'prefix' => 'dropUser'
+    // ], function () {
+    //     Route::get('filterUsersProducts', [DropUserController::class, 'filterUsersProducts']);
+    //     Route::get('filterOrders', [DropUserController::class, 'filterOrders']);
 
-        //     Route::post('sendWithdrawRequestToMerchant', [DropUserController::class, 'sendWithdrawRequestToMerchant']);
-        //     Route::get('getTransactionReport', [DropUserController::class, 'getTransactionReport']);
-        //     Route::get('getManualAdjustmentReport', [DropUserController::class, 'getManualAdjustmentReport']);
-        //     Route::get('getwalletAddress', [DropUserController::class, 'getwalletAddress']);
-        //     Route::get('report', [DropUserController::class, 'report']);
-        //     Route::get('getComissionReport', [DropUserController::class, 'getComissionReport']);
-        //     Route::get('getComissionReportToday', [DropUserController::class, 'getComissionReportToday']);
-        //     Route::get('getCurrentBalance', [DropUserController::class, 'getCurrentBalance']);
-        //     Route::post('depositRequest', [DropUserController::class, 'depositRequest']);
-        //     Route::post('withdrawRequest', [DropUserController::class, 'withdrawRequest']);
-        //     Route::get('depositRequestList', [DropUserController::class, 'depositRequestList']);
-        //     Route::get('withDrawalRequestList', [DropUserController::class, 'withDrawalRequestList']);
-        //     Route::get('accountDetailsList', [DropUserController::class, 'accountDetailsList']);
-        //     Route::get('getMyDepositAmount', [DropUserController::class, 'getMyDepositAmount']);
-        //     Route::get('getCurrencyType', [DropUserController::class, 'getCurrencyType']);
-        //     Route::get('checkWithdrawalMethod', [DropUserController::class, 'checkWithdrawalMethod']);
-        //     Route::get('chkfindWithdraInfo', [DropUserController::class, 'chkfindWithdraInfo']);
-        //     Route::post('makeBank', [DropUserController::class, 'makeBank']);
-        //     Route::post('updateMakeBank', [DropUserController::class, 'updateMakeBank']);
-        // });
+    //     Route::post('sendWithdrawRequestToMerchant', [DropUserController::class, 'sendWithdrawRequestToMerchant']);
+    //     Route::get('getTransactionReport', [DropUserController::class, 'getTransactionReport']);
+    //     Route::get('getManualAdjustmentReport', [DropUserController::class, 'getManualAdjustmentReport']);
+    //     Route::get('getwalletAddress', [DropUserController::class, 'getwalletAddress']);
+    //     Route::get('report', [DropUserController::class, 'report']);
+    //     Route::get('getComissionReport', [DropUserController::class, 'getComissionReport']);
+    //     Route::get('getComissionReportToday', [DropUserController::class, 'getComissionReportToday']);
+    //     Route::get('getCurrentBalance', [DropUserController::class, 'getCurrentBalance']);
+    //     Route::post('depositRequest', [DropUserController::class, 'depositRequest']);
+    //     Route::post('withdrawRequest', [DropUserController::class, 'withdrawRequest']);
+    //     Route::get('depositRequestList', [DropUserController::class, 'depositRequestList']);
+    //     Route::get('withDrawalRequestList', [DropUserController::class, 'withDrawalRequestList']);
+    //     Route::get('accountDetailsList', [DropUserController::class, 'accountDetailsList']);
+    //     Route::get('getMyDepositAmount', [DropUserController::class, 'getMyDepositAmount']);
+    //     Route::get('getCurrencyType', [DropUserController::class, 'getCurrencyType']);
+    //     Route::get('checkWithdrawalMethod', [DropUserController::class, 'checkWithdrawalMethod']);
+    //     Route::get('chkfindWithdraInfo', [DropUserController::class, 'chkfindWithdraInfo']);
+    //     Route::post('makeBank', [DropUserController::class, 'makeBank']);
+    //     Route::post('updateMakeBank', [DropUserController::class, 'updateMakeBank']);
+    // });
 
 });
