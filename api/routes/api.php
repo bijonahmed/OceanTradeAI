@@ -296,6 +296,8 @@ Route::middleware(['auth:api', CheckUserStatus::class])->group(function () {
         Route::get('minningDurationrow/{id}', [MiningController::class, 'minningDurationrow']);
         Route::post('inserMiningDuration', [MiningController::class, 'inserMiningDuration']);
         Route::get('insertBoostMiningCatWise', [MiningController::class, 'insertBoostMiningCatWise']);
+        Route::get('insertBotCatWise', [MiningController::class, 'insertBotCatWise']);
+
         Route::get('allMiningDuration', [MiningController::class, 'allMiningDuration']);
         Route::get('checkMiningInfo', [MiningController::class, 'checkMiningInfo']);
         Route::get('getMiningDuration', [MiningController::class, 'getMiningDuration']);

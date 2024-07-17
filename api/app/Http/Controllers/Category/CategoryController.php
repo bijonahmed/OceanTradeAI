@@ -13,6 +13,7 @@ use App\Category;
 use App\Models\AttributeValues;
 use App\Models\Attribute;
 use App\Models\BoostMiningSetting;
+use App\Models\BotSetting;
 use App\Models\GlobalWalletAddress;
 use App\Models\MiningCategory;
 use App\Models\MiningCategoryDuration;
@@ -24,6 +25,7 @@ use App\Models\SubAttribute;
 use App\Models\ProductAttributes;
 use App\Models\ProductAttributeValue;
 use App\Models\Product;
+use App\Models\UserBotHistory;
 use App\Models\UserMiningHistory;
 use Illuminate\Support\Str;
 use App\Rules\MatchOldPassword;
@@ -480,7 +482,7 @@ class CategoryController extends Controller
             ->toArray();
 
         // Fetch boost mining settings and filter out the ones with matching IDs from $checkUserMin
-        $boostMinSetting = BoostMiningSetting::where('mining_categogy_id', $minig_category_id)
+        $minSetting = BoostMiningSetting::where('mining_categogy_id', $minig_category_id)
             ->where('status', 1)
             ->whereNotIn('id', $checkUserMin)
             ->orderBy('id') // Optional: Order by id or other column if needed
@@ -494,10 +496,24 @@ class CategoryController extends Controller
             echo "No matching BoostMiningSetting found.";
         }
         */
+
+        $checkUserBot   =  UserBotHistory::where('mining_category_id', $minig_category_id)
+                           ->where('user_id', $this->userid)
+                           ->pluck('boost_setting_id')
+                           ->toArray();
+
+        // Fetch boost mining settings and filter out the ones with matching IDs from $checkUserMin
+        $bot            =  BotSetting::where('mining_categogy_id', $minig_category_id)
+                            ->where('status', 1)
+                            ->whereNotIn('id', $checkUserBot)
+                            ->orderBy('id') // Optional: Order by id or other column if needed
+                            ->first();
+
         if (!empty($check)) {
             $sdata['name']               = $row->name;
             $sdata['mstatus']            = 1;
-            $sdata['boostMinSetting']    = !empty($boostMinSetting) ? $boostMinSetting : "Max";
+            $sdata['boostMinSetting']    = !empty($minSetting) ? $minSetting : "Max";
+            $sdata['bot']                = !empty($bot) ? $bot : "Max";
             // Insert Boost Mining Level 
             $mdata['user_id']            = $this->userid;
             $mdata['boost_mining_id']    = 1;
@@ -580,7 +596,6 @@ class CategoryController extends Controller
         $results = Categorys::where('name', 'like', '%' . $term . '%')
             ->where('status', 1)
             // ->orWhere('category', 'like', '%' . $term . '%')
-
             ->get();
         $formattedResults = [];
         foreach ($results as $result) {

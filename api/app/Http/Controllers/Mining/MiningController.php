@@ -25,6 +25,7 @@ use App\Models\ProductAttributes;
 use App\Models\ProductAttributeValue;
 use App\Models\Product;
 use App\Models\TransactionHistory;
+use App\Models\UserBotHistory;
 use App\Models\UserMiningHistory;
 use Illuminate\Support\Str;
 use App\Rules\MatchOldPassword;
@@ -292,6 +293,46 @@ class MiningController extends Controller
     }
 
 
+
+    public function insertBotCatWise(Request $request){
+
+
+        //dd($request->all());
+        $userId  = $this->userid;
+        $mCatrow = MiningCategory::where('slug', $request->slug)->first();
+
+        $data    = array(
+                    'user_id'                      => $userId,
+                    'mining_category_id'           => $request->mining_category_id,
+                    'boost_setting_id'             => $request->boost_setting_id,
+                    'name'                         => $request->name,
+                    'level_cost'                   => $request->level_cost,
+            
+        );
+
+        $response          = app('App\Http\Controllers\Balance\BalanceController')->getBalance();
+        $usdtdepositAmount = $response instanceof JsonResponse ? $response->getData(true)['usdtamount'] : 0;
+        $prices            = !empty($request->level_cost) ? $request->level_cost : "";
+
+        if ($prices > $usdtdepositAmount) {
+            return response()->json(['invalid_amount' => "Sorry, invalid request. Your balance is now $usdtdepositAmount."], 422);
+        }
+        
+        if(!empty($request->boost_setting_id)){
+            UserBotHistory::insert($data);
+        }
+
+        $mCatId = $mCatrow->id;
+       
+        $countRows = UserBotHistory::where('mining_category_id',$mCatId)->where('user_id',$userId)->count();
+        $response = [
+            'message' => 'success',
+            'countRows' => $countRows
+        ];
+        return response()->json($response, 200);
+
+    }
+
     public function insertBoostMiningCatWise(Request $request){
 
         $userId  = $this->userid;
@@ -305,9 +346,21 @@ class MiningController extends Controller
                     'level_cost'                   => $request->level_cost,
             
         );
+
+
+        $response          = app('App\Http\Controllers\Balance\BalanceController')->getBalance();
+        $usdtdepositAmount = $response instanceof JsonResponse ? $response->getData(true)['usdtamount'] : 0;
+        $prices            = !empty($request->level_cost) ? $request->level_cost : "";
+
+        if ($prices > $usdtdepositAmount) {
+            return response()->json(['invalid_amount' => "Sorry, invalid request. Your balance is now $usdtdepositAmount."], 422);
+        }
+
+
         if(!empty($request->boost_mining_id)){
             UserMiningHistory::insert($data);
         }
+
 
         $mCatId = $mCatrow->id;
        

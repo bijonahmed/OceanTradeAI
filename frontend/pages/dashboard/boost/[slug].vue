@@ -75,13 +75,18 @@
                                     <i class="fas fa-chevron-right"></i>
                                 </button>
                                 <button class="btn_boost_option" data-bs-toggle="offcanvas"
-                                    data-bs-target="#bot_confirm" aria-controls="bot_confirm">
+                                    data-bs-target="#bot_confirm" aria-controls="bot_confirm" @click="insertBot">
                                     <div class="m_btn_left">
                                         <img src="/assets/images/bot.png" alt="" class="img-fluid">
                                         <div>
                                             <h6>Bot</h6>
-                                            <p><img src="/assets/images/usdt.png" alt="" class="img-fluid">200 ||
-                                                Level-1</p>
+                                            <p><img src="/assets/images/usdt.png" alt="" class="img-fluid"></p>
+                                            <p v-if="botData.name !== null && botData.name !== undefined">
+                                                {{ botData.level_cost }} || {{ botData.name }}
+                                            </p>
+                                            <p v-else>
+                                                MAX
+                                            </p>
                                         </div>
                                     </div>
                                     <i class="fas fa-chevron-right"></i>
@@ -141,7 +146,12 @@
                             <h4>Bot</h4>
                             <p>Increase aniybt if Tap you can earn per one tap.</p>
                             <p>+1 per tap for each level</p>
-                            <h6><img src="assets/images/usdt.png" alt="" class="img-fluid">200</h6>
+                            <h6><img src="assets/images/usdt.png" alt="" class="img-fluid">
+                            
+                                <p v-if="botData.name !== null && botData.name !== undefined">
+                                                {{ botData.level_cost }} 
+                                            </p>
+                                        </h6>
                             <button class="btn-action style-1" data-bs-dismiss="offcanvas" aria-label="Close"
                                 @click="backtoPages">Got it</button>
                         </div>
@@ -178,7 +188,49 @@ const usdtBalance = ref('');
 
 const catStatus = ref('');
 const boostMining = ref('');
+const botData = ref('');
+
 const errors = ref({});
+
+
+
+const insertBot = async () => {
+
+    const urlString = window.location.href;
+    const slug = urlString.substring(urlString.lastIndexOf('/') + 1);
+    axios.get("/mining/insertBotCatWise", {
+        params: {
+            slug: slug,
+            mining_category_id: botData.value.mining_categogy_id,
+            name: botData.value.name,
+            level_cost: botData.value.level_cost,
+            boost_setting_id: botData.value.id,
+        }
+
+    }).then((res) => {
+        getusdtBalance();
+        getParmaSlug();
+        console.log("==" + res.data.countRows);
+        if(res.data.countRows == 3){
+           // alert("already over");
+
+        }else{
+            success_msg('Successfully buy Boot ');
+        }
+
+    }).catch((error) => {
+            if (error.response && error.response.status === 422) {
+                errors.value = error.response.data.errors;
+                console.log("errors " + error.response.data.invalid_amount);
+                errorAmountmsg(error.response.data.invalid_amount);
+
+            } else {
+                // Handle other types of errors here
+                console.error("An error occurred:", error);
+            }
+        });
+
+}
 
 const insertBoostMining = async () => {
     const urlString = window.location.href;
@@ -193,10 +245,11 @@ const insertBoostMining = async () => {
         }
 
     }).then((res) => {
+        getusdtBalance();
         getParmaSlug();
-        console.log("===================" + res.data.countRows);
+        console.log("==" + res.data.countRows);
         if(res.data.countRows == 10){
-            alert("already over");
+            //alert("already over");
         }else{
             success_msg('Successfully buy Boosted');
         }
@@ -204,6 +257,7 @@ const insertBoostMining = async () => {
     }).catch((error) => {
             if (error.response && error.response.status === 422) {
                 errors.value = error.response.data.errors;
+                errorAmountmsg(error.response.data.invalid_amount);
             } else {
                 // Handle other types of errors here
                 console.error("An error occurred:", error);
@@ -250,6 +304,7 @@ const getParmaSlug = async () => {
         }
     });
     //BOOST 
+    botData.value = response.data.data.bot;
     boostMining.value = response.data.data.boostMinSetting;
     console.log(response.data.data.mstatus);
     const mstatus = response.data.data.mstatus;
@@ -319,6 +374,28 @@ const error_msg = () => {
     });
 
 }
+
+
+const errorAmountmsg = (successmsg) => {
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
+
+    Toast.fire({
+        icon: "error",
+        title: successmsg
+    });
+}
+
+
 const success_msg = (successmsg) => {
     const Toast = Swal.mixin({
         toast: true,

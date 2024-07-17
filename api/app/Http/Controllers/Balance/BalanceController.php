@@ -25,6 +25,8 @@ use App\Models\kyc;
 use App\Models\Notification;
 use App\Models\Setting;
 use App\Models\SwapHistory;
+use App\Models\UserBotHistory;
+use App\Models\UserMiningHistory;
 use App\Models\UserPaymentAddress;
 use App\Models\Withdraw;
 use Illuminate\Support\Str;
@@ -72,8 +74,10 @@ class BalanceController extends Controller
        
         $row                           = User::find($this->userid);
         $deposit                       = Deposit::where('user_id', $this->userid)->where('status', 1)->sum('deposit_amount');
-        //echo "Deposit: $deposit";
-        $usdt_balance                  = $deposit - $service_price;
+        $bost                          = UserBotHistory::where('user_id', $this->userid)->sum('level_cost');
+        $mining                        = UserMiningHistory::where('user_id', $this->userid)->sum('level_cost');
+
+        $usdt_balance                  = $deposit - $service_price - $bost - $mining;
 
         $data['available_balance']     = !empty($row->available_balance) ? $row->available_balance : 0;
         $data['usdt_amount']           = number_format($usdt_balance, 2); //USDT Amount
