@@ -293,6 +293,8 @@ Route::middleware(['auth:api', CheckUserStatus::class])->group(function () {
     Route::group([
         'prefix' => 'mining'
     ], function () {
+        Route::get('getOcnBalanceCatWise', [MiningController::class, 'getOcnBalanceCatWise']);
+        Route::get('increastMiningCountdownBalance', [MiningController::class, 'increastMiningCountdownBalance']);
         Route::get('minningDurationrow/{id}', [MiningController::class, 'minningDurationrow']);
         Route::post('inserMiningDuration', [MiningController::class, 'inserMiningDuration']);
         Route::get('insertBoostMiningCatWise', [MiningController::class, 'insertBoostMiningCatWise']);

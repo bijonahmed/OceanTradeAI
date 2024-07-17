@@ -1,7 +1,6 @@
 <template>
   <div>
     <p class="d-none">Server Time: {{ formattedServerTime }}</p>
-    <!-- <hr/> -->
     <p class="d-none">Start Time: {{ formattedStartTime }}</p>
     <p class="d-none">End Time: {{ formattedEndTime }}</p>
     <p class="d-none">Mining Category ID: {{ miningCategoryId }}</p>
@@ -9,6 +8,7 @@
     <p class="d-none">Received ID: {{ id }}</p>
 
     <div class="img_machine active">
+
       <span v-if="formattedRemainingTime == '0h 0m 0s'">
         <img src="/assets/images/4.png" alt="ICOLand">
       </span>
@@ -18,11 +18,9 @@
       </span>
 
     </div>
-
-
     <span class="sm_timer">
       <strong>
-        <div class="t_box">{{ hours }} </div>
+        <div class="t_box">{{ hours }}</div>
         <p>Hour</p>
       </strong>
       <strong>
@@ -34,94 +32,142 @@
         <p>Second</p>
       </strong>
     </span>
-    <span v-if="formattedRemainingTime == '0h 0m 0s'">
+
+    <center>
+      <h3>{{ increasingNumber }}</h3>
+    </center>
+    <span v-if="formattedRemainingTime === '0h 0m 0s'">
       <nuxt-link class="btn-action disabled style-5 btn_boost" @click="startProcess(id)">Mine</nuxt-link>
     </span>
-
   </div>
 </template>
 
 <script setup>
 import axios from 'axios';
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
+import { ref, computed, onUnmounted, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { useMiningcategoryfourStore } from '~/stores/miningcategoryfour';
+
 const router = useRouter();
+const myStore = useMiningcategoryfourStore();
 
-import { ref, computed, onUnmounted, onMounted } from 'vue'
-import { useMiningcategoryfourStore } from '~/stores/miningcategoryfour'
-const myStore = useMiningcategoryfourStore()
-
-const remainingTime = ref(null)
-const intervalId = ref(null)
-const notifyMsg = ref("");
+const remainingTime = ref(null);
+const intervalId = ref(null);
+const notifyMsg = ref('');
 const mining_id = ref(null);
+const requestSent = ref(false);
+const ocnBalance = ref(0);
+
 const props = defineProps({
   id: {
     type: Number,
     required: true
-  }
+  },
+
 });
 
+const localStorageKey = `increasingNumber_${props.id}`;
+const increasingNumber = ref(parseInt(localStorage.getItem(localStorageKey)) || ocnBalance);
 
 const startProcess = async (mining_category_id) => {
-  console.log("mining_category_id:" + mining_category_id);
   try {
-
-    const res = await axios.get("/mining/miningProcess", {
-      params: {
-        mining_category_id: mining_category_id,
-      }
+    const res = await axios.get('/mining/miningProcess', {
+      params: { mining_category_id }
     });
     notifyMsg.value = res.data.notify;
     mining_id.value = res.data.mining_id;
-    console.log("check status: ", res.data.status);
-    window.location.reload();
-    //router.push("/dashboard/success-mining");
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  }
+    router.push('/dashboard/success-mining');
 
-}
+  } catch (error) {
+    Swal.fire('Error', 'Error fetching data', 'error');
+  }
+};
+
 const fetchData = async () => {
-  await myStore.getSoreData()
-  startCountdown()
-}
+  await myStore.getSoreData();
+  startCountdown();
+};
 
 const startCountdown = () => {
-  const serverNow = new Date(myStore.server_time).getTime()
-  const endTime = new Date(myStore.end_time).getTime()
-  const startTime = new Date(myStore.start_time).getTime()
+  const serverNow = new Date(myStore.server_time).getTime();
+  const endTime = new Date(myStore.end_time).getTime();
 
   if (serverNow < endTime) {
-    remainingTime.value = endTime - serverNow
+    remainingTime.value = endTime - serverNow;
 
     intervalId.value = setInterval(() => {
-      remainingTime.value -= 1000
-      if (remainingTime.value <= 0) {
-        clearInterval(intervalId.value)
-        remainingTime.value = 0
+      remainingTime.value -= 1000;
+      increasingNumber.value += 1;
+      localStorage.setItem(localStorageKey, increasingNumber.value);
+
+      if (remainingTime.value <= 0 && !requestSent.value) {
+        clearInterval(intervalId.value);
+        remainingTime.value = 0;
+        requestSent.value = true;
+        sendCompletionRequest();
       }
-    }, 1000)
+    }, 1000);
   } else {
-    remainingTime.value = 0
+    remainingTime.value = 0;
+    if (!requestSent.value) {
+      sendCompletionRequest();
+    }
   }
-}
+};
+
+
+const getOcnBalance = async () => {
+  try {
+    const resp = await axios.get('/mining/getOcnBalanceCatWise', {
+      params: {
+        id: props.id,
+      }
+    });
+    ocnBalance.value = resp.data.ocnBalance;
+    // Use ocnBalance as needed
+    console.log('OCN Balance:', resp.data.ocnBalance);
+
+  } catch (error) {
+    console.error('Error ocn balance number:', error);
+  }
+};
+const sendCompletionRequest = () => {
+
+  if (requestSent.value) {
+    try {
+      axios.get('/mining/increastMiningCountdownBalance', {
+        params: {
+          id: props.id,
+          miningCategoryId: props.categoryId,
+          number: increasingNumber.value
+        }
+      });
+      getOcnBalance();
+
+    } catch (error) {
+      console.error('Error updating number:', error);
+    }
+  }
+
+
+};
 
 const formattedStartTime = computed(() => {
-  return myStore.start_time ? new Date(myStore.start_time).toLocaleString() : ''
-})
-
+  return myStore.start_time ? new Date(myStore.start_time).toLocaleString() : '';
+});
 
 const formattedEndTime = computed(() => {
-  return myStore.end_time ? new Date(myStore.end_time).toLocaleString() : ''
-})
+  return myStore.end_time ? new Date(myStore.end_time).toLocaleString() : '';
+});
 
 const formattedServerTime = computed(() => {
-  return myStore.server_time ? new Date(myStore.server_time).toLocaleString() : ''
-})
+  return myStore.server_time ? new Date(myStore.server_time).toLocaleString() : '';
+});
 
 const miningCategoryId = computed(() => {
-  return myStore.mining_category_id
-})
+  return myStore.mining_category_id;
+});
 
 const hours = computed(() => {
   if (remainingTime.value === null) return '';
@@ -142,23 +188,17 @@ const formattedRemainingTime = computed(() => {
   if (remainingTime.value === null) return '';
   return `${hours.value}h ${minutes.value}m ${seconds.value}s`;
 });
-/*
-const formattedRemainingTime = computed(() => {
-  if (remainingTime.value === null) return 'N/A'
-  const hours = Math.floor((remainingTime.value / (1000 * 60 * 60)) % 24)
-  const minutes = Math.floor((remainingTime.value / (1000 * 60)) % 60)
-  const seconds = Math.floor((remainingTime.value / 1000) % 60)
-  return `${hours}h ${minutes}m ${seconds}s`
-})
-*/
 
-onMounted(() => {
-  fetchData()
-})
+onMounted(
+  fetchData(),
+  getOcnBalance()
+);
 
 onUnmounted(() => {
+
   if (intervalId.value) {
-    clearInterval(intervalId.value)
+    clearInterval(intervalId.value);
+
   }
-})
+});
 </script>

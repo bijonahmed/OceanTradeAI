@@ -13,7 +13,12 @@
     </center>
                 <div class="dashboard__main">
                     <br/>
-                   <h2><center>Your mining has started successfully</center></h2>
+                   <h2><center>Your mining has started successfully<br>
+                
+                    <nuxt-link to="/dashboard/mining" class="btn-action-outline style-5"><span
+                        class="d-md-inline-block">Back</span></nuxt-link>
+                
+                </center></h2>
                 </div>
             </div>
         </div>
@@ -23,20 +28,9 @@
     </div>
 </template>
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+ 
 import DashboardSidebar from "~/layouts/DashboardSidebar.vue";
 import DashboardHeader from "~/layouts/DashboardHeader.vue";
-import { useRouter } from 'vue-router';
-
-// const loading = ref(false);
-// const router = useRouter();
-
-// onMounted(async () => {
-//     loading.value = true;
-//     setInterval(() => {
-//         loading.value = false;
-//         router.push('/dashboard/mining');
-//     }, 2000);
-
-// });
+ 
+ 
 </script>

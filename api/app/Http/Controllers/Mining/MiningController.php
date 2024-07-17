@@ -27,6 +27,7 @@ use App\Models\Product;
 use App\Models\TransactionHistory;
 use App\Models\UserBotHistory;
 use App\Models\UserMiningHistory;
+use App\Models\UserMiningLog;
 use Illuminate\Support\Str;
 use App\Rules\MatchOldPassword;
 use Carbon\Carbon;
@@ -46,6 +47,32 @@ class MiningController extends Controller
         if (!empty($id)) {
             $user = User::find($id->id);
             $this->userid = $user->id;
+        }
+    }
+
+
+
+    public function getOcnBalanceCatWise(Request $request){
+
+        $mining_category_id = $request->id; 
+        $ocnBalance         = UserMiningLog::where('mining_cat_id',$mining_category_id)->where('user_id',$this->userid)->sum('ocn_balance');
+
+        $response = [
+            'message' => 'success',
+            'ocnBalance' => $ocnBalance
+        ];
+        return response()->json($response, 200);
+
+    }
+    
+
+
+    public function increastMiningCountdownBalance(Request $request){
+        if(!empty($request->id)){
+            $data['user_id']       = $this->userid;
+            $data['mining_cat_id'] = $request->id;
+            $data['ocn_balance']   = $request->number;
+            UserMiningLog::insert($data);
         }
     }
 
@@ -295,8 +322,6 @@ class MiningController extends Controller
 
 
     public function insertBotCatWise(Request $request){
-
-
         //dd($request->all());
         $userId  = $this->userid;
         $mCatrow = MiningCategory::where('slug', $request->slug)->first();
