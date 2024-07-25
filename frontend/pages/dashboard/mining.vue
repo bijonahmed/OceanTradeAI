@@ -388,8 +388,46 @@ const fetchData = async () => {
     }
 };
 
+const requestSent = ref(false);
+const getLocalStorageData = async () => {
+    // Retrieve values from local storage
+    const catOne = localStorage.getItem('increasingNumber_1');
+    const catTwo = localStorage.getItem('increasingNumber_2');
+    const catThree = localStorage.getItem('increasingNumber_3');
+    const catFour = localStorage.getItem('increasingNumber_4');
+
+    // Function to make the API request
+    const sendMiningRequest = async (categoryId, number) => {
+        try {
+            await axios.get('/mining/increastMiningCountdownBalance', {
+                params: {
+                    id: categoryId,
+                    miningCategoryId: categoryId,
+                    number: number
+                }
+            });
+            console.log(`Request for category ${categoryId} successful.`);
+        } catch (error) {
+            console.error(`Error updating number for category ${categoryId}:`, error);
+        }
+    };
+
+    // Function to send requests for all categories
+    const sendAllRequests = async () => {
+        await sendMiningRequest(1, catOne);
+        await sendMiningRequest(2, catTwo);
+        await sendMiningRequest(3, catThree);
+        await sendMiningRequest(4, catFour);
+    };
+
+    // Call the function to send all requests
+    sendAllRequests();
+};
+
+
 onMounted(() => {
     fetchData();
+    getLocalStorageData();
     setTimeout(() => {
         loading.value = false;
     }, 2000); // 2 seconds

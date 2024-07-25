@@ -17,7 +17,9 @@ class MiningHistory extends Authenticatable
         'duration',
         'user_id',
         'ip',
+        'status',
         'mining_category_id',
+        'boost_boot_setting_id',
         'entry_by',
     ];
 }

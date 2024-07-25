@@ -82,29 +82,37 @@ const menuItems = ref([
     route: null,
     children: [
       //{ label: 'Partners Downline', icon: 'fa-circle', route: '/usermanagement/store-management' },
-      {
-        label: "Super Admin list",
-        icon: "fa-circle",
-        route: "/usermanagement/superadmin-list",
-      },
+      { label: "Super Admin list", icon: "fa-circle", route: "/usermanagement/superadmin-list",},
+      { label: "User list", icon: "fa-circle", route: "/usermanagement/userlist", },
+      { label: 'Affiliate ', icon: 'fa-circle', route: '/usermanagement/affiliate' },
       // {
       //   label: "Admin list",
       //   icon: "fa-circle",
       //   route: "/usermanagement/admin-list",
       // },
-      {
-        label: "User list",
-        icon: "fa-circle",
-        route: "/usermanagement/userlist",
-      },
+      
       //{ label: 'Order History', icon: 'fa-circle', route: '/usermanagement/order-management' },
       //{ label: 'Bulk Order Status ', icon: 'fa-circle', route: '/usermanagement/bulk-order-status' },
       //{ label: 'Create Bulk Order ', icon: 'fa-circle', route: '/usermanagement/bulk-order' },
       //{ label: 'Manual dispatch', icon: 'fa-circle', route: '#'},
-      { label: 'Affiliate ', icon: 'fa-circle', route: '/usermanagement/affiliate' },
+      
     ],
   },
   
+  {
+    label: 'Trading Management',
+    icon: 'fa-folder',
+    badge: '',
+    open: false,
+    route: null,
+    children: [
+      { label: 'Category List', icon: 'fa-circle', route: '/trading/category-list' },
+      { label: 'Sub Category List', icon: 'fa-circle', route: '/trading/list' },
+      { label: 'Duration List', icon: 'fa-circle', route: '/trading/list' },
+
+    ]
+  },
+
   {
     label: 'Post Management',
     icon: 'fa-folder',
@@ -127,22 +135,15 @@ const menuItems = ref([
     open: false,
     route: null,
     children: [
-
+    { label: "Boost Mining Setup", icon: "fa-circle", route: "/setting/boost/boostMiningSetupList" },
+    { label: "Boost Bot Setup", icon: "fa-circle", route: "/setting/boost/boostBotList" },
     { label: "Global Wallet Address", icon: "fa-circle", route: "/setting/wallet/globalwalletAddressList" },
     { label: "Real Time Wallet Tracking", icon: "fa-circle", route: "/setting/wallet/realtimewalletTracking" },
     { label: "Notification", icon: "fa-circle", route: "/setting/notificationlist" },
     { label: "Pre-Setting", icon: "fa-circle", route: "/setting/presetting" },
     { label: "Mining Category", icon: "fa-circle", route: "/setting/mining-category-list", },
-    {
-        label: "Mining Duration",
-        icon: "fa-circle",
-        route: "/setting/duration/mining-duration-list",
-      },
-      {
-        label: "Community List",
-        icon: "fa-circle",
-        route: "/setting/community/list",
-      },
+    { label: "Mining Duration", icon: "fa-circle", route: "/setting/duration/mining-duration-list",},
+    { label: "Community List", icon: "fa-circle", route: "/setting/community/list", },
       //{ label: "Sliders", icon: "fa-circle", route: "/slider/list" },
       //{ label: 'System Configaration', icon: 'fa-circle', route: '#' },
       //{ label: 'Store Information', icon: 'fa-circle', route: '#' }
@@ -180,31 +181,15 @@ const menuItems = ref([
       // { label: 'Wallet', icon: 'fa-circle', route: '/walletmanagement/wallet' },
       // { label: 'Transection report', icon: 'fa-circle', route: '/walletmanagement/transection' },
       // { label: 'Recharge report', icon: 'fa-circle', route: '/walletmanagement/recharge-report' },
-      {
-        label: "Manual Adjustment report",
-        icon: "fa-circle",
-        route: "/walletmanagement/manual-adjustment-report",
-      },
-      {
-        label: "Create Manual adjustment",
-        icon: "fa-circle",
-        route: "/walletmanagement/manual-adjustment",
-      },
+      { label: "Manual Adjustment report", icon: "fa-circle", route: "/walletmanagement/manual-adjustment-report", },
+      { label: "Create Manual adjustment", icon: "fa-circle", route: "/walletmanagement/manual-adjustment",},
       // {
       //   label: "User wallet",
       //   icon: "fa-circle",
       //   route: "/walletmanagement/user-wallet",
       // },
-      {
-        label: "Deposit History ",
-        icon: "fa-circle",
-        route: "/walletmanagement/deposit-management",
-      },
-      {
-        label: "Withdrawal History",
-        icon: "fa-circle",
-        route: "/walletmanagement/withdrawal-management",
-      },
+      { label: "Deposit History ", icon: "fa-circle", route: "/walletmanagement/deposit-management", },
+      { label: "Withdrawal History", icon: "fa-circle", route: "/walletmanagement/withdrawal-management", },
       // { label: 'Account details ', icon: 'fa-circle', route: '/walletmanagement/account-details' },
     ],
   },

@@ -10,7 +10,7 @@ use App\Models\UserWalletAddress;
 
 class WalletSetupCommand extends Command
 {
-    
+
     protected $signature = 'app:wallet-setup-command';
     protected $description = 'Display time every minnite check and delete. this command run everyTwoMinutes';
 
@@ -20,8 +20,7 @@ class WalletSetupCommand extends Command
         date_default_timezone_set('Asia/Dhaka');
         //php artisan schedule:run  working
         $nowTime = Carbon::now();
-        \Log::info('WalletSetupCommand is now run. now time is : '.$nowTime);
-
+        \Log::info('WalletSetupCommand is now run. now time is : ' . $nowTime);
 
         // Fetch rows to be deleted
         $userWallets = UserWalletAddress::where('delete_time', '<=', $nowTime)->get();
@@ -39,10 +38,7 @@ class WalletSetupCommand extends Command
             GlobalWalletAddress::where('id', $globalUserWallAddId)->update(['lock_unlock' => 0]); // Replace 'new_status' with your desired status
         }
 
-         
         UserWalletAddress::where('delete_time', '<=', $nowTime)->delete();
-        echo "Now time: ".$nowTime; 
-
+        echo "Now time: " . $nowTime;
     }
-
 }

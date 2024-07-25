@@ -205,6 +205,7 @@ const insertBot = async () => {
             name: botData.value.name,
             level_cost: botData.value.level_cost,
             boost_setting_id: botData.value.id,
+            hours: botData.value.hours,
         }
 
     }).then((res) => {
@@ -242,6 +243,7 @@ const insertBoostMining = async () => {
             name: boostMining.value.name,
             level_cost: boostMining.value.level_cost,
             boost_mining_id: boostMining.value.id,
+            mining_per_seconds: boostMining.value.mining_per_seconds,
         }
 
     }).then((res) => {

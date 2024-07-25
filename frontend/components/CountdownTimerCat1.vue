@@ -58,6 +58,7 @@ const notifyMsg = ref('');
 const mining_id = ref(null);
 const requestSent = ref(false);
 const ocnBalance = ref(0);
+const increaseSecond = ref(0);
 
 const props = defineProps({
   id: {
@@ -98,7 +99,14 @@ const startCountdown = () => {
 
     intervalId.value = setInterval(() => {
       remainingTime.value -= 1000;
-      increasingNumber.value += 1;
+      const increaseSec = increaseSecond.value; 
+      
+      if(increaseSec){
+        increasingNumber.value += increaseSec;
+      }else{
+        increasingNumber.value += 1;
+      }
+
       localStorage.setItem(localStorageKey, increasingNumber.value);
 
       if (remainingTime.value <= 0 && !requestSent.value) {
@@ -125,13 +133,30 @@ const getOcnBalance = async () => {
       }
     });
     ocnBalance.value = resp.data.ocnBalance;
-    // Use ocnBalance as needed
-    console.log('OCN Balance:', resp.data.ocnBalance);
-
   } catch (error) {
     console.error('Error ocn balance number:', error);
   }
 };
+
+
+const updateTimer = async () => {
+  try {
+    const resp = await axios.get('/mining/timerUpdate', {
+      params: {
+        id: props.id,
+      }
+    });
+
+    console.log("Per second:" + resp.data.mining_per_seconds);
+    increaseSecond.value = resp.data.mining_per_seconds;
+  } catch (error) {
+    console.error('Error ocn balance number:', error);
+  }
+};
+
+
+
+
 const sendCompletionRequest = () => {
 
   if (requestSent.value) {
@@ -171,17 +196,20 @@ const miningCategoryId = computed(() => {
 
 const hours = computed(() => {
   if (remainingTime.value === null) return '';
-  return Math.floor((remainingTime.value / (1000 * 60 * 60)) % 24);
+  //return Math.floor((remainingTime.value / (1000 * 60 * 60)) % 24);
+  return Math.floor(remainingTime.value / (1000 * 60 * 60)); // Total hours
 });
 
 const minutes = computed(() => {
   if (remainingTime.value === null) return '';
-  return Math.floor((remainingTime.value / (1000 * 60)) % 60);
+  //return Math.floor((remainingTime.value / (1000 * 60)) % 60);
+  return Math.floor((remainingTime.value % (1000 * 60 * 60)) / (1000 * 60)); 
 });
 
 const seconds = computed(() => {
   if (remainingTime.value === null) return '';
-  return Math.floor((remainingTime.value / 1000) % 60);
+  //return Math.floor((remainingTime.value / 1000) % 60);
+  return Math.floor((remainingTime.value % (1000 * 60)) / 1000); // Remaining seconds after minutes
 });
 
 const formattedRemainingTime = computed(() => {
@@ -190,6 +218,7 @@ const formattedRemainingTime = computed(() => {
 });
 
 onMounted(
+  updateTimer(),
   fetchData(),
   getOcnBalance()
 );

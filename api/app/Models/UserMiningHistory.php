@@ -19,6 +19,7 @@ class UserMiningHistory extends Authenticatable
     'user_id',
     'boost_mining_id',
     'mining_category_id',
+    'mining_per_seconds',
     'name',
     'level_cost'
   ];

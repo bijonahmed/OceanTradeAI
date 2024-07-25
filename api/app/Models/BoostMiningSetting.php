@@ -17,7 +17,10 @@ class BoostMiningSetting extends Authenticatable
   
   protected $fillable = [
     'name',
+    'mining_categogy_id',
+    'mining_per_seconds',
     'level_cost',
+    'sort',
     'status',
   ];
  

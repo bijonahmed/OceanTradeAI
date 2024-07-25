@@ -32,6 +32,7 @@ use App\Rules\MatchOldPassword;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use DB;
+use PDO;
 
 class CategoryController extends Controller
 {
@@ -457,7 +458,7 @@ class CategoryController extends Controller
         $row         = MiningCategory::where('slug', $request->slug)->first();
         $response    = MiningCategoryDuration::join('mining_categogy', 'mining_categogy_duration.mining_category_id', '=', 'mining_categogy.id')
             ->where('mining_categogy_duration.mining_category_id', $row->id)
-            ->select('mining_categogy_duration.*', 'mining_categogy.name as mining_cat_name') // Adjust the selected columns as needed
+            ->select('mining_categogy_duration.*', 'mining_categogy.name as mining_cat_name', 'mining_categogy.offer_description') // Adjust the selected columns as needed
             ->get();
 
         $response = [
@@ -498,16 +499,16 @@ class CategoryController extends Controller
         */
 
         $checkUserBot   =  UserBotHistory::where('mining_category_id', $minig_category_id)
-                           ->where('user_id', $this->userid)
-                           ->pluck('boost_setting_id')
-                           ->toArray();
+            ->where('user_id', $this->userid)
+            ->pluck('boost_setting_id')
+            ->toArray();
 
         // Fetch boost mining settings and filter out the ones with matching IDs from $checkUserMin
         $bot            =  BotSetting::where('mining_categogy_id', $minig_category_id)
-                            ->where('status', 1)
-                            ->whereNotIn('id', $checkUserBot)
-                            ->orderBy('id') // Optional: Order by id or other column if needed
-                            ->first();
+            ->where('status', 1)
+            ->whereNotIn('id', $checkUserBot)
+            ->orderBy('id') // Optional: Order by id or other column if needed
+            ->first();
 
         if (!empty($check)) {
             $sdata['name']               = $row->name;

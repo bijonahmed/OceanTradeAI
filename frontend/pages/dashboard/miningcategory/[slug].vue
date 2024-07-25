@@ -30,7 +30,8 @@
                             <h1>{{ v.mining_cat_name }}</h1>
                             <h4 class="price_">{{ v.duration }} days</h4>
                             <h4>${{ v.prices }}</h4>
-                            <ul class="options">
+                            {{ v.offer_description }}
+                            <ul class="options d-none">
                                 <li>Save $0.00</li>
                                 <li>max mining $13</li>
                                 <li>max mining 1 hour</li>

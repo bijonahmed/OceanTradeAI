@@ -32,6 +32,7 @@ use App\Http\Middleware\CheckUserStatus;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\Affiliate\AffiliateController;
+use App\Http\Controllers\Trading\TradingController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -293,13 +294,20 @@ Route::middleware(['auth:api', CheckUserStatus::class])->group(function () {
     Route::group([
         'prefix' => 'mining'
     ], function () {
+        Route::post('updateBot', [MiningController::class, 'updateBot']);
+        Route::post('insertBot', [MiningController::class, 'insertBot']);
+        Route::post('updateBotMining', [MiningController::class, 'updateBotMining']);
+        Route::post('insertBotMining', [MiningController::class, 'insertBotMining']);
+        Route::get('allMniningCategorys', [MiningController::class, 'allMniningCategorys']);
         Route::get('getOcnBalanceCatWise', [MiningController::class, 'getOcnBalanceCatWise']);
         Route::get('increastMiningCountdownBalance', [MiningController::class, 'increastMiningCountdownBalance']);
         Route::get('minningDurationrow/{id}', [MiningController::class, 'minningDurationrow']);
+        Route::get('boostminingrow/{id}', [MiningController::class, 'boostminingrow']);
+        Route::get('boostbotrow/{id}', [MiningController::class, 'boostbotrow']);
         Route::post('inserMiningDuration', [MiningController::class, 'inserMiningDuration']);
         Route::get('insertBoostMiningCatWise', [MiningController::class, 'insertBoostMiningCatWise']);
         Route::get('insertBotCatWise', [MiningController::class, 'insertBotCatWise']);
-
+        Route::get('timerUpdate', [MiningController::class, 'timerUpdate']);
         Route::get('allMiningDuration', [MiningController::class, 'allMiningDuration']);
         Route::get('checkMiningInfo', [MiningController::class, 'checkMiningInfo']);
         Route::get('getMiningDuration', [MiningController::class, 'getMiningDuration']);
@@ -343,9 +351,26 @@ Route::middleware(['auth:api', CheckUserStatus::class])->group(function () {
         Route::get('documents-row/{id}', [DocumentsController::class, 'editId']);
     });
 
+
+ Route::group([
+        'prefix' => 'trading'
+    ], function () {
+        Route::post('updateCategory', [TradingController::class, 'updateCategory']);
+        Route::post('saveCategory', [TradingController::class, 'saveCategory']);
+        Route::get('alltradingCategoryList', [TradingController::class, 'alltradingCategoryList']);
+        Route::get('tradingCategoryRow/{id}', [TradingController::class, 'tradingCategoryRow']);
+    });
+
+    
+
     Route::group([
         'prefix' => 'setting'
-    ], function () {
+    ], function () {       
+        // miningSetup 
+        Route::post('insertEmployeeType', [SettingController::class, 'insertEmployeeType']);
+        Route::get('getBoostMiningList', [SettingController::class, 'getBoostBotList']);
+        Route::get('getBoostBotList', [SettingController::class, 'getBoostBotList']);
+        //wallet
         Route::get('updateUserwalletAddress', [SettingController::class, 'updateUserwalletAddress']);
         Route::get('getUsersRealTimeWalletAddress', [SettingController::class, 'getUsersRealTimeWalletAddress']);
         Route::get('getGlobalWalletAddress', [SettingController::class, 'getGlobalWalletAddress']);

@@ -48,7 +48,7 @@
 
 
 
-        <!-- Nid modal  -->
+        <!-- NID modal  -->
         <div class="modal fade" id="id_mdal" tabindex="-1" aria-labelledby="id_mdalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content rounded-0">
@@ -63,7 +63,7 @@
                         </div>
                     </div>
                     <div class="modal-body">
-                        <form action="" class="kyc_form">
+                        <form @submit.prevent="nidUpdate()" id="passport_formrest" class="kyc_form ">
                             <div class="form_group kyc_ kyc_dl ">
                                 <h6>Front</h6>
                                 <label for="idfront">
@@ -108,7 +108,7 @@
                         </div>
                     </div>
                     <div class="modal-body">
-                        <form action="" class="kyc_form">
+                        <form @submit.prevent="passportUpdate()" id="passport_formrest" class="kyc_form ">
                             <div class="form_group kyc_ kyc_dl ">
                                 <label for="pp">
                                     <i class="fa-solid fa-plus"></i>
@@ -125,7 +125,7 @@
             </div>
         </div>
 
-        <!-- Dl modal  -->
+        <!-- Driving License modal  -->
         <div class="modal fade" id="dl_mdal" tabindex="-1" aria-labelledby="dl_mdalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content rounded-0">
@@ -140,7 +140,8 @@
                         </div>
                     </div>
                     <div class="modal-body">
-                        <form action="" class="kyc_form ">
+                      
+                     <form @submit.prevent="kycUpdate()" id="kyc_formrest" class="kyc_form ">
                             <div class="form_group kyc_ kyc_dl text-center">
                                 <h6>Front</h6>
                                 <label for="dlfront">
@@ -177,4 +178,15 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import DashboardSidebar from "~/layouts/DashboardSidebar.vue";
 import DashboardHeader from "~/layouts/DashboardHeader.vue";
+
+
+
+
+
+
+
+
+
+
+
 </script>

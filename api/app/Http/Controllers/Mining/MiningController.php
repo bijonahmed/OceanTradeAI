@@ -13,6 +13,8 @@ use App\Models\Categorys;
 use App\Category;
 use App\Models\AttributeValues;
 use App\Models\Attribute;
+use App\Models\BoostMiningSetting;
+use App\Models\BotSetting;
 use App\Models\Deposit;
 use App\Models\MiningCategory;
 use App\Models\MiningCategoryDuration;
@@ -51,28 +53,262 @@ class MiningController extends Controller
     }
 
 
+    public function updateBot(Request $request){
 
-    public function getOcnBalanceCatWise(Request $request){
+        $validator = Validator::make($request->all(), [
+            'name'                => 'required',
+            'mining_categogy_id'  => 'required',
+            'level_cost'          => 'required|integer',
+            'total_seconds'       => 'required|integer',
+            'hours'               => 'required',
+            'status'              => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
 
-        $mining_category_id = $request->id; 
-        $ocnBalance         = UserMiningLog::where('mining_cat_id',$mining_category_id)->where('user_id',$this->userid)->sum('ocn_balance');
+        $data = array(
+            'name'                       => $request->name,
+            'mining_categogy_id'         => $request->mining_categogy_id,
+            'level_cost'                 => $request->level_cost,
+            'total_seconds'              => $request->total_seconds,
+            'hours'                      => $request->hours,
+            'status'                     => $request->status,
+        );
+        $resdata['id']                    = BotSetting::where('id', $request->id)->update($data);
+        return response()->json($resdata);
+
+    }
+
+
+    public function updateBotMining(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'name'                 => 'required',
+            'mining_categogy_id'  => 'required',
+            'level_cost'          => 'required|integer',
+            'mining_per_seconds'  => 'required|integer',
+            'sort'                => 'required',
+            'status'              => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+
+        $data = array(
+            'name'                       => $request->name,
+            'mining_categogy_id'         => $request->mining_categogy_id,
+            'level_cost'                 => $request->level_cost,
+            'mining_per_seconds'         => $request->mining_per_seconds,
+            'sort'                       => $request->sort,
+            'status'                     => $request->status,
+        );
+        $resdata['id']                   =  BoostMiningSetting::where('id', $request->id)->update($data);
+        return response()->json($resdata);
+    }
+
+
+
+    public function insertBot(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'name'                => 'required',
+            'mining_categogy_id'  => 'required',
+            'level_cost'          => 'required|integer',
+            'total_seconds'       => 'required|integer',
+            'hours'               => 'required',
+            'status'              => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        // Check if a category with the same name already exists
+        $existingName = BotSetting::where('name', $request->input('name'))->first();
+        if ($existingName) {
+            return response()->json(['errors_name' => 'Name already exists'], 422);
+        }
+        $data = array(
+            'name'                       => $request->name,
+            'mining_categogy_id'         => $request->mining_categogy_id,
+            'level_cost'                 => $request->level_cost,
+            'total_seconds'              => $request->total_seconds,
+            'hours'                      => $request->hours,
+            'status'                     => $request->status,
+        );
+        $resdata['id']                    = BotSetting::insertGetId($data);
+        return response()->json($resdata);
+    }
+
+    public function insertBotMining(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name'                       => 'required',
+            'mining_categogy_id'  => 'required',
+            'level_cost'          => 'required|integer',
+            'mining_per_seconds'  => 'required|integer',
+            'sort'                => 'required',
+            'status'              => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        // Check if a category with the same name already exists
+        $existingCategory = BoostMiningSetting::where('name', $request->input('name'))->first();
+        if ($existingCategory) {
+            return response()->json(['errors_name' => 'Name already exists'], 422);
+        }
+        $data = array(
+            'name'                       => $request->name,
+            'mining_categogy_id'         => $request->mining_categogy_id,
+            'level_cost'                 => $request->level_cost,
+            'mining_per_seconds'         => $request->mining_per_seconds,
+            'sort'                       => $request->sort,
+            'status'                     => $request->status,
+        );
+        $resdata['id']                    = BoostMiningSetting::insertGetId($data);
+        return response()->json($resdata);
+    }
+
+
+    public function allMniningCategorys()
+    {
+
+        $allCategories = MiningCategory::where('status', 1)->get();
+        $response = [
+            'categories'  => $allCategories,
+        ];
+        return response()->json($response, 200);
+    }
+
+    public function timerUpdate(Request $request)
+    {
+
+        $mining_category_id = $request->id;
+        $miningLastRecor    = UserMiningHistory::where('mining_category_id', $mining_category_id)->where('user_id', $this->userid)->orderBy('id', 'desc')->first();
+        $response = [
+            'message' => 'success',
+            'id'                    => !empty($miningLastRecor->id) ? $miningLastRecor->id : "",
+            'mining_category_id'    => !empty($miningLastRecor->mining_category_id) ? $miningLastRecor->mining_category_id : "",
+            'boost_mining_id'       => !empty($miningLastRecor->boost_mining_id) ? $miningLastRecor->boost_mining_id : "",
+            'mining_per_seconds'    => !empty($miningLastRecor->mining_per_seconds) ? $miningLastRecor->mining_per_seconds : 1,
+        ];
+        return response()->json($response, 200);
+    }
+
+    public function insertBotCatWise(Request $request)
+    {
+        $userId  = $this->userid;
+        $mCatrow = MiningCategory::where('slug', $request->slug)->first();
+
+        $data    = array(
+            'user_id'                      => $userId,
+            'mining_category_id'           => $request->mining_category_id,
+            'boost_setting_id'             => $request->boost_setting_id,
+            'name'                         => $request->name,
+            'level_cost'                   => $request->level_cost,
+            'hours'                        => $request->hours,
+
+        );
+
+        $response          = app('App\Http\Controllers\Balance\BalanceController')->getBalance();
+        $usdtdepositAmount = $response instanceof JsonResponse ? $response->getData(true)['usdtamount'] : 0;
+        $prices            = !empty($request->level_cost) ? $request->level_cost : "";
+
+        if ($prices > $usdtdepositAmount) {
+            return response()->json(['invalid_amount' => "Sorry, invalid request. Your balance is now $usdtdepositAmount."], 422);
+        }
+
+        if (!empty($request->boost_setting_id)) {
+            UserBotHistory::insert($data);
+        }
+        //insert table : mining_process_history 
+        $mining_category_id   = $request->mining_category_id;
+        $firstCheck           = MiningHistory::where('user_id', $this->userid)->where('mining_category_id', $mining_category_id)->first();
+        $userBoot             = UserBotHistory::where('mining_category_id', $mining_category_id)->where('user_id', $this->userid)->orderBy('id', 'desc')->first();
+
+        if (!empty($firstCheck)) {
+            $inactiveMin['status'] = 0;
+            MiningHistory::where('id', $firstCheck->id)->update($inactiveMin);
+        }
+
+        $customTimeZone = 'Asia/Dhaka';
+        $currentTime    = Carbon::now($customTimeZone);
+        $endTime        = Carbon::now($customTimeZone);
+        if (in_array($userBoot->boost_setting_id, [2, 3, 4, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16])) {
+            $endTime->addHours($userBoot->hours);
+            // Format the datetime as needed
+            $currentTimeFormatted = $currentTime->format('Y-m-d H:i:s');
+            $duration_in_hour     = $userBoot->hours;
+            $endTimeFormatted     = $endTime->format('Y-m-d H:i:s');
+        }
+        $data = [
+            'start_time'        => $currentTimeFormatted,
+            'end_time'          => $endTimeFormatted,
+            'duration'          => $duration_in_hour,
+            'user_id'           => $this->userid,
+            'status'            => 1,
+            'ip'                => $_SERVER['REMOTE_ADDR'],
+            'boost_boot_setting_id'  => !empty($userBoot) ? $userBoot->boost_setting_id : "",
+            'mining_category_id' => $mining_category_id
+        ];
+        MiningHistory::insertGetId($data);
+        //END 
+
+        $mCatId = $mCatrow->id;
+        $countRows = UserBotHistory::where('mining_category_id', $mCatId)->where('user_id', $userId)->count();
+        $response = [
+            'message' => 'success',
+            'countRows' => $countRows
+        ];
+        return response()->json($response, 200);
+    }
+
+    public function getOcnBalanceCatWise(Request $request)
+    {
+
+        $mining_category_id = $request->id;
+        $ocnBalance         = UserMiningLog::where('mining_cat_id', $mining_category_id)->where('user_id', $this->userid)->sum('ocn_balance');
 
         $response = [
             'message' => 'success',
             'ocnBalance' => $ocnBalance
         ];
         return response()->json($response, 200);
-
     }
-    
 
+    public function increastMiningCountdownBalance(Request $request)
+    {
+        if (!empty($request->id)) {
 
-    public function increastMiningCountdownBalance(Request $request){
-        if(!empty($request->id)){
-            $data['user_id']       = $this->userid;
-            $data['mining_cat_id'] = $request->id;
-            $data['ocn_balance']   = $request->number;
-            UserMiningLog::insert($data);
+            // Find existing record
+            $existingRecord = UserMiningLog::where('user_id', $this->userid)
+                ->where('mining_cat_id', $request->id)
+                ->first();
+
+            // Prepare data to insert or update
+            $data = [
+                'user_id'       => $this->userid,
+                'mining_cat_id' => $request->id,
+                'ocn_balance'   => $request->number,
+            ];
+
+            if ($existingRecord) {
+                // Update existing record
+                UserMiningLog::where('id', $existingRecord->id)->update($data);
+            } else {
+                // Delete all existing records for the user_id and mining_cat_id combination
+                UserMiningLog::where('user_id', $this->userid)
+                    ->where('mining_cat_id', $request->id)
+                    ->delete();
+
+                // Insert new record
+                UserMiningLog::insert($data);
+            }
         }
     }
 
@@ -319,20 +555,20 @@ class MiningController extends Controller
         return response()->json($responseData);
     }
 
+    public function insertBoostMiningCatWise(Request $request)
+    {
 
-
-    public function insertBotCatWise(Request $request){
-        //dd($request->all());
         $userId  = $this->userid;
         $mCatrow = MiningCategory::where('slug', $request->slug)->first();
 
         $data    = array(
-                    'user_id'                      => $userId,
-                    'mining_category_id'           => $request->mining_category_id,
-                    'boost_setting_id'             => $request->boost_setting_id,
-                    'name'                         => $request->name,
-                    'level_cost'                   => $request->level_cost,
-            
+            'user_id'                      => $userId,
+            'mining_category_id'           => $request->mining_category_id,
+            'boost_mining_id'              => $request->boost_mining_id,
+            'name'                         => $request->name,
+            'level_cost'                   => $request->level_cost,
+            'mining_per_seconds'           => $request->mining_per_seconds,
+
         );
 
         $response          = app('App\Http\Controllers\Balance\BalanceController')->getBalance();
@@ -342,60 +578,18 @@ class MiningController extends Controller
         if ($prices > $usdtdepositAmount) {
             return response()->json(['invalid_amount' => "Sorry, invalid request. Your balance is now $usdtdepositAmount."], 422);
         }
-        
-        if(!empty($request->boost_setting_id)){
-            UserBotHistory::insert($data);
-        }
 
-        $mCatId = $mCatrow->id;
-       
-        $countRows = UserBotHistory::where('mining_category_id',$mCatId)->where('user_id',$userId)->count();
-        $response = [
-            'message' => 'success',
-            'countRows' => $countRows
-        ];
-        return response()->json($response, 200);
-
-    }
-
-    public function insertBoostMiningCatWise(Request $request){
-
-        $userId  = $this->userid;
-        $mCatrow = MiningCategory::where('slug', $request->slug)->first();
-
-        $data    = array(
-                    'user_id'                      => $userId,
-                    'mining_category_id'           => $request->mining_category_id,
-                    'boost_mining_id'              => $request->boost_mining_id,
-                    'name'                         => $request->name,
-                    'level_cost'                   => $request->level_cost,
-            
-        );
-
-
-        $response          = app('App\Http\Controllers\Balance\BalanceController')->getBalance();
-        $usdtdepositAmount = $response instanceof JsonResponse ? $response->getData(true)['usdtamount'] : 0;
-        $prices            = !empty($request->level_cost) ? $request->level_cost : "";
-
-        if ($prices > $usdtdepositAmount) {
-            return response()->json(['invalid_amount' => "Sorry, invalid request. Your balance is now $usdtdepositAmount."], 422);
-        }
-
-
-        if(!empty($request->boost_mining_id)){
+        if (!empty($request->boost_mining_id)) {
             UserMiningHistory::insert($data);
         }
 
-
         $mCatId = $mCatrow->id;
-       
-        $countRows = UserMiningHistory::where('mining_category_id',$mCatId)->where('user_id',$userId)->count();
+        $countRows = UserMiningHistory::where('mining_category_id', $mCatId)->where('user_id', $userId)->count();
         $response = [
             'message' => 'success',
             'countRows' => $countRows
         ];
         return response()->json($response, 200);
-
     }
 
     public function inserMiningDuration(Request $request)
@@ -609,24 +803,47 @@ class MiningController extends Controller
             $currentTime    = Carbon::now($customTimeZone);
             $endTime        = Carbon::now($customTimeZone);
             $endTime->addHours($get_row->duration_in_hour);
-
             // Format the datetime as needed
             $currentTimeFormatted = $currentTime->format('Y-m-d H:i:s');
+            $duration_in_hour     = $get_row->duration_in_hour;
             $endTimeFormatted     = $endTime->format('Y-m-d H:i:s');
+
+            $firstCheck           = MiningHistory::where('user_id', $this->userid)->where('mining_category_id', $mining_category_id)->first();
+            $userBoot             = UserBotHistory::where('mining_category_id', $mining_category_id)->where('user_id', $this->userid)->orderBy('id', 'desc')->first();
+
+            if (!empty($firstCheck)) {
+                $inactiveMin['status'] = 0;
+                MiningHistory::where('id', $firstCheck->id)->update($inactiveMin);
+            }
+
+
+
+            if (!empty($userBoot)) {
+                if (in_array($userBoot->boost_setting_id, [2, 3, 4, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16])) {
+                    $endTime->addHours($userBoot->hours);
+                    // Format the datetime as needed
+                    $currentTimeFormatted = $currentTime->format('Y-m-d H:i:s');
+                    $duration_in_hour     = $userBoot->hours;
+                    $endTimeFormatted     = $endTime->format('Y-m-d H:i:s');
+                }
+            }
+
+
 
             $data = [
                 'start_time'        => $currentTimeFormatted,
                 'end_time'          => $endTimeFormatted,
-                'duration'          => $get_row->duration_in_hour,
+                'duration'          => $duration_in_hour,
                 'user_id'           => $this->userid,
+                'status'            => 1,
                 'ip'                => $_SERVER['REMOTE_ADDR'],
+                'boost_boot_setting_id'  => !empty($userBoot) ? $userBoot->boost_setting_id : "",
                 'mining_category_id' => $mining_category_id
             ];
 
             $currentTimeFormatted = date('Y-m-d H:i:s');
             // Calculate the end time based on the duration
             $endTimeFormatted     = date('Y-m-d H:i:s', strtotime($currentTimeFormatted . ' + ' . $get_row->duration_in_hour . ' hours'));
-            $firstCheck           = MiningHistory::where('user_id', $this->userid)->where('mining_category_id', $mining_category_id)->first();
 
             $start_time  = !empty($firstCheck->start_time) ? $firstCheck->start_time : ""; //"2024-05-29 18:46:00";
             $end_time    = !empty($firstCheck->end_time) ? $firstCheck->end_time : ""; //2024-05-29 19:46:00";
@@ -670,7 +887,7 @@ class MiningController extends Controller
         $customTimeZone      = 'Asia/Dhaka';
         $currentTime         = Carbon::now($customTimeZone);
         $mining_category_id  = (int)$request->mining_category_id;
-        $row                 = MiningHistory::orderBy('id', 'DESC')->where('user_id', $this->userid)->where('mining_category_id', $mining_category_id)->first();
+        $row                 = MiningHistory::orderBy('id', 'DESC')->where('user_id', $this->userid)->where('mining_category_id', $mining_category_id)->where('status', 1)->first();
         $data['start_time']  = !empty($row->start_time) ? $row->start_time : "";
         $data['end_time']    = !empty($row->end_time) ? $row->end_time : "";
         $data['server_time'] = $currentTime->format('Y-m-d H:i:s');
@@ -723,5 +940,26 @@ class MiningController extends Controller
             $data['messages'] = "No mining history record found!";
             return response()->json($data, 200);
         }
+    }
+
+    public function boostminingrow($id)
+    {
+
+        $row  = BoostMiningSetting::where('id', $id)->first();
+        $response = [
+            'data' => $row,
+        ];
+        return response()->json($response);
+    }
+
+
+    public function boostbotrow($id)
+    {
+
+        $row  = BotSetting::where('id', $id)->first();
+        $response = [
+            'data' => $row,
+        ];
+        return response()->json($response);
     }
 }

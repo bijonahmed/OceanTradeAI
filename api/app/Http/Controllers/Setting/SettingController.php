@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Setting;
 
 use App\Http\Controllers\Controller;
+use App\Models\BoostMiningSetting;
+use App\Models\BotSetting;
 use App\Models\GlobalWalletAddress;
 use Illuminate\Http\Request;
 use Auth;
@@ -97,6 +99,130 @@ class SettingController extends Controller
             'total_records' => $paginator->total(),
         ], 200);
     }
+
+
+
+    //Boost Minng Setup List
+
+    public function getBoostBotList(Request $request){
+
+        $page     = $request->input('page', 1);
+        $pageSize = $request->input('pageSize', 10);
+
+        // Get search query from the request
+        $searchQuery    = $request->searchQuery;
+        $status         = (int)$request->selectedFilter;
+        //dd($status);
+        $query =   BotSetting ::select('boost_boot_setting.*', 'mining_categogy.name as miningCategoryName')
+            ->join('mining_categogy', 'mining_categogy.id', '=', 'boost_boot_setting.mining_categogy_id');
+
+
+        if ($searchQuery !== null) {
+            $query->where('boost_boot_setting.name', 'like', '%' . $searchQuery . '%');
+        }
+
+
+        if ($status == 0) {
+            $query->where('boost_boot_setting.status', $status);
+        }
+
+        if ($status == 1) {
+            $query->where('boost_boot_setting.status', $status);
+        }
+
+        if ($status == '01') {
+            $query->whereIn('boost_boot_setting.status', [0, 1]);
+        }
+
+        $paginator = $query->paginate($pageSize, ['*'], 'page', $page);
+
+        $modifiedCollection = $paginator->getCollection()->map(function ($item) {
+            return [
+                'id'                        => $item->id,
+                'catName'                   => $item->miningCategoryName,
+                'name'                      => $item->name,
+                'level_cost'                => $item->level_cost,
+                'hours'                     => $item->hours,
+                'total_seconds'             => $item->total_seconds,
+                'status'                    => $item->status,
+
+            ];
+        });
+
+        // Return the modified collection along with pagination metadata
+        return response()->json([
+            'data' => $modifiedCollection,
+            'current_page' => $paginator->currentPage(),
+            'total_pages' => $paginator->lastPage(),
+            'total_records' => $paginator->total(),
+        ], 200);
+
+
+    }
+
+    public function getBoostMiningList(Request $request)
+    {
+        $page     = $request->input('page', 1);
+        $pageSize = $request->input('pageSize', 10);
+
+        // Get search query from the request
+        $searchQuery    = $request->searchQuery;
+        $status         = (int)$request->selectedFilter;
+        //dd($status);
+        $query =  BoostMiningSetting::select('boost_mining_setting.*', 'mining_categogy.name as miningCategoryName')
+            ->join('mining_categogy', 'mining_categogy.id', '=', 'boost_mining_setting.mining_categogy_id');
+
+
+        if ($searchQuery !== null) {
+            $query->where('boost_mining_setting.name', 'like', '%' . $searchQuery . '%');
+        }
+
+        // if ($status !== null) {
+        //     $query->where('boost_mining_setting.name', $status);
+        // }
+
+        if ($status == 0) {
+            $query->where('boost_mining_setting.status', $status);
+        }
+
+        if ($status == 1) {
+            $query->where('boost_mining_setting.status', $status);
+        }
+
+        if ($status == '01') {
+            $query->whereIn('boost_mining_setting.status', [0, 1]);
+        }
+
+        $paginator = $query->paginate($pageSize, ['*'], 'page', $page);
+
+        $modifiedCollection = $paginator->getCollection()->map(function ($item) {
+            return [
+                'id'                        => $item->id,
+                'catName'                   => $item->miningCategoryName,
+                'name'                      => $item->name,
+                'level_cost'                => $item->level_cost,
+                'mining_per_seconds'        => $item->mining_per_seconds,
+                'sort'                      => $item->sort,
+                'status'                    => $item->status,
+
+            ];
+        });
+
+        // Return the modified collection along with pagination metadata
+        return response()->json([
+            'data' => $modifiedCollection,
+            'current_page' => $paginator->currentPage(),
+            'total_pages' => $paginator->lastPage(),
+            'total_records' => $paginator->total(),
+        ], 200);
+    }
+
+
+
+
+
+
+
 
     public function getGlobalWalletAddress(Request $request)
     {
@@ -246,7 +372,6 @@ class SettingController extends Controller
 
     public function slidersImages(Request $request)
     {
-
         //dd($request->all());
         $page = $request->input('page', 1);
         $pageSize = $request->input('pageSize', 10);

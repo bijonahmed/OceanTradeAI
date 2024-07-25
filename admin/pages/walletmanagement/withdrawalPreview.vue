@@ -56,8 +56,6 @@
                                                         <td>{{ request.withdrawal_amount }}</td>
                                                     </tr>
 
-                                                   
-
                                                     <tr>
                                                         <td>Payment Method</td>
                                                         <td><strong>:</strong></td>
@@ -68,7 +66,6 @@
                                                         <td><strong>:</strong></td>
                                                         <td>{{ request.wallet_address }}</td>
                                                     </tr>
-
 
                                                     <tr>
                                                         <td>Created Time</td>
@@ -88,7 +85,6 @@
                                         </div>
                                     </div>
 
-                                
                                     <div class="row">
 
                                         <div class="col-6">
@@ -122,10 +118,7 @@
                                             </button>
                                         </div>
 
-
                                     </div>
-
-
 
                                     <!-- END -->
                                 </div>
@@ -160,7 +153,7 @@ const request = ref({
     payment_method: '',
     wallet_address: '',
     currency_type_name: '',
-    remarks:'',
+    remarks: '',
     approved_by: '',
     apiError: '',
     created_at: '',
@@ -206,12 +199,11 @@ const submitToApproved = () => {
         }
     });
 
-
 }
 const saveData = () => {
-    if(request.value.remarks == ""){
+    if (request.value.remarks == "") {
         error_noti();
-        return false; 
+        return false;
     }
 
     const formData = new FormData();
@@ -219,7 +211,6 @@ const saveData = () => {
     formData.append('id', id);
     formData.append('remarks', request.value.remarks);
     formData.append('status', 2);
-  
 
     axios.post('/deposit/updateWithDrawRequest', formData, {
         headers: {
@@ -242,9 +233,6 @@ const saveData = () => {
         }
     });
 };
-
-
-
 
 const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -282,7 +270,7 @@ const productDetails = () => {
         request.value.approved_by = data.approved_by;
 
         request.value.payment_method = data.payment_method;
-       // request.value.wallet_address = data.wallet_address;
+        // request.value.wallet_address = data.wallet_address;
 
         request.value.created_at = response.data.created_at;
 

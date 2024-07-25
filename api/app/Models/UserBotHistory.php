@@ -20,6 +20,7 @@ class UserBotHistory extends Authenticatable
     'boost_setting_id',
     'mining_category_id',
     'name',
+    'hours',
     'level_cost'
   ];
  

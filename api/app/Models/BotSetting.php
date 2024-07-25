@@ -17,6 +17,7 @@ class BotSetting extends Authenticatable
   
   protected $fillable = [
     'name',
+    'mining_categogy_id',
     'level_cost',
     'status',
   ];
