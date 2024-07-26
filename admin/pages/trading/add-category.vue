@@ -90,20 +90,7 @@
                           </div>
                         </div>
 
-                        <div class="row mb-3 required d-none">
-                          <label for="input-name-1" class="col-sm-2 col-form-label required-label">Select Graph</label>
-                          <div class="col-sm-10">
-                            <select class="form-control" aria-label=".form-select-sm example"
-                                  v-model="insertdata.selected_graph">
-                                  <option selected>Select</option>
-                                  <option value="1">Crypto</option>
-                                  <option value="2">Currencies</option>
-                                  <option value="3">Stocks</option>
-                                  <option value="4">Commodities </option>
-                                </select>
-                            <span class="text-danger" v-if="errors.selected_graph">{{ errors.selected_graph[0] }}</span>
-                          </div>
-                        </div>
+                      
 
                         <div class="row mb-3 required">
                           <label for="input-name-1" class="col-sm-2 col-form-label required-label">Status</label>
@@ -145,7 +132,6 @@ window.Swal = swal;
 const insertdata = reactive({
   name: '',
   images: '',
-  selected_graph: '',
   status: 1,
 });
 // Define a ref to store the HTML content of the editor

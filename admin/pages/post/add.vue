@@ -67,8 +67,6 @@
                             Categories</label>
                           <div class="col-sm-10">
                             <div>
-                              <!-- ======{{ postCat }}===== -->
-
                               <select id="category" class="form-control" v-model="insertdata.categoryId">
                                 <option v-for="option in postCat" :value="option.id" :key="option.id">{{ option.name }}
                                 </option>

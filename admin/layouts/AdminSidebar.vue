@@ -107,8 +107,8 @@ const menuItems = ref([
     route: null,
     children: [
       { label: 'Category List', icon: 'fa-circle', route: '/trading/category-list' },
-      { label: 'Sub Category List', icon: 'fa-circle', route: '/trading/list' },
-      { label: 'Duration List', icon: 'fa-circle', route: '/trading/list' },
+      { label: 'Sub Category List', icon: 'fa-circle', route: '/trading/subcategory-list' },
+      { label: 'Duration List', icon: 'fa-circle', route: '/trading/duration-list' },
 
     ]
   },

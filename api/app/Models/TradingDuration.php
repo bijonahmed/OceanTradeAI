@@ -10,15 +10,14 @@ use App\Models\AttributeValues;
 use AuthorizesRequests;
 use DB;
 
-class TradingCategory extends Authenticatable
+class TradingDuration extends Authenticatable
 {
   use HasApiTokens, HasFactory, Notifiable;
-  public $table = "trading_category";
+  public $table = "trading_duration";
   protected $fillable = [
     'name',
-    'slug',
-    'thumnail_img',
-    'banner_images',
+    'percentage',
+    'hours',
     'status',
   ];
  

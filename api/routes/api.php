@@ -355,10 +355,17 @@ Route::middleware(['auth:api', CheckUserStatus::class])->group(function () {
  Route::group([
         'prefix' => 'trading'
     ], function () {
+        Route::post('saveDuration', [TradingController::class, 'saveDuration']);
+        Route::post('saveSubCategory', [TradingController::class, 'saveSubCategory']);
         Route::post('updateCategory', [TradingController::class, 'updateCategory']);
         Route::post('saveCategory', [TradingController::class, 'saveCategory']);
         Route::get('alltradingCategoryList', [TradingController::class, 'alltradingCategoryList']);
+        Route::get('alltraCatList', [TradingController::class, 'alltraCatList']);
+        Route::get('tradingDurationRow/{id}', [TradingController::class, 'tradingDurationRow']);
         Route::get('tradingCategoryRow/{id}', [TradingController::class, 'tradingCategoryRow']);
+        Route::get('tradingSubCategoryRow/{id}', [TradingController::class, 'tradingSubCategoryRow']);
+        Route::get('alltradingsubCategoryList', [TradingController::class, 'alltradingsubCategoryList']);
+        Route::get('tradingdurationList', [TradingController::class, 'tradingdurationList']);
     });
 
     

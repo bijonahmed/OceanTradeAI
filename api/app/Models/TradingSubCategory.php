@@ -10,15 +10,19 @@ use App\Models\AttributeValues;
 use AuthorizesRequests;
 use DB;
 
-class TradingCategory extends Authenticatable
+class TradingSubCategory extends Authenticatable
 {
   use HasApiTokens, HasFactory, Notifiable;
-  public $table = "trading_category";
+  public $table = "trading_subcategory";
   protected $fillable = [
     'name',
     'slug',
+    'category_id',
+    'trading_amunt',
+    'min_trade',
+    'trading_fee',
     'thumnail_img',
-    'banner_images',
+    'selected_graph',
     'status',
   ];
  
