@@ -16,11 +16,14 @@
       <li class="active"><nuxt-link to="/dashboard/mining"><span class="fa-solid fa-pickaxe"></span>Mining</nuxt-link></li>
       <li><nuxt-link to="/dashboard/pricing"><span class="fa-solid fa-file-invoice-dollar"></span>Pricing</nuxt-link></li>
       <li><nuxt-link to="/dashboard/affiliate"><span class="fa-solid fa-users"></span>Affiliate</nuxt-link></li>
-      <li><nuxt-link to="/dashboard/trading"><span class="fa-solid fa-chart-mixed"></span>Trading</nuxt-link></li>
+      <li><nuxt-link to="/dashboard/trading"><span class="fa-solid fa-chart-mixed"></span>Trading AI</nuxt-link></li>
       <li><nuxt-link to="/dashboard/wallet"><span class="fa-solid fa-wallet"></span>Wallet</nuxt-link></li>
       <li><nuxt-link to="/dashboard/payment"><span class="fa-regular fa-credit-card"></span>Payment</nuxt-link></li>
       <li><nuxt-link to="/dashboard/rewardcenter"><span class="fa-sharp fa-solid fa-gift"></span>Reward Center</nuxt-link></li>
-      <li><nuxt-link to="/dashboard/expense"><span class="fa-solid fa-money-bill-transfer"></span>Expense</nuxt-link></li>
+      <li><nuxt-link to="/dashboard/loancenter"><span class="fa-sharp fa-solid fa-gift"></span>Loan</nuxt-link></li>
+     
+
+      <!-- <li><nuxt-link to="/dashboard/expense"><span class="fa-solid fa-money-bill-transfer"></span>Expense</nuxt-link></li> -->
       <li v-if="isLoggedIn"> <a href="#" class="feat-btn">
           <span class="fa-solid fa-address-card"></span>Account
         </a>
@@ -47,7 +50,7 @@
         <li><span class="icon-youtobe"></span></li>
         <li><span class="icon-tiktok"></span></li>
       </ul>
-      <p class="fs-14">© 2022. All rights reserved by oceantradeai.com</p>
+      <p class="fs-14">© 2024. All rights reserved by oceantradeai.com</p>
     </div>
 
 

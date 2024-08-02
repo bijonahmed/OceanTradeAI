@@ -32,7 +32,9 @@ use App\Http\Middleware\CheckUserStatus;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\Affiliate\AffiliateController;
+use App\Http\Controllers\Loan\LoanController;
 use App\Http\Controllers\Trading\TradingController;
+use App\Http\Controllers\Reward\RewardCenterController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -352,27 +354,69 @@ Route::middleware(['auth:api', CheckUserStatus::class])->group(function () {
     });
 
 
- Route::group([
+    Route::group([
         'prefix' => 'trading'
     ], function () {
+        Route::post('buyocnToken', [TradingController::class, 'buyocnToken']);
+        Route::post('insertTrading', [TradingController::class, 'insertTrading']);
         Route::post('saveDuration', [TradingController::class, 'saveDuration']);
         Route::post('saveSubCategory', [TradingController::class, 'saveSubCategory']);
         Route::post('updateCategory', [TradingController::class, 'updateCategory']);
         Route::post('saveCategory', [TradingController::class, 'saveCategory']);
         Route::get('alltradingCategoryList', [TradingController::class, 'alltradingCategoryList']);
+        Route::get('getDurationList', [TradingController::class, 'getDurationList']);
         Route::get('alltraCatList', [TradingController::class, 'alltraCatList']);
+        Route::get('alltracatLists', [TradingController::class, 'alltracatLists']);
+        Route::get('checksubcategoryRow', [TradingController::class, 'checksubcategoryRow']);
+        Route::get('getsubCategorySlugrow', [TradingController::class, 'getsubCategorySlugrow']);
         Route::get('tradingDurationRow/{id}', [TradingController::class, 'tradingDurationRow']);
         Route::get('tradingCategoryRow/{id}', [TradingController::class, 'tradingCategoryRow']);
         Route::get('tradingSubCategoryRow/{id}', [TradingController::class, 'tradingSubCategoryRow']);
         Route::get('alltradingsubCategoryList', [TradingController::class, 'alltradingsubCategoryList']);
         Route::get('tradingdurationList', [TradingController::class, 'tradingdurationList']);
+        Route::get('allTradingHistoryData', [TradingController::class, 'allTradingHistoryData']);
+        Route::get('getCurrentPrice', [TradingController::class, 'getCurrentPrice']);
+        Route::get('getSetting', [TradingController::class, 'settingrowSystem']);
+        Route::get('cerculatingSupply', [TradingController::class, 'cerculatingSupply']);
+        Route::get('getToken', [TradingController::class, 'getToken']);
+        Route::get('getTradingList', [TradingController::class, 'getTradingListAdmin']);
+        Route::get('getManualAdjustmentReport', [DropUserController::class, 'getManualAdjustmentReport']);
     });
 
-    
+
+    Route::group([
+        'prefix' => 'reward'
+    ], function () {
+        Route::get('getAdminSendingRewards', [RewardCenterController::class, 'getAdminSendingRewards']);
+        Route::get('sendrequest', [RewardCenterController::class, 'sendrequest']);
+        Route::get('rewardcenterrows/{id}', [RewardCenterController::class, 'rewardcenterrows']);
+        Route::post('insertrward', [RewardCenterController::class, 'insertrward']);
+        Route::get('rewardCenterList', [RewardCenterController::class, 'rewardSettinglist']);
+        Route::get('allrewardCenterlists', [RewardCenterController::class, 'allrewardCenterlists']);
+        Route::get('reward-request-list', [RewardCenterController::class, 'rewardRequestList']);
+        Route::post('insertrwardStatus', [RewardCenterController::class, 'insertrwardStatus']);
+    });
+
+
+    Route::group([
+        'prefix' => 'loan'
+    ], function () {
+        Route::post('insertLoanStatus', [LoanController::class, 'insertLoanStatus']);
+        Route::get('sendrequest', [LoanController::class, 'sendrequest']);
+        Route::get('allloanCenterlists', [LoanController::class, 'allloanCenterlists']);
+        Route::get('loan-request-list', [LoanController::class, 'loanRequestList']);
+        Route::get('loanSettingrows/{id}', [LoanController::class, 'loanSettingrows']);
+        Route::post('insertloanSetting', [LoanController::class, 'insertloanSetting']);
+        Route::get('loanSettingList', [LoanController::class, 'loanSettingList']);
+        Route::get('getAdminSendingLoan', [LoanController::class, 'getAdminSendingLoan']);
+        Route::post('loanSendRequest', [LoanController::class, 'loanSendRequest']);
+    });
+
+
 
     Route::group([
         'prefix' => 'setting'
-    ], function () {       
+    ], function () {
         // miningSetup 
         Route::post('insertEmployeeType', [SettingController::class, 'insertEmployeeType']);
         Route::get('getBoostMiningList', [SettingController::class, 'getBoostBotList']);

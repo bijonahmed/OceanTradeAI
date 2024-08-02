@@ -30,11 +30,26 @@
         </div>
     </footer>
     <!-- End Footer -->
-
-
+    <a id="scroll-top"></a>
 </template>
 
 <script setup>
- 
+ onMounted(() => {
+    $(window).scroll(function() {
+            if ($(this).scrollTop() > 800) {
+                $('#scroll-top').addClass('show');
+            } else {
+                $('#scroll-top').removeClass('show');
+            }
+        });
+
+        $('#scroll-top').on('click', function () {
+            $("html, body").animate({ scrollTop: 0 }, 200, 'easeInOutExpo');
+            return false;
+        });
+
+});
+
+
 
 </script>

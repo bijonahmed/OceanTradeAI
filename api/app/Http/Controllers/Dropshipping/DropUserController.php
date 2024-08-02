@@ -56,16 +56,12 @@ class DropUserController extends Controller
         }
     }
 
-
-
     public function filterOrders(Request $request)
     {
-
 
         $categoryId         =  (int) $request->categoryId;
         $pay_confirm_date   =  $request->pay_confirm_date;
         $selectedStatus     =  (int) $request->selectedStatus;
-
 
         $proCategory = ProductCategory::where('category_id', $categoryId)->select('product_id')->get();
         $productIds  = $proCategory->pluck('product_id')->toArray();
@@ -73,11 +69,10 @@ class DropUserController extends Controller
         // Search for products with those IDs using whereIn
 
         $query = Order::whereIn('product_id', $productIds);
- 
+
         if (!empty($pay_confirm_date)) {
             $query->whereDate('pay_confirm_time', $pay_confirm_date);
         }
-
 
         if (!empty($selectedStatus)) {
             $query->where('orders.order_status', $selectedStatus);
@@ -90,7 +85,7 @@ class DropUserController extends Controller
         $pageSize           = $request->input('pageSize', 300); //default:10
         $paginator          = $query->paginate($pageSize, ['*'], 'page', $page);
         $modifiedCollection = $paginator->getCollection()->map(function ($item) {
-            $orderStatus = OrderStatus::where('id',$item->order_status)->first();
+            $orderStatus = OrderStatus::where('id', $item->order_status)->first();
             return [
                 'product_name'     => mb_substr($item->product_name, 0, 25, 'UTF-8') . '...',
                 'buying_price'     => $item->buying_price,
@@ -98,7 +93,7 @@ class DropUserController extends Controller
                 'orderId'          => $item->orderId,
                 'id'               => $item->id,
                 'order_status'     => $orderStatus->name,
-                'pay_confirm_time' => date("Y-m-d H:i:s",strtotime($item->pay_confirm_time)),
+                'pay_confirm_time' => date("Y-m-d H:i:s", strtotime($item->pay_confirm_time)),
             ];
         });
 
@@ -110,11 +105,7 @@ class DropUserController extends Controller
             'total_records'     => $paginator->total(),
             'ordersCount'       => $totalRows = $query->count(),
         ], 200);
-
-      
     }
-
-
 
     public function filterUsersProducts(Request $request)
     {
@@ -141,7 +132,6 @@ class DropUserController extends Controller
             ->where('mystore_history.category_id', $categoryId)
             ->get();
 
-
         // where('end_date', '>=', $current_date)->where('category_id', $categoryId)->get();
 
         $data['productArray'] = $result;
@@ -149,10 +139,6 @@ class DropUserController extends Controller
         $data['usersCount']   = count($active_stores);
         return response()->json($data, 200);
     }
-
-
-
-
 
     public function getTransactionReport(Request $request)
     {
@@ -211,7 +197,6 @@ class DropUserController extends Controller
     public function getManualAdjustmentReport(Request $request)
     {
 
-        
         $page = $request->input('page', 1);
         $pageSize = $request->input('pageSize', 10);
         // Get search query from the request
@@ -227,16 +212,14 @@ class DropUserController extends Controller
                 'users.id  as userid'
             );
 
-
-
         if (!empty($searchQuery)) {
             // $query->where('depositID', 'like', '%' . $searchQuery . '%');
             $query->where('users.email', $searchQuery);
         }
 
         if ($selectedFilter == 5) {
-            $query->whereIn('manual_adjustment.adjustment_type', [1,2]);
-        }else{
+            $query->whereIn('manual_adjustment.adjustment_type', [1, 2]);
+        } else {
             $query->where('manual_adjustment.adjustment_type', $selectedFilter);
         }
 
@@ -717,8 +700,7 @@ class DropUserController extends Controller
             $payurl = "";
             $response = $this->http("https://api.dppay.cc/api/gateway/withdraw", 'POST', $data);
             $result = json_decode($response, true);
-           // dd($result);
-
+            // dd($result);
 
             $code = isset($result['code']) ? $result['code'] : 404;
             $message = isset($result['message']) ? $result['message'] : 'errorMsg:' . (string)$response;
@@ -1099,7 +1081,6 @@ class DropUserController extends Controller
         $level3Profit = $lev_3totalOrderProfit * 0.03;
         $data['level_3_profit'] = number_format($level3Profit, 2);
         //Level 4
-
 
         $checkL4    = User::whereIn('ref_id', $level3_ids)->select('id', 'name', 'email', 'created_at', 'ref_id')->get();
         $level4_ids = $checkL4->pluck('id')->toArray();

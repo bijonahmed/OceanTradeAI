@@ -7,16 +7,16 @@
                     <div class="header__body">
                         <div class="header__logo">
                             <nuxt-link to="/">
-                                <h4>OTAI</h4>
+                                <img src="/assets/images/logo.png" alt="" class="img-fluid">
                             </nuxt-link>
                         </div>
                         <div class="header__right">
-                            <nav id="main-nav" class="main-nav">
+                            <nav id="main-nav" class="main-nav  d-none d-xl-block">
                                 <ul id="menu-primary-menu" class="menu">
-                                    <li class="menu-item  ">
+                                    <li class="menu-item " v-if="isLoggedIn">
                                         <nuxt-link to="/dashboard/mining">Mining</nuxt-link>
                                     </li>
-                                    <li class="menu-item ">
+                                    <li class="menu-item " v-if="isLoggedIn">
                                         <nuxt-link to="/dashboard/trading">Trading</nuxt-link>
                                     </li>
                                 </ul>
@@ -35,7 +35,7 @@
                                     <span>Logout</span>
                                 </a>
                             </div>
-                            <div class="mobile-button"><span></span></div>
+                            <!-- <div class="mobile-button"><span></span></div> -->
                         </div>
                     </div>
                 </div>
@@ -57,6 +57,12 @@ const cartStore = useCartStore()
 const userRoleIsAdmin = computed(() => userStore.role_id === 1);
 const userStatusIsAdmin = computed(() => userStore.status === 1);
 
+
+
+
+ 
+
+ 
 computed(async () => {
 	try {
 		await userStore.getUser()
@@ -74,3 +80,11 @@ const logout = async () => {
 	}
 };
 </script>
+<style scoped>
+.header__logo img{
+  max-width: 250px;
+  width: 100%;
+  min-width: 120px;  
+  max-height: 55px;
+}
+</style>

@@ -11,13 +11,30 @@
                             <Loader />
                         </div>
                     </center>
+
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-warning"><i class="fas fa-user-circle"></i></span>
+                            <nuxt-link to="/usermanagement/userlist" style="text-decoration: none;">
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Total Users</span>
+                                    <span class="info-box-number">{{ total_users }}</span>
+                                </div>
+                            </nuxt-link>
+
+                        </div>
+
+                    </div>
+
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
                             <span class="info-box-icon bg-info"><i class="fa fa-money"></i></span>
-                            <div class="info-box-content">
-                                <span class="info-box-text">Total Deposit</span>
-                                <span class="info-box-number">{{ total_deposit }}</span>
-                            </div>
+                            <nuxt-link to="/walletmanagement/deposit-management" style="text-decoration: none;">
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Total Deposit</span>
+                                    <span class="info-box-number">{{ total_deposit }}</span>
+                                </div>
+                            </nuxt-link>
 
                         </div>
 
@@ -26,10 +43,12 @@
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
                             <span class="info-box-icon bg-success"><i class="fa fa-money-bill"></i></span>
-                            <div class="info-box-content">
-                                <span class="info-box-text">Total Withdrawal</span>
-                                <span class="info-box-number">{{ total_withdraw }}</span>
-                            </div>
+                            <nuxt-link to="/walletmanagement/withdrawal-management" style="text-decoration: none;">
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Total Withdrawal</span>
+                                    <span class="info-box-number">{{ total_withdraw }}</span>
+                                </div>
+                            </nuxt-link>
 
                         </div>
 
@@ -37,17 +56,65 @@
 
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-warning"><i class="fas fa-user-circle"></i></span>
-                            <div class="info-box-content">
-                                <span class="info-box-text">Total Users</span>
-                                <span class="info-box-number">{{ total_users }}</span>
-                            </div>
-
+                            <span class="info-box-icon bg-danger"><i class="fa fa-product-hunt"></i></span>
+                            <nuxt-link to="/walletmanagement/reward-center-management" style="text-decoration: none;">
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Reward Request</span>
+                                    <span class="info-box-number">0</span>
+                                </div>
+                            </nuxt-link>
                         </div>
 
                     </div>
 
+
+
+
                     <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-danger"><i class="fa fa-product-hunt"></i></span>
+                            <nuxt-link to="/walletmanagement/loan-management" style="text-decoration: none;">
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Loan Request</span>
+                                    <span class="info-box-number">0</span>
+                                </div>
+                            </nuxt-link>
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-danger"><i class="fa fa-product-hunt"></i></span>
+                            <nuxt-link to="/walletmanagement/trade-request-management" style="text-decoration: none;">
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Trade Request</span>
+                                    <span class="info-box-number">0</span>
+                                </div>
+                            </nuxt-link>
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-danger"><i class="fa fa-product-hunt"></i></span>
+                            <nuxt-link to="/walletmanagement/manual-adjustment-report" style="text-decoration: none;">
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Manual Adjustment</span>
+                                    <span class="info-box-number">0</span>
+                                </div>
+                            </nuxt-link>
+                        </div>
+
+                    </div>
+
+
+
+
+
+                    <div class="col-md-3 col-sm-6 col-12 d-none">
                         <div class="info-box">
                             <span class="info-box-icon bg-danger"><i class="fa fa-product-hunt"></i></span>
                             <div class="info-box-content">
@@ -103,9 +170,6 @@ const fetchData = async () => {
     }
 };
 
-
-
-
 onMounted(async () => {
     // After 5 seconds, hide the loading indicator
     setTimeout(() => {
@@ -119,6 +183,5 @@ onMounted(async () => {
         //  console.log(error)
     }
 })
-
 
 </script>

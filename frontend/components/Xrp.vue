@@ -19,7 +19,7 @@
                     </a>
                   </div>
                   <!-- Coin title -->
-                  <h1> btc/usdt <span>+0.50%</span></h1>
+                  <h1> xrp/usdt <span>+0.50%</span></h1>
                 </div>
               </div>
               <div class="col-2 d-flex justify-content-end align-items-center">
@@ -42,19 +42,7 @@
           <!-- TradingView Widget END -->
   
           <!-- Day Filter -->
-          <div class="day_filter d-none">
-            <div v-for="(day, index) in days" :key="index">
-              <button type="button" :class="['btn_day_filter', { active: activeDay === day }]" @click="selectDay(day)">{{ day }}</button>
-              <div class="percen_btn">
-                <div><button type="button"></button></div>
-                <div>
-                  <p>25%</p>
-                </div>
-              </div>
-            </div>
-          </div>
-  
-           
+         
         </div>
       </div>
     </div>
@@ -63,13 +51,7 @@
   <script setup>
   import { ref, onMounted } from 'vue';
   
-  const days = ref(['1D', '3D', '7D', '15D', '30D', '45D', '60D', '90D']);
-  const activeDay = ref('1D');
-  
-  function selectDay(day) {
-    activeDay.value = day;
-  }
-  
+
   function goBack() {
     history.back();
   }
@@ -77,7 +59,7 @@
   onMounted(() => {
     new TradingView.widget({
       "autosize": true,
-      "symbol": "BITSTAMP:BTCUSD",
+      "symbol": "BITSTAMP:XRPUSD",
       "interval": "1",
       "timezone": "Etc/UTC",
       "theme": "dark",

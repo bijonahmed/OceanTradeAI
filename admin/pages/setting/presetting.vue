@@ -64,7 +64,7 @@
                                                         placeholder="Company name" />
                                                     <span class="text-danger" v-if="errors.name">{{
                                                         errors.name[0]
-                                                        }}</span>
+                                                    }}</span>
                                                 </div>
                                             </div>
 
@@ -184,7 +184,7 @@
                                                 </div>
                                             </div>
 
-                                            
+
                                         </div>
                                         <div class="tab-pane fade" id="profile" role="tabpanel"
                                             aria-labelledby="profile-tab">
@@ -246,7 +246,7 @@
                                                         @keypress="isNumber($event)" />
                                                     <span class="text-danger"
                                                         v-if="errors.daily_max_withdraw_request">{{
-                                                        errors.daily_max_withdraw_request[0] }}</span>
+                                                            errors.daily_max_withdraw_request[0] }}</span>
                                                 </div>
                                             </div>
 
@@ -272,7 +272,7 @@
                                                         @keypress="isNumber($event)" />
                                                     <span class="text-danger"
                                                         v-if="errors.withdrawal_free_on_percentage">{{
-                                                        errors.withdrawal_free_on_percentage[0] }}</span>
+                                                            errors.withdrawal_free_on_percentage[0] }}</span>
                                                 </div>
                                             </div>
 
@@ -323,13 +323,14 @@
                                                         @keypress="isNumber($event)" />
                                                     <span class="text-danger"
                                                         v-if="errors.traansfer_fee_on_percentage">{{
-                                                        errors.traansfer_fee_on_percentage[0] }}</span>
+                                                            errors.traansfer_fee_on_percentage[0] }}</span>
                                                 </div>
                                             </div>
                                             <hr>
 
                                             <div class="row mb-3">
-                                                <label for="inputEnterYourName" class="col-sm-3 col-form-label">New Member Register
+                                                <label for="inputEnterYourName" class="col-sm-3 col-form-label">New
+                                                    Member Register
                                                     Bonus</label>
                                                 <div class="col-sm-9">
                                                     <input type="text" class="form-control address"
@@ -341,7 +342,8 @@
                                             </div>
 
                                             <div class="row mb-3">
-                                                <label for="inputEnterYourName" class="col-sm-3 col-form-label">Level - 1 Bonus (UIC)</label>
+                                                <label for="inputEnterYourName" class="col-sm-3 col-form-label">Level -
+                                                    1 Bonus</label>
                                                 <div class="col-sm-9">
                                                     <input type="text" class="form-control address"
                                                         v-model="insertdata.level_1_bonus"
@@ -352,7 +354,8 @@
                                             </div>
 
                                             <div class="row mb-3">
-                                                <label for="inputEnterYourName" class="col-sm-3 col-form-label">Level - 2 Bonus (UIC)</label>
+                                                <label for="inputEnterYourName" class="col-sm-3 col-form-label">Level -
+                                                    2 Bonus</label>
                                                 <div class="col-sm-9">
                                                     <input type="text" class="form-control address"
                                                         v-model="insertdata.level_2_bonus"
@@ -363,7 +366,8 @@
                                             </div>
 
                                             <div class="row mb-3">
-                                                <label for="inputEnterYourName" class="col-sm-3 col-form-label">Level - 3 Bonus (UIC)</label>
+                                                <label for="inputEnterYourName" class="col-sm-3 col-form-label">Level -
+                                                    3 Bonus</label>
                                                 <div class="col-sm-9">
                                                     <input type="text" class="form-control address"
                                                         v-model="insertdata.level_3_bonus"
@@ -373,7 +377,7 @@
                                                 </div>
                                             </div>
 
-                                            <hr/>
+                                            <hr />
 
                                             <div class="row mb-3 d-none">
                                                 <label for="inputEnterYourName" class="col-sm-3 col-form-label">Deposit
@@ -405,7 +409,8 @@
                                                     <input type="text" class="form-control"
                                                         v-model="insertdata.maximum_supply" placeholder="0.00"
                                                         @keypress="isNumber($event)" />
-                                                        <span class="text-danger" v-if="errors.maximum_supply">{{ errors.maximum_supply[0] }}</span>
+                                                    <span class="text-danger" v-if="errors.maximum_supply">{{
+                                                        errors.maximum_supply[0] }}</span>
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
@@ -416,27 +421,55 @@
                                                         v-model="insertdata.total_supply" placeholder="0.00"
                                                         @keypress="isNumber($event)" />
 
-                                                        <span class="text-danger" v-if="errors.total_supply">{{ errors.total_supply[0] }}</span>
+                                                    <span class="text-danger" v-if="errors.total_supply">{{
+                                                        errors.total_supply[0] }}</span>
                                                 </div>
                                             </div>
 
 
                                             <div class="row mb-3">
-                                                <label for="inputEnterYourName" class="col-sm-3 col-form-label">Liquidity Up to total Supply</label>
+                                                <label for="inputEnterYourName"
+                                                    class="col-sm-3 col-form-label">Liquidity Up to total Supply</label>
                                                 <div class="col-sm-9">
                                                     <input type="text" class="form-control"
                                                         v-model="insertdata.liquidity_total_supply" placeholder="0.00"
                                                         @keypress="isNumber($event)" @keyup="begaingCalculation" />
-                                                        <span class="text-danger" v-if="errors.liquidity_total_supply">{{ errors.liquidity_total_supply[0] }}</span>
+                                                    <span class="text-danger" v-if="errors.liquidity_total_supply">{{
+                                                        errors.liquidity_total_supply[0] }}</span>
                                                 </div>
                                             </div>
 
+
+
                                             <div class="row mb-3">
-                                                <label for="inputEnterYourName" class="col-sm-3 col-form-label">Beganing Price</label>
+                                                <label for="inputEnterYourName" class="col-sm-3 col-form-label">Total
+                                                    OCN Purchage (USDT)</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" placeholder="0.00" readonly disabled
+                                                        v-model="BuyToken" />
+                                                </div>
+                                            </div>
+
+                                            <hr>
+                                            <div class="row mb-3" style="color:red;font-size: 18px;">
+                                                <label for="inputEnterYourName" class="col-sm-3 col-form-label">Total
+                                                    Real time show current price </label>
+                                                <div class="col-sm-9">
+                                                    {{ curentPrice }}
+                                                </div>
+                                            </div>
+                                            <hr>
+                                          
+
+                                            <div class="row mb-3">
+                                                <label for="inputEnterYourName" class="col-sm-3 col-form-label">1 OCN
+                                                    value in C.P USDT</label>
                                                 <div class="col-sm-9">
                                                     <input type="text" class="form-control"
-                                                        v-model="insertdata.beganing_price" placeholder="0.00" @keypress="isNumber($event)" />
-                                                        <span class="text-danger" v-if="errors.beganing_price">{{ errors.beganing_price[0] }}</span>
+                                                        v-model="insertdata.beganing_price" placeholder="0.00"
+                                                        @keypress="isNumber($event)" />
+                                                    <span class="text-danger" v-if="errors.beganing_price">{{
+                                                        errors.beganing_price[0] }}</span>
                                                 </div>
                                             </div>
 
@@ -460,7 +493,7 @@
                                                 </div>
                                             </div>
 
-                                           
+
                                         </div>
                                     </div>
 
@@ -497,6 +530,9 @@ definePageMeta({
 const previewUrl = ref(null);
 //const files = ref(null);
 const file = ref(null);
+
+const BuyToken = ref(0);
+
 const insertdata = reactive({
     name: "",
     email: "",
@@ -533,8 +569,9 @@ const insertdata = reactive({
     transfer_fee_fixed_amount: "",
     traansfer_fee_on_percentage: "",
     circlation: "",
+    ocn_purchage: 0,
     liquidity_total_supply: "",
-    
+
 
 });
 
@@ -552,14 +589,17 @@ const errors = ref({});
 const notifmsg = ref("");
 const router = useRouter();
 
-const begaingCalculation = ()=>{
+const begaingCalculation = () => {
 
     const total_supply = insertdata.total_supply;
     const liquidity_total_supply = insertdata.liquidity_total_supply;
-    const b_price = liquidity_total_supply / total_supply;
+    const ocn_purchage = BuyToken.value;
+    
+    const result_1 = parseFloat(liquidity_total_supply)  + parseFloat(ocn_purchage);
+    const b_price = result_1/ total_supply;
     const beganing_price = b_price.toFixed(10);
-    insertdata.beganing_price=beganing_price;
-    console.log("===" + beganing_price);
+    insertdata.beganing_price = beganing_price;
+ 
 
 }
 
@@ -621,13 +661,14 @@ const saveData = () => {
     formData.append("level_2_bonus", insertdata.level_2_bonus);
     formData.append("level_3_bonus", insertdata.level_3_bonus);
 
-    formData.append("withdraw_service_charge",insertdata.withdraw_service_charge);
+    formData.append("withdraw_service_charge", insertdata.withdraw_service_charge);
     formData.append("crypto_wallet_address", insertdata.crypto_wallet_address);
     formData.append("store_policy", insertdata.store_policy);
 
     formData.append("register_bonus", insertdata.register_bonus);
     formData.append("maximum_supply", insertdata.maximum_supply);
     formData.append("total_supply", insertdata.total_supply);
+    formData.append("ocn_purchage", insertdata.ocn_purchage);
     formData.append("website", insertdata.website);
     const headers = {
         "Content-Type": "multipart/form-data",
@@ -636,7 +677,7 @@ const saveData = () => {
         .post("/setting/upateSetting", formData, { headers })
         .then((res) => {
             success_noti();
-            router.push("/setting/presetting");
+            router.push("/admin/dashboard");
         })
         .catch((error) => {
             if (error.response && error.response.status === 422) {
@@ -669,6 +710,7 @@ const success_noti = () => {
     });
 };
 
+
 const loadingRow = () => {
     const id = router.currentRoute.value.query.parameter;
     //console.log("----" + category_id);
@@ -685,21 +727,21 @@ const loadingRow = () => {
         insertdata.fblink = response.data.data.fblink;
         insertdata.website = response.data.data.website;
         insertdata.telegram = response.data.data.telegram;
-        insertdata.deposit_service_charge =response.data.data.deposit_service_charge;
+        insertdata.deposit_service_charge = response.data.data.deposit_service_charge;
         insertdata.register_bonus = response.data.data.register_bonus;
-        insertdata.withdraw_service_charge =response.data.data.withdraw_service_charge;
+        insertdata.withdraw_service_charge = response.data.data.withdraw_service_charge;
         insertdata.crypto_wallet_address = response.data.data.crypto_wallet_address;
 
         insertdata.liquidity_total_supply = response.data.data.liquidity_total_supply;
         insertdata.circlation = response.data.data.circlation;
- 
-        insertdata.withdraw_minimum_amount =response.data.data.withdraw_minimum_amount;
+
+        insertdata.withdraw_minimum_amount = response.data.data.withdraw_minimum_amount;
         insertdata.maximum_supply = response.data.data.maximum_supply;
         insertdata.total_supply = response.data.data.total_supply;
         insertdata.level_1_bonus = response.data.data.level_1_bonus;
         insertdata.level_2_bonus = response.data.data.level_2_bonus;
         insertdata.level_3_bonus = response.data.data.level_3_bonus;
-       
+
         insertdata.mininmum_deposit_amount = response.data.data.mininmum_deposit_amount;
         insertdata.maximum_deposit_amount = response.data.data.maximum_deposit_amount;
         insertdata.minimum_withdrawal = response.data.data.minimum_withdrawal;
@@ -711,14 +753,32 @@ const loadingRow = () => {
         insertdata.maximum_transfer_amount_to_other_user = response.data.data.maximum_transfer_amount_to_other_user;
         insertdata.transfer_fee_fixed_amount = response.data.data.transfer_fee_fixed_amount;
         insertdata.traansfer_fee_on_percentage = response.data.data.traansfer_fee_on_percentage;
+        insertdata.ocn_purchage = response.data.data.ocn_purchage;
         insertdata.beganing_price = response.data.data.beganing_price;
+        BuyToken.value = response.data.BuyToken;
+
 
 
     });
 };
 
+const curentPrice = ref(0);
+const currentPrice = async () => {
+
+    try {
+        const response = await axios.get("/trading/getCurrentPrice");
+        curentPrice.value = response.data.current_price;
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+
+}
+
 // Call the loadeditor function when the component is mounted
 onMounted(async () => {
+    currentPrice();
+    begaingCalculation();
     loadingRow();
+
 });
 </script>

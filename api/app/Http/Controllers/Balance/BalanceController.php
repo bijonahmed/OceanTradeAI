@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Balance;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Trading\TradingController;
+use App\Models\BuyToken;
 use App\Models\Community;
 use App\Models\Deposit;
 use App\Models\ExpenseHistory;
@@ -22,9 +24,11 @@ use App\Models\SendReceived;
 use App\Models\TransactionHistory;
 use App\Models\WalletAddress;
 use App\Models\kyc;
+use App\Models\MiningBalanceSum;
 use App\Models\Notification;
 use App\Models\Setting;
 use App\Models\SwapHistory;
+use App\Models\Trade;
 use App\Models\UserBotHistory;
 use App\Models\UserMiningHistory;
 use App\Models\UserPaymentAddress;
@@ -70,18 +74,35 @@ class BalanceController extends Controller
                 $s_price += !empty($matching->service_price) ? $matching->service_price : 0;
             }
         }
-        $service_price                 = $s_price;
-       
+        $mining_packages_fee           = $s_price;
+        
         $row                           = User::find($this->userid);
         $deposit                       = Deposit::where('user_id', $this->userid)->where('status', 1)->sum('deposit_amount');
-        $bost                          = UserBotHistory::where('user_id', $this->userid)->sum('level_cost');
-        $mining                        = UserMiningHistory::where('user_id', $this->userid)->sum('level_cost');
+        $bot_bost                      = UserBotHistory::where('user_id', $this->userid)->sum('level_cost');
+        $mining_bost                   = UserMiningHistory::where('user_id', $this->userid)->sum('level_cost');
+        $trading                       = Trade::where('user_id', $this->userid)->where('status', 0)->sum('tradeAmount');
+        $tradingComplete               = Trade::where('user_id', $this->userid)->where('status', 1)->sum('return_amount');
+        $buyToken                      = BuyToken::where('user_id', $this->userid)->sum('usdt_amount'); 
+        $withdrawal                    = 10; 
 
-        $usdt_balance                  = $deposit - $service_price - $bost - $mining;
+        $usdt_balance                  = $deposit - $mining_packages_fee - $bot_bost - $mining_bost - $trading - $buyToken - $withdrawal + $tradingComplete;
+        //ocn wallet 
+        $miningBalanceSum              = MiningBalanceSum::where('user_id', $this->userid)
+                                         ->whereNotNull('ocn_balance')
+                                         ->sum('ocn_balance');
+
+        $tokenBalance                  = BuyToken::where('user_id', $this->userid)
+                                         ->sum('get_token');
+        $ocn_balance                   = $miningBalanceSum  + $tokenBalance;
+        //dd($miningBalanceSum);
+
 
         $data['available_balance']     = !empty($row->available_balance) ? $row->available_balance : 0;
-        $data['usdt_amount']           = number_format($usdt_balance, 2); //USDT Amount
+        $data['usdt_amount']           = number_format($usdt_balance, 2); //USDT Amount formatted
         $data['usdtamount']            = $usdt_balance; //USDT Amount
+
+        $data['ocn_token']             = $ocn_balance; //OCN Token formatted
+        $data['ocntoken']              = $ocn_balance; //OCN Token
      
         return response()->json($data);
     }

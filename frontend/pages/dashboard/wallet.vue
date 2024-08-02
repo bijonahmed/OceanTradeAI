@@ -12,11 +12,14 @@
                         <div class="col-md-6">
                             <div class="wallet_container">
                                 <div class="wallet_box">
-                                    <h4> <img src="/assets/images/gold_coin.png" alt="" class="img-fluid"> 0.00</h4>
+                                    <h4> <img src="/assets/images/gold_coin.png" alt="" class="img-fluid"> {{ balanceOcn
+                                        }}</h4>
                                     <p>OCN Balance</p>
+                                    <p> {{ convert_usdt }} USDT</p>
                                 </div>
                                 <div class="wallet_box">
-                                    <h4><img src="/assets/images/usdt.png" alt="" class="img-fluid">{{ usdtdepositAmount }}</h4>
+                                    <h4><img src="/assets/images/usdt.png" alt="" class="img-fluid">{{ usdtAmount }}
+                                    </h4>
                                     <p>USDT Balance</p>
                                 </div>
                             </div>
@@ -28,7 +31,10 @@
                                 <a class="btn-action style-5 btn_boost mx-0 me-2" data-bs-toggle="offcanvas"
                                     data-bs-target="#deposit_" aria-controls="deposit_">Deposit</a>
                                 <nuxt-link to="/dashboard/withdraw"
-                                    class="btn-action style-5 btn_boost mx-0">Withdraw</nuxt-link>
+                                    class="btn-action style-5 btn_boost mx-0">Withdraw</nuxt-link>&nbsp;
+
+                                    <nuxt-link to="/dashboard/loan-request-send"
+                                    class="btn-action style-5 btn_boost mx-0">Pay</nuxt-link>
                             </div>
                         </div>
                     </div>
@@ -43,6 +49,14 @@
                                             </li>
                                             <li class="" @click="fetchWithdrawalData">
                                                 <h5>Withdraw</h5>
+                                            </li>
+
+                                            <li class="" @click="fetchLoanData">
+                                                <h5>Loan</h5>
+                                            </li>
+
+                                            <li class="" @click="fetchRewardData">
+                                                <h5>Reward</h5>
                                             </li>
 
                                         </ul>
@@ -97,7 +111,8 @@
                                                         <tbody>
                                                             <tr v-for="v in depositData" :key="v.id">
                                                                 <td>{{ v.trxId }}</td>
-                                                                <td class="text-center">{{ formatDateTime(v.created_at)}}</td>
+                                                                <td class="text-center">{{
+                                                                    formatDateTime(v.created_at) }}</td>
                                                                 <td class="text-center">{{ v.deposit_amount }}</td>
 
                                                                 <td class="text-center"><span class="text-warning">
@@ -116,6 +131,7 @@
                                                     </table>
                                                 </div>
                                             </div>
+
                                             <div class="content-inner flat-accordion">
                                                 <div class="search_section">
                                                     <form action="">
@@ -123,17 +139,23 @@
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <div class="input_form mb-2 m-0">
-                                                                        <input type="text" placeholder="Search Withdrawal Id" class="form-control" v-model="withdrawal_Id" @keyup="fetchWithdrawalData">
+                                                                        <input type="text"
+                                                                            placeholder="Search Withdrawal Id"
+                                                                            class="form-control" v-model="withdrawal_Id"
+                                                                            @keyup="fetchWithdrawalData">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <div class=" d-flex align-items-center w-100">
                                                                         <div class="input_form w-100">
-                                                                            <input type="date" class="form-control" v-model="withdrawal_frmDate">
+                                                                            <input type="date" class="form-control"
+                                                                                v-model="withdrawal_frmDate">
                                                                         </div>
                                                                         <p>TO</p>
                                                                         <div class="input_form w-100 m-0">
-                                                                            <input type="date" class="form-control" v-model="withdrawal_toDate" @change="fetchWithdrawalData">
+                                                                            <input type="date" class="form-control"
+                                                                                v-model="withdrawal_toDate"
+                                                                                @change="fetchWithdrawalData">
                                                                         </div>
 
                                                                     </div>
@@ -156,7 +178,8 @@
                                                         <tbody>
                                                             <tr v-for="v in withdrwalData" :key="v.id">
                                                                 <td>{{ v.withdrawID }}</td>
-                                                                <td class="text-center">{{ formatDateTime(v.created_at)}}</td>
+                                                                <td class="text-center">{{
+                                                                    formatDateTime(v.created_at) }}</td>
                                                                 <td class="text-center">{{ v.withdrawal_amount }}</td>
                                                                 <td class="text-center"><span class="text-warning">
                                                                         <span v-if="v.status == 0"
@@ -169,11 +192,59 @@
                                                                 </td>
                                                                 <td>{{ v.remarks }}</td>
                                                             </tr>
-                                                            
+
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>
+
+                                            <!-- For Loan -->
+                                            <div class="content-inner flat-accordion">
+                                                <div class="table-responsive">
+                                                    <table class="table table-dark table-striped table_crypto">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col" class="text-left">Datetime</th>
+                                                                <th scope="col">Remark</th>
+                                                                <th scope="col" class="text-center">Amount</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr v-for="v in loanData" :key="v.id">
+                                                                <td>{{ formatDateTime(v.created_at) }}</td>
+                                                                <td>{{ v.detailed_remarks }}</td>
+                                                                <td class="text-center">{{ v.adjustment_amount }}USDT
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <!-- For Reward -->
+
+                                            <div class="content-inner flat-accordion">
+                                                <div class="table-responsive">
+                                                    <table class="table table-dark table-striped table_crypto">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col" class="text-left">Datetime</th>
+                                                                <th scope="col">Remark</th>
+                                                                <th scope="col" class="text-center">Amount</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr v-for="v in rewardsData" :key="v.id">
+                                                                <td>{{ formatDateTime(v.created_at) }}</td>
+                                                                <td>{{ v.detailed_remarks }}</td>
+                                                                <td class="text-center">{{ v.adjustment_amount }}USDT
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -216,30 +287,10 @@
                         <div class="refer_members latest_buy text-start">
                             <h6>Latest Deposit</h6>
                             <ul>
-                                <li>
-                                    <strong>@user1 desposit xyz </strong>
+                                <li v-for="user in users.slice(0, 12)" :key="user.username">
+                                    <strong>@{{ user.username }} desposit {{ user.amount }} USDT</strong>
                                 </li>
-                                <li>
-                                    <strong>@user1 desposit xyz </strong>
-                                </li>
-                                <li>
-                                    <strong>@user1 desposit xyz </strong>
-                                </li>
-                                <li>
-                                    <strong>@user1 desposit xyz </strong>
-                                </li>
-                                <li>
-                                    <strong>@user1 desposit xyz </strong>
-                                </li>
-                                <li>
-                                    <strong>@user1 desposit xyz </strong>
-                                </li>
-                                <li>
-                                    <strong>@user1 desposit xyz </strong>
-                                </li>
-                                <li>
-                                    <strong>@user1 desposit xyz </strong>
-                                </li>
+
                             </ul>
 
                         </div>
@@ -258,6 +309,11 @@ import DashboardSidebar from "~/layouts/DashboardSidebar.vue";
 import DashboardHeader from "~/layouts/DashboardHeader.vue";
 import swal from "sweetalert2";
 import { useUserStore } from "~~/stores/user";
+
+import { useRandomUsers } from '@/compositions/useRandomUsers';
+const { users } = useRandomUsers();
+
+
 const userStore = useUserStore();
 const router = useRouter()
 const isLoggedIn = computed(() => userStore.isLoggedIn);
@@ -269,6 +325,7 @@ const deposit_amount = ref("");
 const errors = ref({});
 const minimum_amt = 20;
 const show_messages = ref("");
+
 const loading = ref(false);
 
 const formatDateTime = (dateTimeString) => {
@@ -334,7 +391,13 @@ const withdrawal_frmDate = ref('');
 const withdrawal_toDate = ref('');
 
 const withdrwalData = ref([]);
-const usdtdepositAmount = ref(0);
+const loanData = ref([]);
+const rewardsData = ref([]);
+const usdtAmount = ref(0);
+const currentprice = ref(0);
+
+const convert_usdt = ref(0);
+const balanceOcn = ref(0);
 
 const fetchDepositData = async () => {
     try {
@@ -348,7 +411,7 @@ const fetchDepositData = async () => {
         });
         //console.log("Response data:", response.data.levels);
         depositData.value = response.data.depositData;
-        usdtdepositAmount.value = response.data.depositAmount;
+        usdtAmount.value = response.data.depositAmount;
 
     } catch (error) {
         console.error("Error fetching data:", error);
@@ -378,8 +441,68 @@ const fetchWithdrawalData = async () => {
 };
 
 
+const fetchLoanData = async () => {
+
+    try {
+        loading.value = true;
+        const response = await axios.get("/loan/getAdminSendingLoan");
+        //console.log("Response data:", response.data.levels);
+        loanData.value = response.data.data;
+
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    } finally {
+        loading.value = false;
+    }
+
+}
+
+
+const fetchRewardData = async () => {
+
+    try {
+        loading.value = true;
+        const response = await axios.get("/reward/getAdminSendingRewards");
+        //console.log("Response data:", response.data.levels);
+        rewardsData.value = response.data.data;
+
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    } finally {
+        loading.value = false;
+    }
+
+}
+
+
+
+const getCurrentPrices = async () => {
+    try {
+        const response = await axios.get("/trading/getCurrentPrice");
+        currentprice.value = response.data.current_price;
+        const res = await axios.get("/trading/getToken");
+        const token = res.data.ocntoken;
+        const cp = response.data.current_price;
+        convert_usdt.value = Number((cp * token).toFixed(2));
+
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+};
+
+const getocntokenBalance = async () => {
+    try {
+        const response = await axios.get("/trading/getToken");
+        balanceOcn.value = response.data.ocntoken;
+
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+};
 
 onMounted(() => {
+    getCurrentPrices();
+    getocntokenBalance();
     fetchDepositData();
     fetchWithdrawalData();
     const flattabs = () => {

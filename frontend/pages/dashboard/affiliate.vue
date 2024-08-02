@@ -6,17 +6,13 @@
         <div class="dashboard_main_content">
             <div class="dashboard__content">
 
-
                 <DashboardHeader />
-
 
                 <center>
                     <div class="loading-indicator" v-if="loading" style="text-align: center">
                         <Loader />
                     </div>
                 </center>
-
-
 
                 <div class="dashboard__main">
                     <div class="affiliate_section">
@@ -119,9 +115,6 @@
             </div>
         </div>
 
-
-
-
     </div>
 </template>
 
@@ -138,7 +131,6 @@ const loading = ref(false);
 definePageMeta({
     middleware: 'is-logged-out',
 })
-
 
 const inviteCode = ref('');
 const intielink = ref('');
@@ -209,7 +201,6 @@ const copyAddressToClipboard = () => {
     document.execCommand('copy');
     document.body.removeChild(textarea);
 
-    
     const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -248,13 +239,10 @@ const fetchLevelData = async () => {
     }
 };
 
-
 onMounted(async () => {
     getInviteCode();
     fetchLevelData();
 
 });
-
-
 
 </script>

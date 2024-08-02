@@ -18,7 +18,7 @@
       </span>
 
     </div>
-    <span class="sm_timer">
+    <span class="sm_timer" v-if="hours < 24">
       <strong>
         <div class="t_box">{{ hours }}</div>
         <p>Hour</p>
@@ -33,7 +33,7 @@
       </strong>
     </span>
 
-    <center>
+    <center v-if="increasingNumber > 0">
       <h3>{{ increasingNumber }}</h3>
     </center>
     <span v-if="formattedRemainingTime === '0h 0m 0s'">

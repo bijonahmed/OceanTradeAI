@@ -136,6 +136,7 @@
     
     // Mobile Navigation
     var mobileNav = function () {
+
         var mobile = window.matchMedia("(max-width: 1024px)");
         var wrapMenu = $(".header__right");
         var navExtw = $(".nav-extend.active");
@@ -188,6 +189,7 @@
         $(document).on("click", "#main-nav-mobi .arrow", function () {
           $(this).toggleClass("active").next().slideToggle();
         });
+        
       };
     
     var alertBox = function () {

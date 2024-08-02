@@ -53,7 +53,8 @@ class MiningController extends Controller
     }
 
 
-    public function updateBot(Request $request){
+    public function updateBot(Request $request)
+    {
 
         $validator = Validator::make($request->all(), [
             'name'                => 'required',
@@ -77,7 +78,6 @@ class MiningController extends Controller
         );
         $resdata['id']                    = BotSetting::where('id', $request->id)->update($data);
         return response()->json($resdata);
-
     }
 
 

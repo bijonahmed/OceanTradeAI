@@ -18,7 +18,7 @@ export default defineNuxtConfig({
     public: {
       baseURL:
         process.env.NODE_ENV === "production"
-          ? "https://api.uicmax.com/api/"
+          ? "https://apiocn.eduzenship.com/api/"
           : "http://127.0.0.1:8000/api/",
     },
   },
@@ -42,7 +42,7 @@ export default defineNuxtConfig({
    // "~/plugins/google-analytics.js",
     "~/plugins/navMenu.js",
     "~/plugins/bootstrap.js",
-    "~/plugins/echo.client.js",
+    //"~/plugins/echo.client.js",
     "~/plugins/v-paste.js",
     // Add other plugins as needed
   ],

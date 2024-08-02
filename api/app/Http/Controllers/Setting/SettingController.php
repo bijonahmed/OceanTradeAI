@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Setting;
 use App\Http\Controllers\Controller;
 use App\Models\BoostMiningSetting;
 use App\Models\BotSetting;
+use App\Models\BuyToken;
 use App\Models\GlobalWalletAddress;
 use Illuminate\Http\Request;
 use Auth;
@@ -888,10 +889,12 @@ class SettingController extends Controller
 
     public function settingrowSystem()
     {
-
         $data = Setting::find(1);
+
+        $buyToken= BuyToken::sum('usdt_amount');
         $response = [
-            'data' => $data,
+            'data'     => $data,
+            'BuyToken' => $buyToken,
             'message' => 'success'
         ];
         return response()->json($response, 200);
@@ -968,7 +971,7 @@ class SettingController extends Controller
             'traansfer_fee_on_percentage'           => !empty($request->traansfer_fee_on_percentage) ? $request->traansfer_fee_on_percentage : 0,
 
             'liquidity_total_supply'                => !empty($request->liquidity_total_supply) ? $request->liquidity_total_supply : 0,
-            //'circlation'                            => !empty($request->circlation) ? $request->circlation : 0,
+            'circlation'                            => !empty($request->ocn_purchage) ? $request->ocn_purchage : 0,
             'beganing_price'                        => !empty($request->beganing_price) ? $request->beganing_price : 0,
         );
 

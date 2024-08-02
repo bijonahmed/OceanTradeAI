@@ -37,7 +37,7 @@
                                     </li>
                                     <li>
                                         <strong>Hash Rate:</strong>
-                                        <strong>Approximately 100-110 MH/s (Eth </strong>
+                                        <strong>Approximately 100-110 MH/s (Eth) </strong>
                                     </li>
                                     <li>
                                         <strong>CPU:</strong>
@@ -229,9 +229,9 @@
 </template>
 
 <script setup>
- import Child from '/pages/Child.vue'
- import Header from "~/layouts/Header.vue";
- import Footer from "~/layouts/Footer.vue";
+import Child from '/pages/Child.vue'
+import Header from "~/layouts/Header.vue";
+import Footer from "~/layouts/Footer.vue";
 
 </script>
 
@@ -250,7 +250,8 @@
     color: #1a6ca9;
     font-size: 28px;
 }
-body{
+
+body {
     overflow: auto !important;
 }
 </style>

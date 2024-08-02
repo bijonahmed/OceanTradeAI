@@ -94,7 +94,7 @@
                                     </div>
                                 </div>
 
-                                <button type="submit" class="btn-action style-1 w-100 mt-3">I PAID </button>
+                                <button type="submit" class="btn-action style-1 w-100 mt-3"  id="submit-button" >I PAID </button>
 
                                 <div class="col mt-2 alert_">
                                     <p>Attentions:</p>
@@ -189,7 +189,9 @@ const formatTime = (timeInSeconds) => {
 const formattedTime = ref(formatTime(timeLeft.value));
 
 const depositSubmit = () => {
-    
+    const submitButton = document.getElementById("submit-button");
+    submitButton.disabled = true; // Disable the button to prevent double-click
+
     const formData = new FormData();
     formData.append("crypto_wallet_address", crypto_wallet_address.value);
     formData.append("network", network.value);
@@ -210,14 +212,15 @@ const depositSubmit = () => {
             if (error.response && error.response.status === 422) {
                 errors.value = error.response.data.errors;
                 console.log("errors " + error.response.data.errors.error_deposit_amount);
-
             } else {
                 // Handle other types of errors here
                 console.error("An error occurred:", error);
             }
+        })
+        .finally(() => {
+            submitButton.disabled = false; // Re-enable the button
         });
 };
-
 
 const success_noti = () => {
     const Toast = Swal.mixin({

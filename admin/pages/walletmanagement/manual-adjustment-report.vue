@@ -41,8 +41,8 @@
                       @change="filterData"
                     >
                       <option value="5">All</option>
-                      <option value="1">Debited (+)</option>
-                      <option value="2">Credited (-)</option>
+                      <option value="1">Loan</option>
+                      <option value="2">Reward</option>
                     </select>
                   </div>
 
@@ -103,11 +103,11 @@
                     </td>
                     <td class="text-center">{{ pro.adjustment_amount }}</td>
                     <span v-if="pro.adjustment_type == 1">
-                      <div class="badge rounded-pill bg-success text-center w-100">{{ pro.status }} (+) </div>
+                      <div class="badge rounded-pill" style="font-size: 15px;">Loan</div>
                     </span>
 
                     <span v-if="pro.adjustment_type == 2">
-                      <div class="badge rounded-pill bg-danger text-center w-100">{{ pro.status }} (-) </div>
+                      <div class="badge rounded-pill" style="font-size: 15px;"> Reward </div>
                     </span>
                     <td class="text-center">{{ pro.created_at }}</td>
                     <td class="text-left">{{ pro.detailed_remarks }}</td>
@@ -235,7 +235,7 @@ const edit = (id) => {
 const fetchData = async (page) => {
   try {
     loading.value = true;
-    const response = await axios.get(`/dropUser/getManualAdjustmentReport`, {
+    const response = await axios.get(`/trading/getManualAdjustmentReport`, {
       params: {
         page: page,
         pageSize: pageSize,

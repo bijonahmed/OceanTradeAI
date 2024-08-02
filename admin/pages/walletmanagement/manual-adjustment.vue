@@ -11,7 +11,10 @@
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item">
-                  <LazyNuxtLink to="/admin/dashboard">Dashboard</LazyNuxtLink>
+                  <LazyNuxtLink to="/admin/dashboard">Home</LazyNuxtLink>
+                </li>
+                <li class="breadcrumb-item active">
+                  <LazyNuxtLink to="/walletmanagement/manual-adjustment-report">Back to List</LazyNuxtLink>
                 </li>
               </ol>
             </div>
@@ -86,15 +89,15 @@
                         class="form-control"
                         @change="emptyAmunt"
                       >
-                        <option value="1">Debited (+)</option>
-                        <option value="2">Credited (-)</option>
+                        <option value="1">Loan</option>
+                        <option value="2">Reward</option>
                       </select>
                       <span class="text-danger" v-if="errors.adjustment_type">{{
                         errors.adjustment_type[0]
                       }}</span>
                     </div>
                     <div class="form-group mb-2">
-                      <label for="">Adjustment UIC amount</label>
+                      <label for="">Adjustment amount</label>
                       <input
                         type="text"
                         v-model="manualAdjment.adjustment_amount"
