@@ -24,6 +24,7 @@ use App\Models\SendReceived;
 use App\Models\TransactionHistory;
 use App\Models\WalletAddress;
 use App\Models\kyc;
+use App\Models\LoanPayHistory;
 use App\Models\MiningBalanceSum;
 use App\Models\Notification;
 use App\Models\Setting;
@@ -68,6 +69,9 @@ class BalanceController extends Controller
         $today_date                    = date("Y-m-d");
         $active_matching               = MiningServicesBuyHistory::where('user_id', $this->userid)->get();
 
+        $chkloanAmt  = LoanPayHistory::where('type', 1)->where('user_id', $this->userid)->where('status', 0)->sum('amount');
+        $loanAmount = abs($chkloanAmt);
+
         $s_price = 0;
         foreach ($active_matching as $matching) {
             if ($matching->end_date >= $today_date) {
@@ -85,7 +89,7 @@ class BalanceController extends Controller
         $buyToken                      = BuyToken::where('user_id', $this->userid)->sum('usdt_amount'); 
         $withdrawal                    = 10; 
 
-        $usdt_balance                  = $deposit - $mining_packages_fee - $bot_bost - $mining_bost - $trading - $buyToken - $withdrawal + $tradingComplete;
+        $usdt_balance                  = $deposit - $mining_packages_fee - $bot_bost - $mining_bost - $trading - $buyToken - $withdrawal + $tradingComplete + $loanAmount;
         //ocn wallet 
         $miningBalanceSum              = MiningBalanceSum::where('user_id', $this->userid)
                                          ->whereNotNull('ocn_balance')

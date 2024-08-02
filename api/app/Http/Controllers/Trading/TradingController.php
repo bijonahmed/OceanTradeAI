@@ -797,13 +797,13 @@ class TradingController extends Controller
             ->select('trade.*', 'users.email', 'users.name', 'users.phone_number')
             ->orderBy('trade.id', 'desc'); // Sorting by 'id' in descending order
 
-            $customTimeZone = 'Asia/Dhaka';
-            $currentTime    = Carbon::now($customTimeZone);
-            $realtimeUpdate = $currentTime->format('Y-m-d H:i:s');
+        $customTimeZone = 'Asia/Dhaka';
+        $currentTime    = Carbon::now($customTimeZone);
+        $realtimeUpdate = $currentTime->format('Y-m-d H:i:s');
 
-            $udata['request_datetime'] = $realtimeUpdate;
-            Trade::where('id', 1)->update($udata);
-            
+        $udata['request_datetime'] = $realtimeUpdate;
+        Trade::where('id', 1)->update($udata);
+
         // Check if filter dates are provided
         if (!empty($filterFrmDate) && !empty($filterToDate)) {
             // Filter by range (inclusive)
@@ -845,7 +845,7 @@ class TradingController extends Controller
             }
             $tcateName       = TradingCategory::where('id', $item->category_id)->first();
             $tscateName      = TradingSubCategory::where('id', $item->subcategory_id)->first();
-            
+
             $userrow = User::find($item->user_id);
             return [
                 'id'                => $item->id,
@@ -855,7 +855,7 @@ class TradingController extends Controller
                 //                
                 'tradeID'               => $item->tradeID,
                 'categoryName'          => !empty($tcateName) ? $tcateName->name : "",
-                'subCategoryName'       => !empty($tscateName) ? $tscateName->name.'/USDT' : "",
+                'subCategoryName'       => !empty($tscateName) ? $tscateName->name . '/USDT' : "",
                 'durationPercentage'    => $item->durationPercentage,
                 'estProfit'             => $item->estProfit,
                 'trading_fee'           => $item->trading_fee,

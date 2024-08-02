@@ -353,7 +353,6 @@ Route::middleware(['auth:api', CheckUserStatus::class])->group(function () {
         Route::get('documents-row/{id}', [DocumentsController::class, 'editId']);
     });
 
-
     Route::group([
         'prefix' => 'trading'
     ], function () {
@@ -383,7 +382,6 @@ Route::middleware(['auth:api', CheckUserStatus::class])->group(function () {
         Route::get('getManualAdjustmentReport', [DropUserController::class, 'getManualAdjustmentReport']);
     });
 
-
     Route::group([
         'prefix' => 'reward'
     ], function () {
@@ -397,7 +395,6 @@ Route::middleware(['auth:api', CheckUserStatus::class])->group(function () {
         Route::post('insertrwardStatus', [RewardCenterController::class, 'insertrwardStatus']);
     });
 
-
     Route::group([
         'prefix' => 'loan'
     ], function () {
@@ -410,9 +407,10 @@ Route::middleware(['auth:api', CheckUserStatus::class])->group(function () {
         Route::get('loanSettingList', [LoanController::class, 'loanSettingList']);
         Route::get('getAdminSendingLoan', [LoanController::class, 'getAdminSendingLoan']);
         Route::post('loanSendRequest', [LoanController::class, 'loanSendRequest']);
+        Route::get('getPayLoanReturnList', [LoanController::class, 'getPayLoanReturnList']);
+        Route::get('payLoanrow/{id}', [LoanController::class, 'payLoanrow']);
+        Route::post('updatePayLoanReturnRequest', [LoanController::class, 'updatePayLoanReturnRequest']);
     });
-
-
 
     Route::group([
         'prefix' => 'setting'

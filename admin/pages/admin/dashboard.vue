@@ -67,9 +67,6 @@
 
                     </div>
 
-
-
-
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
                             <span class="info-box-icon bg-danger"><i class="fa fa-product-hunt"></i></span>
@@ -83,6 +80,21 @@
                         </div>
 
                     </div>
+
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-primary"><i class="fa fa-product-hunt"></i></span>
+                            <nuxt-link to="/walletmanagement/pay-loan-return-management" style="text-decoration: none;">
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Pay (Loan Return)</span>
+                                    <span class="info-box-number">0</span>
+                                </div>
+                            </nuxt-link>
+
+                        </div>
+
+                    </div>
+
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
                             <span class="info-box-icon bg-danger"><i class="fa fa-product-hunt"></i></span>
@@ -96,10 +108,9 @@
 
                     </div>
 
-
                     <div class="col-md-3 col-sm-6 col-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-danger"><i class="fa fa-product-hunt"></i></span>
+                            <span class="info-box-icon bg-primary"><i class="fa fa-product-hunt"></i></span>
                             <nuxt-link to="/walletmanagement/manual-adjustment-report" style="text-decoration: none;">
                                 <div class="info-box-content">
                                     <span class="info-box-text">Manual Adjustment</span>
@@ -109,10 +120,6 @@
                         </div>
 
                     </div>
-
-
-
-
 
                     <div class="col-md-3 col-sm-6 col-12 d-none">
                         <div class="info-box">

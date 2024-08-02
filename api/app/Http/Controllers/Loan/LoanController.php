@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Loan;
 
 use App\Http\Controllers\Controller;
+use App\Models\LoanPayHistory;
 use App\Models\LoanRequest;
 use App\Models\LoanReturn;
 use App\Models\LoanSetting;
@@ -49,6 +50,19 @@ class LoanController extends Controller
             $data['status'] = 0;
         }
 
+        $chkrow = LoanRequest::where('id', $request->loan_id)->first();
+
+        if ($request->loan_status == 1) {
+            $tran['user_id']     = $request->user_id;
+            $tran['referrance_name'] = 'loan_request';
+            $tran['last_Id']     = $request->loan_id;
+            $tran['type']        = 1; //Loan 
+            $tran['amount']      = '-' . $chkrow->loan_value;
+            $tran['status']      = 0;
+            LoanPayHistory::insert($tran);
+            //TransactionHistory::insert($tran);
+        }
+
         LoanRequest::where('id', $request->loan_id)->update($data);
 
         $response = [
@@ -70,7 +84,7 @@ class LoanController extends Controller
         // dd($selectedFilter);
         $query = LoanRequest::orderBy('loan_request.id', 'desc')
             ->join('users', 'loan_request.user_id', '=', 'users.id') // Join condition
-            ->select('loan_request.*', 'users.email', 'users.name', 'users.phone_number')
+            ->select('loan_request.*', 'users.id as user_id', 'users.email', 'users.name', 'users.phone_number')
             ->orderBy('loan_request.id', 'desc'); // Sorting by 'id' in descending order
 
         if (!empty($searchEmail)) {
@@ -102,8 +116,10 @@ class LoanController extends Controller
             $loanrow = LoanSetting::where('id', $item->loan_id)->first();
             return [
                 'id'                => $item->id,
+                'user_id'           => $item->user_id,
                 'loanName'          => !empty($loanrow) ? $loanrow->name : "",
                 'thumnail_img'      => !empty($loanrow->thumnail_img) ? url($loanrow->thumnail_img) : "",
+                'loan_value'        => $loanrow->value,
                 'user_info_name'    => !empty($userrow->name) ?  $userrow->name : "N/A",
                 'user_info_email'   => !empty($userrow->email) ?  $userrow->email : "N/A",
                 'user_info_phone'   => !empty($userrow->phone_number) ?  $userrow->phone_number : "N/A",
@@ -140,7 +156,7 @@ class LoanController extends Controller
             return response()->json(['message' => 'Already Send Claim'], 409);
         }
 
-        $value_row = LoanSetting::where('id',$request->id)->first();
+        $value_row = LoanSetting::where('id', $request->id)->first();
 
         $data = array(
             'loan_id'           => $request->id,
@@ -239,7 +255,7 @@ class LoanController extends Controller
             $arryData[] = [
                 'id'                         => $v->id,
                 'name'                       => $v->name,
-                'thumnail_img'               => !empty($v->thumnail_img) ? url($v->thumnail_img): "",
+                'thumnail_img'               => !empty($v->thumnail_img) ? url($v->thumnail_img) : "",
                 'status'                     => $v->status,
                 'loan_status'                => $loan_status,
             ];
@@ -292,14 +308,50 @@ class LoanController extends Controller
 
     public function getAdminSendingLoan()
     {
-        $data = ManualAdjustment::where('user_id',$this->userid)->where('adjustment_type',1)->orderBy('manual_adjustment.id', 'desc')->get(); // Base query
-        
+        $rows = LoanPayHistory::where('user_id', $this->userid)->orderBy('id', 'asc')->get();
+
+        $arryData = [];
+        foreach ($rows as $v) {
+            if ($v->status == 1) {
+                $arryData[] = [
+                    'id'                => $v->id,
+                    'user_id'           => $v->user_id,
+                    'last_id'           => $v->last_id,
+                    'type'              => $v->type,
+                    'amount'            => $v->amount,
+                    'status'            => $v->status,
+                    'created_at'        => $v->created_at,
+
+                ];
+            }
+            if ($v->type == 1 && $v->status == 0) {
+                $arryData[] = [
+                    'id'                => $v->id,
+                    'user_id'           => $v->user_id,
+                    'last_id'           => $v->last_id,
+                    'type'              => $v->type,
+                    'amount'            => $v->amount,
+                    'status'            => $v->status,
+                    'created_at'        => $v->created_at,
+
+                ];
+            }
+        }
+
+        $chkloanAmt  = LoanPayHistory::where('type', 1)->where('user_id', $this->userid)->where('status', 0)->sum('amount');
+        $loanAmount = abs($chkloanAmt);
+
+        $chkPayloanAmt  = LoanPayHistory::where('type', 2)->where('user_id', $this->userid)->where('status', 1)->sum('amount');
+        $loanPayAmount = abs($chkPayloanAmt);
+
+        $loanBalance = $loanAmount - $loanPayAmount;
+
         $response = [
-            'data' => $data
+            'data'          => $arryData,
+            'loanBalance'   => !empty($loanBalance) ? $loanBalance : 0
         ];
         return response()->json($response, 200);
     }
-
 
     public function loanSendRequest(Request $request)
     {
@@ -322,6 +374,18 @@ class LoanController extends Controller
                 return response()->json(['errors' => ['deposit_amount' => ['Your deposit amount is low']]], 422);
             }
 
+            $chkloanAmt  = LoanPayHistory::where('type', 1)->where('status', 0)->sum('amount');
+            $loanAmount = abs($chkloanAmt);
+
+            $chkPayloanAmt  = LoanPayHistory::where('type', 2)->where('status', 1)->sum('amount');
+            $loanPayAmount = abs($chkPayloanAmt);
+
+            $payResult = $loanAmount - $loanPayAmount;
+
+            if ($request->deposit_amount > $payResult) {
+                return response()->json(['errors' => ['deposit_amount' => ["Your pay amount must not be greater than the loan amount. Loan Amount is $payResult USDT"]]], 422);
+            }
+
             $uniqueID = 'LOAN.' . $this->generateUnique4DigitNumber();
             $data = array(
                 'loanID'      => $uniqueID,
@@ -336,13 +400,7 @@ class LoanController extends Controller
             );
 
             $last_Id = LoanReturn::insertGetId($data);
-            
-            $tran['user_id']     = $this->userid;
-            $tran['referrance_name'] = 'loan_return_request';
-            $tran['last_Id']     = $last_Id;
-            $tran['type']        = 2; //Pay 
-            $tran['amount']      = $request->deposit_amount;
-            $tran['status']      = 0;
+
             //TransactionHistory::insert($tran);
 
             return response()->json($last_Id);
@@ -362,5 +420,157 @@ class LoanController extends Controller
         } while (in_array($uniqueNumber, $existingNumbers));
 
         return md5($uniqueNumber);
+    }
+
+    public function getPayLoanReturnList(Request $request)
+    {
+
+        $page           = $request->input('page', 1);
+        $pageSize       = $request->input('pageSize', 10);
+        // Get search query from the request
+        $searchQuery    = $request->searchQuery;
+        $selectedFilter = (int)$request->selectedFilter;
+        $searchEmail    = $request->searchEmail;
+        $filterFrmDate  = $request->filterFrmDate;
+        $filterToDate   = $request->filterToDate;
+        $searchOrderId  = $request->searchOrderId;
+
+        // dd($selectedFilter);
+        $query = LoanReturn::orderBy('loan_return_request.id', 'desc')
+            ->join('users', 'loan_return_request.user_id', '=', 'users.id') // Join condition
+            ->select('loan_return_request.*', 'users.email', 'users.name', 'users.phone_number')
+            ->orderBy('loan_return_request.id', 'desc'); // Sorting by 'id' in descending order
+
+        // Check if filter dates are provided
+        if (!empty($filterFrmDate) && !empty($filterToDate)) {
+            // Filter by range (inclusive)
+            $query->whereBetween(DB::raw('DATE(loan_return_request.created_at)'), [$filterFrmDate, $filterToDate]);
+        } elseif (!empty($filterFrmDate)) {
+            // If only from date is provided, filter by that specific date
+            $query->where(DB::raw('DATE(loan_return_request.created_at)'), $filterFrmDate);
+        } elseif (!empty($filterToDate)) {
+            // If only to date is provided, filter by that specific date
+            $query->where(DB::raw('DATE(loan_return_request.created_at)'), $filterToDate);
+        }
+
+        if (!empty($searchEmail)) {
+            $query->where('users.email', $searchEmail);
+        }
+
+        if (!empty($searchOrderId)) {
+            // $query->where('depositID', 'like', '%' . $searchQuery . '%');
+            $query->where('loan_return_request.loanID', $searchOrderId);
+        }
+
+        // $cleanedSelectedFilter = isset($selectedFilter) ? (int) trim($selectedFilter) : null;
+
+        if ($selectedFilter == 5) {
+            $query->whereIn('loan_return_request.status', [0, 1, 2]);
+        } else {
+            $query->where('loan_return_request.status', $selectedFilter);
+        }
+
+        $paginator = $query->paginate($pageSize, ['*'], 'page', $page);
+
+        $modifiedCollection = $paginator->getCollection()->map(function ($item) {
+
+            $status = "";
+            if ($item->status == 0) {
+                $status = "Review";
+            } else if ($item->status == 1) {
+                $status = "Approved";
+            } else if ($item->status == 2) {
+                $status = "Rejected";
+            }
+            //Payment not received
+            $userrow = User::find($item->user_id);
+            return [
+                'id'                => $item->id,
+                'loanID'            => $item->loanID,
+                'user_info_name'    => !empty($userrow->name) ?  $userrow->name : "N/A",
+                'user_info_email'   => !empty($userrow->email) ?  $userrow->email : "N/A",
+                'user_info_phone'   => !empty($userrow->phone_number) ?  $userrow->phone_number : "N/A",
+                'deposit_amount'    => $item->deposit_amount,
+                'receivable_amount' => !empty($item->receivable_amount) ? $item->receivable_amount : "Payment not received",
+                'payment_method'    => $item->payment_method,
+                'created_at'        =>  date("Y-m-d H:i:s", strtotime($item->created_at)),
+                'status'            => $status,
+                'sts'               => $item->status,
+            ];
+        });
+
+        // Return the modified collection along with pagination metadata
+        return response()->json([
+            'data' => $modifiedCollection,
+            'current_page' => $paginator->currentPage(),
+            'total_pages' => $paginator->lastPage(),
+            'total_records' => $paginator->total(),
+        ], 200);
+    }
+
+    public function payLoanrow($id)
+    {
+
+        try {
+            $user = LoanReturn::where('loan_return_request.id', $id)
+                ->select('users.name', 'loan_return_request.*')
+                ->leftJoin('users', 'loan_return_request.user_id', '=', 'users.id')
+                ->first();
+            return response()->json($user);
+        } catch (\Exception $e) {
+            echo "Error: " . $e->getMessage();
+            $error = $e->getMessage();
+            return response()->json($error);
+        }
+    }
+
+    public function updatePayLoanReturnRequest(Request $request)
+    {
+
+        try {
+            $validator = Validator::make($request->all(), [
+                'receivable_amount'  => 'required|numeric',
+                'status'             => 'required|numeric',
+                'id' => 'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            }
+
+
+            if ($request->status == 1) {
+
+                // Check if there is an existing entry with the given last_id
+                $existingEntry = LoanPayHistory::where('last_id', $request->id)->where('referrance_name','loan_return_request')->first();
+
+                // If an entry exists, delete it
+                if (empty($existingEntry)) {
+                  //  $existingEntry->delete();
+                    $tran['user_id']     = $request->user_id;
+                    $tran['referrance_name'] = 'loan_return_request';
+                    $tran['last_Id']     = $request->id;
+                    $tran['type']        = 2; //Pay 
+                    $tran['amount']      = $request->receivable_amount;
+                    $tran['status']      = $request->status;
+                    LoanPayHistory::insert($tran);
+                }   
+                //TransactionHistory::insert($tran);
+            }
+
+
+            $deposit = LoanReturn::find($request->id);
+            $deposit->update([
+                'receivable_amount' => $request->receivable_amount,
+                'status'            => $request->status,
+                'approved_by'       => $this->userid
+            ]);
+            return response()->json(['message' => 'Loan updated successfully'], 200);
+        } catch (QueryException $e) {
+            // Log the error or handle it as needed
+            return response()->json(['error' => 'Database error occurred.'], 500);
+        } catch (\Exception $e) {
+            // Handle other exceptions
+            return response()->json(['error' => 'An unexpected error occurred.'], 500);
+        }
     }
 }

@@ -21,6 +21,7 @@
                                     <h4><img src="/assets/images/usdt.png" alt="" class="img-fluid">{{ usdtAmount }}
                                     </h4>
                                     <p>USDT Balance</p>
+                                    <p>Loan {{ loanBalance }} USDT</p>
                                 </div>
                             </div>
                         </div>
@@ -33,7 +34,7 @@
                                 <nuxt-link to="/dashboard/withdraw"
                                     class="btn-action style-5 btn_boost mx-0">Withdraw</nuxt-link>&nbsp;
 
-                                    <nuxt-link to="/dashboard/loan-request-send"
+                                <nuxt-link to="/dashboard/loan-request-send"
                                     class="btn-action style-5 btn_boost mx-0">Pay</nuxt-link>
                             </div>
                         </div>
@@ -205,16 +206,20 @@
                                                         <thead>
                                                             <tr>
                                                                 <th scope="col" class="text-left">Datetime</th>
-                                                                <th scope="col">Remark</th>
-                                                                <th scope="col" class="text-center">Amount</th>
+                                                                <th scope="col">Type</th>
+                                                                <th scope="col" class="text-right">Amount</th>
+                                                              
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <tr v-for="v in loanData" :key="v.id">
                                                                 <td>{{ formatDateTime(v.created_at) }}</td>
-                                                                <td>{{ v.detailed_remarks }}</td>
-                                                                <td class="text-center">{{ v.adjustment_amount }}USDT
+                                                                <td>
+                                                                    <span v-if="v.type==1">Loan</span>
+                                                                    <span v-if="v.type==2">Pay</span>
                                                                 </td>
+                                                                <td class="text-right">{{ formatNumber(v.amount) }}</td>
+                                                                
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -325,6 +330,7 @@ const deposit_amount = ref("");
 const errors = ref({});
 const minimum_amt = 20;
 const show_messages = ref("");
+const loanBalance = ref('');
 
 const loading = ref(false);
 
@@ -399,6 +405,13 @@ const currentprice = ref(0);
 const convert_usdt = ref(0);
 const balanceOcn = ref(0);
 
+const formatNumber = (value) => {
+  return new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value);
+};
+
 const fetchDepositData = async () => {
     try {
         loading.value = true;
@@ -446,8 +459,9 @@ const fetchLoanData = async () => {
     try {
         loading.value = true;
         const response = await axios.get("/loan/getAdminSendingLoan");
-        //console.log("Response data:", response.data.levels);
+        console.log("Response data:", response.data.loanBalance);
         loanData.value = response.data.data;
+        loanBalance.value = response.data.loanBalance;
 
     } catch (error) {
         console.error("Error fetching data:", error);
@@ -501,6 +515,7 @@ const getocntokenBalance = async () => {
 };
 
 onMounted(() => {
+    fetchLoanData();
     getCurrentPrices();
     getocntokenBalance();
     fetchDepositData();

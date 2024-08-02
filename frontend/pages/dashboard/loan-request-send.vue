@@ -202,7 +202,7 @@ const loanSubmit = () => {
         .then((res) => {
             document.getElementById("formrest").reset();
             success_noti();
-            router.push("/dashboard/loan-return-list");
+            router.push("/dashboard/wallet");
         })
         .catch((error) => {
             if (error.response && error.response.status === 422) {
