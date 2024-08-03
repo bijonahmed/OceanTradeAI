@@ -9,7 +9,7 @@
 
   <nav class="dashboard__sidebar ">
     <div class="sidebar__logo">
-      <nuxt-link to="/"><img src="/assets/images/logo/logo.png" alt="ICOLand"></nuxt-link>
+      <nuxt-link to="/"><img src="/assets/images/logo.png" style="height:50px;" alt="ICOLand"></nuxt-link>
     </div>
     <ul class="sidebar__menu">
       <!-- Your menu items here -->

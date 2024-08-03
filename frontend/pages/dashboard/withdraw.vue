@@ -15,8 +15,27 @@
                             <a href="#" onclick="history.back(); return false;"><i
                                     class="fa-solid fa-arrow-left"></i></a>
 
-                            <form @submit.prevent="submit()" class="withdraw_form but_token_form" id="formrest">
 
+                            <center>
+                                <div class="loading-indicator" v-if="loading" style="text-align: center">
+                                    <Loader />
+                                </div>
+                            </center>
+
+
+
+                            <div v-if="loanBalance > 0">
+                                <div class="alert alert-danger" role="alert">
+                                    You still have a loan of {{ loanBalance }} USDT. &nbsp;Please pay the loan through
+                                    this link <nuxt-link to="/dashboard/loan-request-send"
+                                        class="alert-link">&nbsp;Pay</nuxt-link>.
+                                </div>
+                            </div>
+
+
+
+
+                            <form @submit.prevent="submit()" class="withdraw_form but_token_form" id="formrest">
                                 <p class="badge_"><i class="fa-solid fa-circle-exclamation"></i> &nbsp; Minimum withdraw
                                     {{ minimum_withdrawal }} USDT</p>
                                 <div class="form_group">
@@ -29,10 +48,10 @@
                                     </div>
 
                                     <span class="text-danger" v-if="errors.withdrawal_amount">{{
-                                        errors.withdrawal_amount[0]}}</span>
+                                        errors.withdrawal_amount[0] }}</span>
                                     <span class="text-danger" v-if="errors.error_usdt">{{ errors.error_usdt[0] }}</span>
                                     <span class="text-danger" v-if="errors.error_minim_usdt">{{
-                                        errors.error_minim_usdt[0]}}</span>
+                                        errors.error_minim_usdt[0] }}</span>
 
                                     <span>Current amount : {{ depositAmount }} USDT</span>
                                 </div>
@@ -46,7 +65,7 @@
                                         <img src="assets/images/wallet-100.png" alt="" class="img-fluid ">
                                     </div>
                                     <span class="text-danger" v-if="errors.wallet_address">{{
-                                        errors.wallet_address[0]}}</span>
+                                        errors.wallet_address[0] }}</span>
                                 </div>
                                 <div class="form_group">
                                     <p>Please Enter Withdrawal Pin</p>
@@ -56,9 +75,19 @@
                                         <img src="assets/images/lock-100.png" alt="" class="img-fluid ">
                                     </div>
                                     <span class="text-danger" v-if="errors.withdrawal_pin">{{
-                                        errors.withdrawal_pin[0]}}</span>
+                                        errors.withdrawal_pin[0] }}</span>
                                 </div>
-                                <button type="submit" class="btn-action style-1 w-100 mt-3">Confirm Withdraw </button>
+
+                                <div v-if="loanBalance > 0">
+                                    <button type="button" class="btn-action style-1 w-100 mt-3"
+                                        :disabled="loanBalance > 0">
+                                        Confirm Withdraw
+                                    </button>
+                                </div>
+                                <div v-else>
+                                    <button type="submit" class="btn-action style-1 w-100 mt-3">Confirm Withdraw
+                                    </button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -89,7 +118,10 @@ const errors = ref({});
 const withdrawal_amount = ref("");
 const error_usdt = ref("");
 const error_minim_usdt = ref("");
+const loanBalance = ref("");
 const loading = ref(false);
+
+ 
 
 const submit = () => {
 
@@ -170,7 +202,20 @@ const fetchDepositData = async () => {
     }
 };
 
+const checkLoanDueYesNo = async () => {
+    try {
+        const response = await axios.get("/loan/userWiseLoanCheck", {
+        });
+        loanBalance.value = response.data.loanBalance;
+
+
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+};
+
 onMounted(() => {
+    checkLoanDueYesNo();
     fetchDepositData();
 
 })

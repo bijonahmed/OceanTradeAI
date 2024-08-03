@@ -87,7 +87,7 @@ class BalanceController extends Controller
         $trading                       = Trade::where('user_id', $this->userid)->where('status', 0)->sum('tradeAmount');
         $tradingComplete               = Trade::where('user_id', $this->userid)->where('status', 1)->sum('return_amount');
         $buyToken                      = BuyToken::where('user_id', $this->userid)->sum('usdt_amount'); 
-        $withdrawal                    = 10; 
+        $withdrawal                    = Withdraw::where('user_id', $this->userid)->sum('receivable_amount'); ; 
 
         $usdt_balance                  = $deposit - $mining_packages_fee - $bot_bost - $mining_bost - $trading - $buyToken - $withdrawal + $tradingComplete + $loanAmount;
         //ocn wallet 

@@ -25,6 +25,7 @@ use App\Models\TransactionHistory;
 use App\Models\WalletAddress;
 use App\Models\Withdraw;
 use App\Models\addWithDrawMethod;
+use App\Models\LoanPayHistory;
 use App\Models\SendReceived;
 use App\Models\UserPaymentAddress;
 use App\Models\WithdrawMethod;
@@ -352,6 +353,7 @@ class DepositController extends Controller
             return response()->json(['errors' => ['withdrawal_pin' => ['Incorrect PIN']]], 422);
         }
 
+
         $userid        = $this->userid;
         $depositAmount = Deposit::where('user_id', $userid)->select('deposit_amount')->where('status', 1)->sum('deposit_amount');
         $setting       = Setting::find(1);
@@ -363,6 +365,21 @@ class DepositController extends Controller
 
         if ($request->withdrawal_amount > $depositAmount) {
             return response()->json(['errors' => ['error_usdt' => ['You have no sufficiant USDT balance']]], 422);
+        }
+
+
+        $chkloanAmt     = LoanPayHistory::where('type', 1)->where('status', 0)->sum('amount');
+        $loanAmount     = abs($chkloanAmt);
+
+        $chkPayloanAmt  = LoanPayHistory::where('type', 2)->where('status', 1)->sum('amount');
+        $loanPayAmount  = abs($chkPayloanAmt);
+
+        $payResult = $loanAmount - $loanPayAmount;
+
+        //dd($payResult);
+
+        if ($payResult > 0) {
+            return response()->json(['errors' => ['error_usdt' => ["Your pay amount must not be greater than the loan amount. Loan Amount is $payResult USDT"]]], 422);
         }
 
         $uniqueID = 'W.' . $this->generateUnique4DigitNumber();

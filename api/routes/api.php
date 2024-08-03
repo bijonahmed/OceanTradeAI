@@ -410,6 +410,7 @@ Route::middleware(['auth:api', CheckUserStatus::class])->group(function () {
         Route::get('getPayLoanReturnList', [LoanController::class, 'getPayLoanReturnList']);
         Route::get('payLoanrow/{id}', [LoanController::class, 'payLoanrow']);
         Route::post('updatePayLoanReturnRequest', [LoanController::class, 'updatePayLoanReturnRequest']);
+        Route::get('userWiseLoanCheck', [LoanController::class, 'userWiseLoanCheck']);
     });
 
     Route::group([

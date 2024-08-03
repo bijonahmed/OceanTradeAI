@@ -106,6 +106,7 @@ const menuItems = ref([
     open: false,
     route: null,
     children: [
+    { label: "Trade Request", icon: "fa-circle", route: "/walletmanagement/trade-request-management", },
       { label: 'Category List', icon: 'fa-circle', route: '/trading/category-list' },
       { label: 'Sub Category List', icon: 'fa-circle', route: '/trading/subcategory-list' },
       { label: 'Duration List', icon: 'fa-circle', route: '/trading/duration-list' },
@@ -184,7 +185,7 @@ const menuItems = ref([
     { label: "Reward center Request", icon: "fa-circle", route: "/walletmanagement/reward-center-management", },
     { label: "Loan Request", icon: "fa-circle", route: "/walletmanagement/loan-management", },
     { label: "Pay (Loan Return)", icon: "fa-circle", route: "/walletmanagement/pay-loan-return-management", },
-    { label: "Trade Request", icon: "fa-circle", route: "/walletmanagement/trade-request-management", },
+
     { label: "All User with Address", icon: "fa-circle", route: "/walletmanagement/withdrawal-address", },
       // { label: 'Wallet', icon: 'fa-circle', route: '/walletmanagement/wallet' },
       // { label: 'Transection report', icon: 'fa-circle', route: '/walletmanagement/transection' },

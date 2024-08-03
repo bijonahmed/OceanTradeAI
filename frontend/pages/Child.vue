@@ -14,7 +14,11 @@
                             <h2 class="title">Get a Lone to Mine, trade, and Swap on <span>OCN</span> .</h2>
                             <p class="desc">Outcome-centered products that reduce churn, optimize pricing, and grow your
                                 subscription business end-to-end.</p>
-                            <div class="button">
+
+                            <div class="button" v-if="isLoggedIn">
+                                <nuxt-link to="/dashboard/loancenter" class="btn-action style-2"><span>Get Loan</span></nuxt-link>
+                            </div>
+                            <div class="button" v-else>
                                 <nuxt-link to="/sign-up" class="btn-action style-2"><span>Get Loan</span></nuxt-link>
                             </div>
 
@@ -181,34 +185,34 @@
                                 <div class="document__content">
                                     <div class="box-document">
                                         <div class="content">
-                                            <h4 class="title">About XYZ</h4>
-                                            <a href="about-us.html" class="icon">
+                                            <h4 class="title">About OCN</h4>
+                                            <nuxt-link to="/about-us" class="icon">
                                                 <img src="/assets/images/icon/download.png" alt="ICOLand">
-                                            </a>
+                                            </nuxt-link>
                                         </div>
                                     </div>
                                     <div class="box-document">
                                         <div class="content">
                                             <h4 class="title">WHITE PAPER</h4>
-                                            <a href="white-paper.html" class="icon">
+                                            <nuxt-link to="/white-paper" class="icon">
                                                 <img src="/assets/images/icon/download.png" alt="ICOLand">
-                                            </a>
+                                            </nuxt-link>
                                         </div>
                                     </div>
                                     <div class="box-document">
                                         <div class="content">
                                             <h4 class="title">PRIVACY POLICY</h4>
-                                            <a href="privacy-policy.html" class="icon">
+                                            <nuxt-link to="/privacy-policy" class="icon">
                                                 <img src="/assets/images/icon/download.png" alt="ICOLand">
-                                            </a>
+                                            </nuxt-link>
                                         </div>
                                     </div>
                                     <div class="box-document">
                                         <div class="content">
                                             <h4 class="title">TERM OF COIN SALES</h4>
-                                            <a href="terms-coin-sale.html" class="icon">
+                                            <nuxt-link to="/terms-coin-sale" class="icon">
                                                 <img src="/assets/images/icon/download.png" alt="ICOLand">
-                                            </a>
+                                            </nuxt-link>
                                         </div>
                                     </div>
                                 </div>
@@ -307,8 +311,15 @@ import DashboardSidebar from "~/layouts/DashboardSidebar.vue";
 import DashboardHeader from "~/layouts/DashboardHeader.vue";
 import { useRouter } from 'vue-router';
 import Swal from "sweetalert2";
+
+
 const router = useRouter();
 const loading = ref(false);
+
+import { useUserStore } from '~~/stores/user'
+import { storeToRefs } from 'pinia';
+const userStore = useUserStore();
+const { isLoggedIn } = storeToRefs(userStore)
 
 const categoryData = ref([]);
 const notifyMsg = ref("");

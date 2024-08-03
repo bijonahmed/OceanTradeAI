@@ -38,6 +38,25 @@ class LoanController extends Controller
         $this->name = $user->name;
     }
 
+
+    public function userWiseLoanCheck()
+    {
+
+        $chkloanAmt  = LoanPayHistory::where('type', 1)->where('user_id', $this->userid)->where('status', 0)->sum('amount');
+        $loanAmount = abs($chkloanAmt);
+
+        $chkPayloanAmt  = LoanPayHistory::where('type', 2)->where('user_id', $this->userid)->where('status', 1)->sum('amount');
+        $loanPayAmount = abs($chkPayloanAmt);
+
+        $loanBalance = $loanAmount - $loanPayAmount;
+
+        $response = [
+            'loanBalance' => $loanBalance,
+            'message' => 'success'
+        ];
+        return response()->json($response, 200);
+    }
+
     public function insertLoanStatus(Request $request)
     {
 
@@ -306,6 +325,8 @@ class LoanController extends Controller
         ], 200);
     }
 
+
+
     public function getAdminSendingLoan()
     {
         $rows = LoanPayHistory::where('user_id', $this->userid)->orderBy('id', 'asc')->get();
@@ -541,11 +562,11 @@ class LoanController extends Controller
             if ($request->status == 1) {
 
                 // Check if there is an existing entry with the given last_id
-                $existingEntry = LoanPayHistory::where('last_id', $request->id)->where('referrance_name','loan_return_request')->first();
+                $existingEntry = LoanPayHistory::where('last_id', $request->id)->where('referrance_name', 'loan_return_request')->first();
 
                 // If an entry exists, delete it
                 if (empty($existingEntry)) {
-                  //  $existingEntry->delete();
+                    //  $existingEntry->delete();
                     $tran['user_id']     = $request->user_id;
                     $tran['referrance_name'] = 'loan_return_request';
                     $tran['last_Id']     = $request->id;
@@ -553,7 +574,7 @@ class LoanController extends Controller
                     $tran['amount']      = $request->receivable_amount;
                     $tran['status']      = $request->status;
                     LoanPayHistory::insert($tran);
-                }   
+                }
                 //TransactionHistory::insert($tran);
             }
 
