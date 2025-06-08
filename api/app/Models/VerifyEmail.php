@@ -10,7 +10,7 @@ use DB;
 class VerifyEmail extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    public $table = "verifyEmail";
+    public $table = "verifyemail";
     protected $fillable = [
         'email',
         'code',

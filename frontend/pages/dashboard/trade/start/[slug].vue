@@ -14,22 +14,78 @@
                             </div>
 
                             <!-- <button type="button" @click="presetting">-----test---------</button> -->
-                            <span v-if="[1, 6, 11, 16].includes(responseData.id)">
+
+
+                            <!-- For Crypto  -->
+                            <span v-if="[1].includes(responseData.id)">
                                 <Btc />
                             </span>
-
-                            <span v-if="[2, 7, 12, 17].includes(responseData.id)">
+                            <span v-if="[2].includes(responseData.id)">
                                 <Eth />
                             </span>
-
-
-                            <span v-if="[4, 9, 14, 19].includes(responseData.id)">
+                            <span v-if="[4].includes(responseData.id)">
                                 <Sol />
                             </span>
-
-                            <span v-if="[5, 10, 15, 20].includes(responseData.id)">
+                            <span v-if="[5].includes(responseData.id)">
                                 <Xrp />
                             </span>
+                            <!-- For Currency  -->
+                            <span v-if="[6].includes(responseData.id)">
+                                <AUDUSD />
+                            </span>
+                            <span v-if="[7].includes(responseData.id)">
+                                <USDCAD />
+                            </span>
+                            <span v-if="[9].includes(responseData.id)">
+                                <GBPUSD />
+                            </span>
+                            <span v-if="[10].includes(responseData.id)">
+                                <USDJPY />
+                            </span>
+                            <span v-if="[23].includes(responseData.id)">
+                                <EURUSD />
+                            </span>
+                            <!-- For Stock  -->
+                            <span v-if="[11].includes(responseData.id)">
+                                <NFLX />
+                            </span>
+                            <span v-if="[11].includes(responseData.id)">
+                                <NFLX />
+                            </span>
+
+                            <span v-if="[12].includes(responseData.id)">
+                                <AMZN />
+                            </span>
+                            <span v-if="[14].includes(responseData.id)">
+                                <TASLA />
+                            </span>
+
+                            <span v-if="[15].includes(responseData.id)">
+                                <GOOGL />
+                            </span>
+
+                            <span v-if="[24].includes(responseData.id)">
+                                <APPL />
+                            </span>
+                            <!-- For Commodities Trade  -->
+                            <span v-if="[16].includes(responseData.id)">
+                                <GOLD />
+                            </span>
+                            <span v-if="[17].includes(responseData.id)">
+                                <Silver />
+                            </span>
+
+                             <span v-if="[19].includes(responseData.id)">
+                                <USOIL />
+                             </span>
+
+                              <span v-if="[20].includes(responseData.id)">
+                                <USOIL />
+                             </span>
+
+
+
+
 
 
                             <div class="day_filter">
@@ -122,6 +178,9 @@ import Swal from "sweetalert2";
 import 'swiper/swiper-bundle.css';
 import DashboardSidebar from '~/layouts/DashboardSidebar.vue';
 import DashboardHeader from '~/layouts/DashboardHeader.vue';
+import AUDUSD from '~/components/AUDUSD.vue';
+import NFLX from '~/components/NFLX.vue';
+import Silver from '~/components/Silver.vue';
 
 const loading = ref(false);
 const responseData = ref('');
@@ -333,10 +392,6 @@ onMounted(() => {
 .dashboard .dashboard__content .dashboard__main {
     margin-top: 10px;
     margin-bottom: 20px;
-}
-
-.btn_day_filter {
-    /* Your button styles here */
 }
 
 .btn_day_filter.active {

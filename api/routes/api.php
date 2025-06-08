@@ -405,7 +405,9 @@ Route::middleware(['auth:api', CheckUserStatus::class])->group(function () {
         Route::get('loanSettingrows/{id}', [LoanController::class, 'loanSettingrows']);
         Route::post('insertloanSetting', [LoanController::class, 'insertloanSetting']);
         Route::get('loanSettingList', [LoanController::class, 'loanSettingList']);
+
         Route::get('getAdminSendingLoan', [LoanController::class, 'getAdminSendingLoan']);
+        
         Route::post('loanSendRequest', [LoanController::class, 'loanSendRequest']);
         Route::get('getPayLoanReturnList', [LoanController::class, 'getPayLoanReturnList']);
         Route::get('payLoanrow/{id}', [LoanController::class, 'payLoanrow']);

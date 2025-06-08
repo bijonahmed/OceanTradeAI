@@ -23,34 +23,41 @@
                         </div>
                         <div class="col-md-12">
                             <div class="s_content">
+                                <!-- <pre>{{ lists }}</pre> -->
                                 <div id="card-list">
-                                    <div class="bank_card reward z-3 scaled" style="z-index: 3;" v-for="item in lists"
-                                        :key="item.id" @click="sendRequest(item.id)">
-                                        <div class="carde">
-                                            <div class="card-inner">
-                                                <div class="front">
-                                                    <span v-if="item.loan_status == 0"> 
-                                                        Request - Verification in Progress
-                                                     </span>
-                                                    <span v-if="item.loan_status == 1"> 
-                                                        Redeemed - Funds Transferred to Main Wallet
-                                                     </span>
-                                                    <img :src="item.thumnail_img" class="map-img">
+                                    <div class="bank_card reward z-3 scaled" v-for="item in lists" :key="item.id">
+                                        <div>
+                                            <div class="carde">
+                                                <div class="card-inner">
+                                                    <div class="front text_">
+                                                        <span v-if="item.id == item.loan_id && item.loan_status == 0" class="sp_progress">
+                                                            Request - Verification in Progress
+                                                        </span>
+                                                        <!-- <span v-if="item.id == item.loan_id && item.status == 1">
+                                                            Redeemed - Funds Transferred to Main Wallet
+                                                        </span> -->
+                                                        <img :src="item.thumnail_img" class="map-img" />
+                                                    </div>
                                                 </div>
                                             </div>
+
+                                            <!-- Show button only if loan_status is 0 -->
+                                            <span v-if="item.id == item.loan_id && item.loan_status == 0">
+                                                <!-- <button class="btn-action style-1" v-on:click="sendRequest(item.id)">
+                                                    {{ item.name }} --- [{{ item.id }}]
+                                                </button> -->
+                                            </span>
+
+                                            <span v-else>
+                                                <button class="btn-action style-1" v-on:click="sendRequest(item.id)">
+                                                    {{ item.name }}
+                                                    <!-- [{{ item.id }}] -->
+                                                </button>
+                                            </span>
                                         </div>
-                                        <span v-if="item.loan_status == 0">
-                                            <button class="btn-action style-1 disabled">{{ item.name }}</button>
-                                        </span>
 
-                                        <span v-if="item.loan_status == 1">
-                                            <button class="btn-action style-1 disabled">{{ item.name }}</button>
-                                        </span>
-
-                                        <span v-if="item.loan_status == 3">
-                                            <button class="btn-action style-1">{{ item.name }}</button>
-                                        </span>
                                     </div>
+
 
                                 </div>
                             </div>
@@ -145,3 +152,30 @@ onMounted(() => {
 });
 
 </script>
+
+<style>
+.reward .text_ span {
+    font-size: 12px;
+    padding: 8px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 72%;
+    transform: translateY(-72%);
+    width: 100%
+}
+
+.sp_progress {
+    background: #0a265a;
+    box-shadow: 2px 3px 5px 3px #0a265a4f
+}
+
+.sp_transfer {
+    background: #24262b;
+    box-shadow: 2px 3px 5px 3px #24262b57
+}
+
+.map-img.claimed {
+    filter: grayscale(100%)
+}
+</style>

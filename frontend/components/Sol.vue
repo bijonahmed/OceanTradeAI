@@ -19,7 +19,9 @@
                     </a>
                   </div>
                   <!-- Coin title -->
-                  <h1> sol/usdt <span>+0.50%</span></h1>
+                  <h1> sol/usdt 
+                    <!-- <span>+0.50%</span> -->
+                  </h1>
                 </div>
               </div>
               <div class="col-2 d-flex justify-content-end align-items-center">

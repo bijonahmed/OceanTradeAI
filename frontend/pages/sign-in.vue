@@ -32,7 +32,7 @@
                                     <span class="text-danger">{{ errors.password }}</span>
                                 </div>
                                 <div class="form-check">
-                                    <div class="left" style="height: 20px;">
+                                    <div class="left d-none" style="height: 20px; display: none;">
                                         <input type="checkbox" class="form-check-input" id="exampleCheck1">
                                         <label class="form-check-label" for="exampleCheck1">Remember me</label>
                                     </div>
@@ -43,7 +43,7 @@
                                 <div class="input_group">
                                     <div class='CaptchaWrap'>
                                         <div id="CaptchaImageCode" class="CaptchaTxtField">
-                                            <canvas id="CapCode" class="capcode" width="300" height="80"></canvas>
+                                            <canvas id="CapCode" class="capcode" width="300" height="80" style="color: white"></canvas>
                                         </div>
 
                                         <div>
@@ -121,17 +121,19 @@ const togglePassword = (id) => {
     }
 };
 
-function createCaptcha() {
+ function createCaptcha() {
     const canvas = document.getElementById('CapCode');
     const context = canvas.getContext('2d');
     const captchaCode = generateCaptchaCode(6); // Change the length as needed
 
     context.clearRect(0, 0, canvas.width, canvas.height);
     context.font = '48px Arial';
+    context.fillStyle = 'white'; // Set font color to white
     context.fillText(captchaCode, 10, 50);
 
     captchaInput.value = captchaCode;
 }
+
 
 function generateCaptchaCode(length) {
     const characters = '0123456789';

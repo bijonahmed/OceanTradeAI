@@ -18,7 +18,7 @@
                         </div>
                     </div>
                     <!-- slider section sttart here  -->
-                    <section class="slider_section">
+                    <!-- <section class="slider_section">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="swiper mySwiper">
@@ -34,7 +34,7 @@
 
                             </div>
                         </div>
-                    </section>
+                    </section> -->
                     <!-- slider section end herer  -->
 
 
@@ -46,32 +46,18 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">Name</th>
-                                        <th scope="col">Month</th>
-                                        <th scope="col">Last</th>
-                                        <th scope="col">High</th>
-                                        <th scope="col">Low</th>
-                                        <th scope="col">Chg.</th>
-                                        <th scope="col">Chg.%</th>
-                                        <th scope="col">Time</th>
-                                        <th></th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="item in responeData" :key="item.id">
-                                        <td>
-                                            <img :src="item.thumnail_img" alt="{{ item.name }}" class="img-fluid"> {{
-                                            item.name }}
+                                        <td style="width: 80%;">
+                                            <img :src="item.thumnail_img" alt="image" class="img-fluid"> {{
+                                                item.name }}
                                         </td>
-                                        <td>Aug 24</td>
-                                        <td>2,399.85</td>
-                                        <td>2,401.40</td>
-                                        <td>2,356.65</td>
-                                        <td class="text-success">+30.45</td>
-                                        <td class="text-success">+1.29%</td>
-                                        <td>05/07</td>
-                                        <td>
+                                        <td style="width: 100%;">
                                             <nuxt-link :to="`/dashboard/trade/start/${item.slug}`"
-                                                class="btn-action style-5">Trade</nuxt-link>
+                                                class="btn-action style-5 w-100">Trade</nuxt-link>
                                         </td>
                                     </tr>
 
@@ -79,39 +65,14 @@
                             </table>
                         </div>
                     </div>
-                    <div class="refer_members latest_buy text-start">
+                    <!-- <div class="refer_members latest_buy text-start">
                         <h6>Latest Trade</h6>
                         <ul>
-                            <li>
-                                <strong>@user1 Complete xyz </strong>
-                            </li>
-                            <li>
-                                <strong>@user1 Complete xyz </strong>
-                            </li>
-                            <li>
-                                <strong>@user1 Complete xyz </strong>
-                            </li>
-                            <li>
-                                <strong>@user1 Complete xyz </strong>
-                            </li>
-                            <li>
-                                <strong>@user1 Complete xyz </strong>
-                            </li>
-                            <li>
-                                <strong>@user1 Complete xyz </strong>
-                            </li>
-                            <li>
-                                <strong>@user1 Complete xyz </strong>
-                            </li>
-                            <li>
-                                <strong>@user1 Complete xyz </strong>
-                            </li>
-                            <li>
-                                <strong>@user1 Complete xyz </strong>
+                            <li v-for="(entry, index) in tradeList" :key="index">
+                                <strong>{{ entry.id }} Complete by {{ entry.name }}</strong>
                             </li>
                         </ul>
-
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -132,6 +93,46 @@ const router = useRouter();
 definePageMeta({
     middleware: 'is-logged-out',
 })
+
+const tradeList = ref([])
+
+// Random sample names
+const names = [
+    'Jons', 'Emily', 'Mike', 'Sara', 'Dan', 'Nora', 'Alex', 'Tom', 'Lily', 'Omar',
+    'Chris', 'Anna', 'Robert', 'Julia', 'Steve', 'Karen', 'David', 'Laura', 'John', 'Sophie',
+    'Ryan', 'Tina', 'Brian', 'Grace', 'Kevin', 'Rachel', 'Peter', 'Megan', 'James', 'Olivia',
+    'Mark', 'Linda', 'Sam', 'Bella', 'Tony', 'Ruby', 'Leo', 'Mia', 'Isaac', 'Ella',
+    'Jason', 'Ivy', 'Andrew', 'Chloe', 'Nathan', 'Hazel', 'Aaron', 'Zoe', 'Ben', 'Rose'
+]
+
+
+// Generate a single trade item
+const generateTradeItem = () => {
+    const id = Math.floor(10000 + Math.random() * 90000)
+    const name = names[Math.floor(Math.random() * names.length)]
+    return { id, name }
+}
+
+// Generate 10 unique trade items
+const generateTradeList = () => {
+    const list = []
+    const usedIds = new Set()
+
+    while (list.length < 10) {
+        const item = generateTradeItem()
+        if (!usedIds.has(item.id)) {
+            usedIds.add(item.id)
+            list.push(item)
+        }
+    }
+
+    return list
+}
+
+onMounted(() => {
+    tradeList.value = generateTradeList()
+})
+
 const loading = ref(false);
 const categorybannerImages = ref('');
 const categoryName = ref('');

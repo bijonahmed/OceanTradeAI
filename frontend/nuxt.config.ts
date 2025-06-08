@@ -19,6 +19,7 @@ export default defineNuxtConfig({
       baseURL:
         process.env.NODE_ENV === "production"
           ? "https://apiocn.eduzenship.com/api/"
+          // : "https://apiocn.eduzenship.com/api/",
           : "http://127.0.0.1:8000/api/",
     },
   },

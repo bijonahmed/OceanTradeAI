@@ -33,9 +33,9 @@
       </strong>
     </span>
 
-    <center v-if="increasingNumber > 0">
+    <!-- <center v-if="increasingNumber > 0">
       <h3>{{ increasingNumber }}</h3>
-    </center>
+    </center> -->
     <span v-if="formattedRemainingTime === '0h 0m 0s'">
       <nuxt-link class="btn-action disabled style-5 btn_boost" @click="startProcess(id)">Mine</nuxt-link>
     </span>

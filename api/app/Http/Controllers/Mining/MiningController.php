@@ -818,28 +818,30 @@ class MiningController extends Controller
 
 
 
-            if (!empty($userBoot)) {
-                if (in_array($userBoot->boost_setting_id, [2, 3, 4, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16])) {
-                    $endTime->addHours($userBoot->hours);
-                    // Format the datetime as needed
-                    $currentTimeFormatted = $currentTime->format('Y-m-d H:i:s');
-                    $duration_in_hour     = $userBoot->hours;
-                    $endTimeFormatted     = $endTime->format('Y-m-d H:i:s');
-                }
-            }
+            // if (!empty($userBoot)) {
+            //     if (in_array($userBoot->boost_setting_id, [2, 3, 4, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16])) {
+            //         $endTime->addHours($userBoot->hours);
+            //         // Format the datetime as needed
+            //         $currentTimeFormatted = $currentTime->format('Y-m-d H:i:s');
+            //         $duration_in_hour     = $userBoot->hours;
+            //         $endTimeFormatted     = $endTime->format('Y-m-d H:i:s');
+            //     }
+            // }
 
 
 
             $data = [
                 'start_time'        => $currentTimeFormatted,
                 'end_time'          => $endTimeFormatted,
-                'duration'          => $duration_in_hour,
+                'duration'          => !empty($get_row->duration_in_hour) ? $get_row->duration_in_hour: "", //$duration_in_hour,
                 'user_id'           => $this->userid,
                 'status'            => 1,
                 'ip'                => $_SERVER['REMOTE_ADDR'],
-                'boost_boot_setting_id'  => !empty($userBoot) ? $userBoot->boost_setting_id : "",
+                'boost_boot_setting_id'  => 0,// !empty($userBoot) ? $userBoot->boost_setting_id : "",
                 'mining_category_id' => $mining_category_id
             ];
+
+            //dd($data);
 
             $currentTimeFormatted = date('Y-m-d H:i:s');
             // Calculate the end time based on the duration
@@ -890,6 +892,7 @@ class MiningController extends Controller
         $row                 = MiningHistory::orderBy('id', 'DESC')->where('user_id', $this->userid)->where('mining_category_id', $mining_category_id)->where('status', 1)->first();
         $data['start_time']  = !empty($row->start_time) ? $row->start_time : "";
         $data['end_time']    = !empty($row->end_time) ? $row->end_time : "";
+
         $data['server_time'] = $currentTime->format('Y-m-d H:i:s');
 
         return response()->json($data);

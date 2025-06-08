@@ -188,7 +188,7 @@ class TradingController extends Controller
 
         $tradingAmount  = !empty($request->tradingAmount) ? $request->tradingAmount : 0;
         $tfee           = !empty($request->trading_fee) ? $request->trading_fee : 0;
-        $netprofit      = $request->estProfit - $tfee;
+        $netprofit      = (float)$request->estProfit - (float)$tfee;
 
         $data    = array(
             'unique_md5'           => $hash,
@@ -637,7 +637,7 @@ class TradingController extends Controller
     public function alltracatLists()
     {
 
-        $rows = TradingCategory::orderBy('id', 'desc')->get();
+        $rows = TradingCategory::orderBy('id', 'asc')->get();
         $arryData = [];
         foreach ($rows as $v) {
             $arryData[] = [

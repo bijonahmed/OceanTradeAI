@@ -25,12 +25,14 @@ use App\Models\TransactionHistory;
 use App\Models\WalletAddress;
 use App\Models\kyc;
 use App\Models\LoanPayHistory;
+use App\Models\LoanReturn;
 use App\Models\MiningBalanceSum;
 use App\Models\Notification;
 use App\Models\Setting;
 use App\Models\SwapHistory;
 use App\Models\Trade;
 use App\Models\UserBotHistory;
+use App\Models\LoanRequest;
 use App\Models\UserMiningHistory;
 use App\Models\UserPaymentAddress;
 use App\Models\Withdraw;
@@ -60,7 +62,7 @@ class BalanceController extends Controller
             $this->email = $user->email;
         }
     }
- 
+
 
     public function getBalance()
     {
@@ -69,8 +71,7 @@ class BalanceController extends Controller
         $today_date                    = date("Y-m-d");
         $active_matching               = MiningServicesBuyHistory::where('user_id', $this->userid)->get();
 
-        $chkloanAmt  = LoanPayHistory::where('type', 1)->where('user_id', $this->userid)->where('status', 0)->sum('amount');
-        $loanAmount = abs($chkloanAmt);
+
 
         $s_price = 0;
         foreach ($active_matching as $matching) {
@@ -79,24 +80,40 @@ class BalanceController extends Controller
             }
         }
         $mining_packages_fee           = $s_price;
-        
+
         $row                           = User::find($this->userid);
         $deposit                       = Deposit::where('user_id', $this->userid)->where('status', 1)->sum('deposit_amount');
         $bot_bost                      = UserBotHistory::where('user_id', $this->userid)->sum('level_cost');
         $mining_bost                   = UserMiningHistory::where('user_id', $this->userid)->sum('level_cost');
-        $trading                       = Trade::where('user_id', $this->userid)->where('status', 0)->sum('tradeAmount');
-        $tradingComplete               = Trade::where('user_id', $this->userid)->where('status', 1)->sum('return_amount');
-        $buyToken                      = BuyToken::where('user_id', $this->userid)->sum('usdt_amount'); 
-        $withdrawal                    = Withdraw::where('user_id', $this->userid)->sum('receivable_amount'); ; 
 
-        $usdt_balance                  = $deposit - $mining_packages_fee - $bot_bost - $mining_bost - $trading - $buyToken - $withdrawal + $tradingComplete + $loanAmount;
+        $trading                       = Trade::where('user_id', $this->userid)->whereIn('status', [0, 1])->sum('tradeAmount');
+
+
+        $tradingComplete               = Trade::where('user_id', $this->userid)->where('status', 1)->sum('return_amount');
+
+        $buyToken                      = BuyToken::where('user_id', $this->userid)->sum('usdt_amount');
+        $withdrawal                    = Withdraw::where('user_id', $this->userid)->sum('withdrawal_amount');
+
+
+        $loanReturnPayApproved         = LoanReturn::where('user_id', $this->userid)->where('status', 1)->sum('receivable_amount');
+        $loanApproved                  = LoanRequest::where('user_id', $this->userid)->where('status', 1)->sum('loan_value');
+
+        $loanBalance                   = $loanApproved - $loanReturnPayApproved;
+
+        $usdt_balance                  = $deposit - $mining_packages_fee - $bot_bost - $mining_bost - $trading - $buyToken - $withdrawal + $tradingComplete + $loanBalance;
+
+        // echo "Main USDT Ballance : {$usdt_balance}<br/>deposit : {$deposit}-- mining_packages_fee: {$mining_packages_fee} - bot_bost: {$bot_bost} - mining_bost: {$mining_bost} - trading: {$trading}
+        //              buyToken:- {$buyToken} - withdrawal : {$withdrawal} + tradingComplete: {$tradingComplete} + loanBalance: {$loanBalance}";
+        // exit;
+
+
         //ocn wallet 
         $miningBalanceSum              = MiningBalanceSum::where('user_id', $this->userid)
-                                         ->whereNotNull('ocn_balance')
-                                         ->sum('ocn_balance');
+            ->whereNotNull('ocn_balance')
+            ->sum('ocn_balance');
 
         $tokenBalance                  = BuyToken::where('user_id', $this->userid)
-                                         ->sum('get_token');
+            ->sum('get_token');
         $ocn_balance                   = $miningBalanceSum  + $tokenBalance;
         //dd($miningBalanceSum);
 
@@ -107,12 +124,12 @@ class BalanceController extends Controller
 
         $data['ocn_token']             = $ocn_balance; //OCN Token formatted
         $data['ocntoken']              = $ocn_balance; //OCN Token
-     
+
         return response()->json($data);
     }
 
 
-    
+
     public function getBalances($userid)
     {
         //For Admin
@@ -136,6 +153,4 @@ class BalanceController extends Controller
         $data['available_balance']        = !empty($row->available_balance) ? $row->available_balance : 0;
         return response()->json($data);
     }
-     
-
 }

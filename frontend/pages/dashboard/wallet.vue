@@ -12,7 +12,7 @@
                         <div class="col-md-6">
                             <div class="wallet_container">
                                 <div class="wallet_box">
-                                    <h4> <img src="/assets/images/gold_coin.png" alt="" class="img-fluid"> {{ balanceOcn
+                                    <h4> <img src="/assets/images/gold_coin.png" alt="" class="img-fluid">{{ balanceOcn
                                         }}</h4>
                                     <p>OCN Balance</p>
                                     <p> {{ convert_usdt }} USDT</p>
@@ -53,7 +53,7 @@
                                             </li>
 
                                             <li class="" @click="fetchLoanData">
-                                                <h5>Loan</h5>
+                                                <h5>Pay</h5>
                                             </li>
 
                                             <li class="" @click="fetchRewardData">
@@ -114,7 +114,7 @@
                                                                 <td>{{ v.trxId }}</td>
                                                                 <td class="text-center">{{
                                                                     formatDateTime(v.created_at) }}</td>
-                                                                <td class="text-center">{{ v.deposit_amount }}</td>
+                                                                <td class="text-center">{{ v.receivable_amount }}</td>
 
                                                                 <td class="text-center"><span class="text-warning">
                                                                         <span v-if="v.status == 0"

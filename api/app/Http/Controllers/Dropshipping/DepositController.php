@@ -661,7 +661,7 @@ class DepositController extends Controller
         $toDate           = $request->toDate;
         $trxId            = $request->trxId;
 
-        $query = Deposit::where('user_id', $userId)->select('id', 'trxId', 'created_at', 'deposit_amount', 'status');
+        $query = Deposit::where('user_id', $userId)->select('id', 'trxId', 'created_at', 'deposit_amount', 'receivable_amount', 'status');
 
         if ($trxId) {
             $query->where('trxId', 'like', '%' . $trxId . '%');

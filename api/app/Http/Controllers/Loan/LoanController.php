@@ -65,9 +65,9 @@ class LoanController extends Controller
             'status'               => $request->loan_status,
         );
 
-        if ($request->loan_status == 2) {
-            $data['status'] = 0;
-        }
+        // if ($request->loan_status == 2) {
+        //     $data['status'] = 0;
+        // }
 
         $chkrow = LoanRequest::where('id', $request->loan_id)->first();
 
@@ -81,7 +81,7 @@ class LoanController extends Controller
             LoanPayHistory::insert($tran);
             //TransactionHistory::insert($tran);
         }
-
+        $tran['status']      = $request->loan_status;
         LoanRequest::where('id', $request->loan_id)->update($data);
 
         $response = [
@@ -159,6 +159,10 @@ class LoanController extends Controller
 
     public function sendrequest(Request $request)
     {
+
+        // dd($request->all());
+
+
         $validator = Validator::make($request->all(), [
             'id'         => 'required|numeric',
         ]);
@@ -183,6 +187,8 @@ class LoanController extends Controller
             'user_id'           => $this->userid,
             'status'            => 0,
         );
+
+        //dd($data);
 
         LoanRequest::insert($data);
 
@@ -262,21 +268,13 @@ class LoanController extends Controller
         foreach ($rows as $v) {
 
             $chekrows = LoanRequest::where('user_id', $this->userid)->where('loan_id', $v->id)->first();
-
-            if ($chekrows && $chekrows->status == 1) {
-                $loan_status = 1;
-            } else if ($chekrows && $chekrows->status == 0) {
-                $loan_status = 0;
-            } else {
-                $loan_status = 3; // 3=defalut 
-            }
-
             $arryData[] = [
                 'id'                         => $v->id,
+                'loan_id'                    => $chekrows->loan_id ?? "",
                 'name'                       => $v->name,
                 'thumnail_img'               => !empty($v->thumnail_img) ? url($v->thumnail_img) : "",
                 'status'                     => $v->status,
-                'loan_status'                => $loan_status,
+                'loan_status'                => $chekrows->status ?? "",
             ];
         }
 
@@ -359,13 +357,10 @@ class LoanController extends Controller
             }
         }
 
-        $chkloanAmt  = LoanPayHistory::where('type', 1)->where('user_id', $this->userid)->where('status', 0)->sum('amount');
-        $loanAmount = abs($chkloanAmt);
+        $loanReturnPayApproved = LoanReturn::where('user_id', $this->userid)->where('status', 1)->sum('receivable_amount');
+        $loanApproved          = LoanRequest::where('user_id', $this->userid)->where('status', 1)->sum('loan_value');
 
-        $chkPayloanAmt  = LoanPayHistory::where('type', 2)->where('user_id', $this->userid)->where('status', 1)->sum('amount');
-        $loanPayAmount = abs($chkPayloanAmt);
-
-        $loanBalance = $loanAmount - $loanPayAmount;
+        $loanBalance = $loanApproved - $loanReturnPayApproved;
 
         $response = [
             'data'          => $arryData,
@@ -376,6 +371,8 @@ class LoanController extends Controller
 
     public function loanSendRequest(Request $request)
     {
+        // dd($request->all());
+
         try {
             $validator = Validator::make($request->all(), [
                 'crypto_wallet_address'  => 'required',
@@ -390,22 +387,23 @@ class LoanController extends Controller
 
             $setting = Setting::find(1);
             $checkSetting = $setting->minimum_deposit_amount;
+            // dd($checkSetting);
 
             if ($request->deposit_amount <= $checkSetting) {
                 return response()->json(['errors' => ['deposit_amount' => ['Your deposit amount is low']]], 422);
             }
 
-            $chkloanAmt  = LoanPayHistory::where('type', 1)->where('status', 0)->sum('amount');
-            $loanAmount = abs($chkloanAmt);
+            // $chkloanAmt  = LoanPayHistory::where('type', 1)->where('status', 0)->sum('amount');
+            // $loanAmount = abs($chkloanAmt);
 
-            $chkPayloanAmt  = LoanPayHistory::where('type', 2)->where('status', 1)->sum('amount');
-            $loanPayAmount = abs($chkPayloanAmt);
+            // $chkPayloanAmt  = LoanPayHistory::where('type', 2)->where('status', 1)->sum('amount');
+            // $loanPayAmount = abs($chkPayloanAmt);
 
-            $payResult = $loanAmount - $loanPayAmount;
+            // $payResult = $loanAmount - $loanPayAmount;
 
-            if ($request->deposit_amount > $payResult) {
-                return response()->json(['errors' => ['deposit_amount' => ["Your pay amount must not be greater than the loan amount. Loan Amount is $payResult USDT"]]], 422);
-            }
+            // if ($request->deposit_amount > $payResult) {
+            //     return response()->json(['errors' => ['deposit_amount' => ["Your pay amount must not be greater than the loan amount. Loan Amount is $payResult USDT"]]], 422);
+            // }
 
             $uniqueID = 'LOAN.' . $this->generateUnique4DigitNumber();
             $data = array(

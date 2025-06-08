@@ -95,8 +95,9 @@
                                                             <CountdownTimerCat4 :id="v.id" />
                                                         </center>
                                                     </span>
-                                                    <nuxt-link :to="`/dashboard/boost/${v.slug}`"
-                                                        class="btn-action style-5 btn_boost">Boost</nuxt-link>
+
+                                                    <!-- <nuxt-link :to="`/dashboard/boost/${v.slug}`"
+                                                        class="btn-action style-5 btn_boost">Boost</nuxt-link> -->
                                                 </span>
 
                                             </div>

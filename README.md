@@ -82,7 +82,7 @@ Project Structure
 
 ---
 
-## 🔐 Authentication & Security
+Authentication & Security
 
 * JWT Authentication for API access
 * Rate limiting and brute-force protection
@@ -91,7 +91,7 @@ Project Structure
 
 ---
 
-## 📦 Future Features (Planned)
+Future Features (Planned)
 
 * KYC/AML Integration
 * Real-time trading charts (WebSocket)
@@ -102,9 +102,9 @@ Project Structure
 
 ---
 
-## 🛠️ Installation Guide
+Installation Guide
 
-### Backend (Laravel)
+Backend (Laravel)
 
 ```bash
 cd backend
@@ -115,7 +115,7 @@ php artisan migrate --seed
 php artisan serve
 ```
 
-### Frontend (Nuxt.js 3)
+Frontend (Nuxt.js 3)
 
 ```bash
 cd frontend
@@ -123,11 +123,11 @@ npm install
 npm run dev
 ```
 
-> ✅ Make sure to update the `.env` file with correct database and API URLs.
+Make sure to update the `.env` file with correct database and API URLs.
 
 ---
 
-## 🧪 Testing
+Testing
 
 * Postman collection available in `/docs`
 * Backend unit and feature tests via PHPUnit

@@ -30,9 +30,6 @@
                                         placeholder="Search Email" />
                                 </div>
 
-
-
-
                                 <div class="col-lg-4 col-md-4 col-sm-6 mb-2">
                                     <select v-model="selectedFilter" class="form-control" @change="filterData">
                                         <option value="5">All</option>
@@ -319,10 +316,6 @@ const preview = (pro) => {
     loan_id.value = pro.id;
     loan_status.value = pro.sts;
     user_id.value = pro.user_id;
-
-
-
-
 
 };
 

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <title>Welcome to OceanTradeAI</title>
+        <title>OceanTradeAI</title>
 
         <body class="home-nft header-fixed" data-magic-cursor="show">
             <!-- MAGIC CURSOR -->

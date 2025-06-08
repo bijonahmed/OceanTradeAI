@@ -62,7 +62,7 @@
                                                 class="far fa-copy"></i></button>
                                     </div>
 
-                                    <label for="">Amount</label>
+                                    <label for="">Amount <span class="text-danger">(Loan balance: {{ loanBalance }} USDT)</span></label>
                                     <div class="input_bt_group">
                                         <input type="text" v-model="deposit_amount"  class="form-control border-0 bg-transparent" placeholder="0.00">
                                         <span class="text-danger" v-if="errors.deposit_amount">{{ errors.deposit_amount[0]}}</span>
@@ -141,12 +141,25 @@ const frm_wallet_address = ref('');
 const trxId = ref('');
 const errors_amount = ref("");
 const errors = ref([]);
-
+const loanBalance = ref(0);
 
 
 const initialTime = 30 * 60; // 30 minutes in seconds
 const timeLeft = ref(initialTime);
 let timer = null;
+
+const fetchLoanData = async () => {
+
+try {
+    const response = await axios.get("/loan/getAdminSendingLoan");
+    console.log("Response data:", response.data.loanBalance);
+    loanBalance.value = response.data.loanBalance;
+
+} catch (error) {
+    console.error("Error fetching data:", error);
+}
+
+}
 
 const startCountdown = () => {
     timer = setInterval(() => {
@@ -346,6 +359,7 @@ const preSetting = async () => {
 onMounted(async () => {
     preSetting();
     startCountdown();
+    fetchLoanData();
     // Update formattedTime every second
     setInterval(() => {
         formattedTime.value = formatTime(timeLeft.value);
