@@ -50,7 +50,7 @@ class RewardCenterController extends Controller
         );
 
         if($request->reward_status == 2){
-            $data['status'] = 0;
+            $data['status'] = $request->reward_status;
         }
 
         RewardCenterRequest::where('id', $request->rewardCenterId)->update($data);

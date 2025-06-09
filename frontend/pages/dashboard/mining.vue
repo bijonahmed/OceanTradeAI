@@ -107,7 +107,7 @@
                                         <div class="sale-content">
                                             <h5>Token sale End In!</h5>
 
-                                            <span class="js-countdown" data-timer="1865550"></span>
+                                          <CountdownTimer :timer="17712000" />
                                         </div>
 
                                         <div class="group-button justify-content-center">
@@ -115,8 +115,8 @@
                                                 data-bs-toggle="offcanvas" data-bs-target="#buyToken"
                                                 aria-controls="buyToken"><span>Buy Tokens
                                                     now</span></a>
-                                            <a href="#" class="btn-action-outline style-5"><span>White
-                                                    paper</span></a>
+                                            <nuxt-link to="/white-paper" class="btn-action-outline style-5"><span>White
+                                                    paper</span></nuxt-link>
                                         </div>
                                     </div>
                                 </div>

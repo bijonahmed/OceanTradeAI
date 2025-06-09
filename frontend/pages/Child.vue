@@ -47,7 +47,8 @@
                             <div class="sale-content">
                                 <h6>Token sale End In!</h6>
 
-                                <span class="js-countdown" data-timer="1865550"></span>
+  <CountdownTimer :timer="17712000" />
+                                <!-- <span class="js-countdown" data-timer="1865550"></span> -->
                             </div>
                         </div>
                     </div>

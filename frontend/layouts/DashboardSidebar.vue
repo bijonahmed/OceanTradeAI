@@ -50,7 +50,7 @@
         <li><span class="icon-youtobe"></span></li>
         <li><span class="icon-tiktok"></span></li>
       </ul>
-      <p class="fs-14">© 2024. All rights reserved by oceantradeai.com</p>
+      <p class="fs-14">© 2025. All rights reserved by oceantradeai.com</p>
     </div>
 
 

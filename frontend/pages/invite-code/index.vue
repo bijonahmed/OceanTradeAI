@@ -7,7 +7,7 @@
           <div class="col-md-12">
             <div class="sign-in__top center">
               <nuxt-link to="/">
-                <img id="site-logo" src="/assets/images/logo/logo-main.png" alt="Monteno" width="165" height="40"
+                <img id="site-logo" src="assets/images/logo.png" alt="OCN" width="165" height="40"
                   data-retina="assets/images/logo/logo-main@x2.png" data-width="165" data-height="40">
               </nuxt-link>
             </div>
@@ -27,22 +27,19 @@
                   <div class="input_bt_group">
                     <input type="text" placeholder="example@gmail.com" class="form-control" v-model="email">
                     <span class="text-danger" v-if="errors.email">{{ errors.email[0] }}</span>
-                    <button class="btn_copy" @click="sendCode" :disabled="buttonDisabled">Send code
+                    <!-- <button class="btn_copy" @click="sendCode" :disabled="buttonDisabled">Send code
                       <span v-if="loading"><span style="color:white">Loading...</span></span>
-
-                    </button>
+                    </button> -->
                   </div>
 
                 </div>
-                <div class="form-group">
+                <div class="form-group d-none">
                   <label for="code">OTP Code<span>*</span></label>
                   <input type="text" class="form-control" id="code" placeholder="OTP" v-model="otp">
                   <p class="ms-2" style="font-size: 12px;">Click 'Send Code,' check your email (inbox/spam) for the OTP.
                   </p>
                   <span class="text-danger" v-if="errors.otp">{{ errors.otp[0] }}</span>
                   <span class="text-danger" v-if="errors.invaliteotp">{{ errors.invaliteotp[0] }}</span>
-
-                  
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Password<span>*</span></label>
@@ -155,7 +152,7 @@ const register = async () => {
     await userStore.register(
       name.value,
       email.value,
-      otp.value,
+      //otp.value,
       inviteCode.value,
       password.value,
       confirmPassword.value

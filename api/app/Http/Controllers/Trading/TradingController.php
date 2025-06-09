@@ -137,11 +137,17 @@ class TradingController extends Controller
             $currentTime    = Carbon::now($customTimeZone);
             // Format the datetime as needed
             $realtimeUpdate = $currentTime->format('Y-m-d H:i:s');
-
+            
             foreach ($history as $trade) {
-                $trade->request_datetime = $realtimeUpdate;
-                $trade->save();
+                if ($trade->request_datetime >= $realtimeUpdate) {
+                    $trade->request_datetime = $realtimeUpdate;
+                    $trade->save();
+                }
             }
+            // foreach ($history as $trade) {
+            //     $trade->request_datetime = $realtimeUpdate;
+            //     $trade->save();
+            // }
             $response = [
                 'data'    => $history,
                 'message' => 'success'

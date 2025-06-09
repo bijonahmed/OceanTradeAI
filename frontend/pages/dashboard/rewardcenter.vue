@@ -27,6 +27,7 @@
                                     <div class="bank_card reward z-3 scaled" style="z-index: 3;" v-for="item in lists"
                                         :key="item.id" @click="sendRequest(item.id)">
                                         <div class="carde">
+                                            <!-- {{ item.id }}==== -->
                                             <div class="card-inner">
                                                 <div class="front">
                                                     <span v-if="item.reward_status == 0"> 

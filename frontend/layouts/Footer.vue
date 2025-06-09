@@ -23,7 +23,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <p class="text-center">© 2024. All rights reserved by <nuxt-link to="/">OCN</nuxt-link></p>
+                        <p class="text-center">© 2025. All rights reserved by <nuxt-link to="/">OCN</nuxt-link></p>
                     </div>
                 </div>
             </div>

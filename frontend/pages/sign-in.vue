@@ -22,7 +22,7 @@
                                     <label>Email address <span>*</span> </label>
                                     <input type="email" class="form-control" placeholder="example@gmail.com"
                                         v-model="email">
-                                    <span class="text-danger">{{ errors.email }}</span>
+                                        <span class="text-danger">{{ errors.email }}</span>
 
                                 </div>
                                 <div class="form-group">

@@ -89,9 +89,9 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <a class="loadMore mt-3 btn-action style-1" href="#">
+                            <!-- <a class="loadMore mt-3 btn-action style-1" href="#">
                                 <span>Load more</span>
-                            </a>
+                            </a> -->
                         </div>
 
                     </div>
